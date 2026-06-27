@@ -1,64 +1,129 @@
-<div class="min-h-screen bg-background p-6 font-sans relative flex items-center justify-center">
-  
-  <div class="absolute top-6 left-6 flex items-center gap-2 font-bold text-primary text-xl tracking-wide">
-    <img src="assets/Icon.png" alt="Taskly Logo" class="w-6 h-6">
+<div
+  class="min-h-screen bg-background p-6 font-sans relative flex items-center justify-center"
+>
+  <div
+    class="absolute top-6 left-6 flex items-center gap-2 font-bold text-primary text-xl tracking-wide"
+  >
+    <img src="assets/Icon.png" alt="Taskly Logo" class="w-6 h-6" />
     <span>TASKLY</span>
   </div>
 
-  <div class="bg-white p-8 rounded-2xl shadow-sm max-w-md w-full border border-surface-low mt-12">
-    <h2 class="text-2xl font-bold text-neutral-dark text-center mb-1">Create your workspace</h2>
-    <p class="text-neutral-gray text-center mb-6 text-sm">Join the editorial approach to task management.</p>
+  <div
+    class="bg-white p-8 rounded-2xl shadow-sm max-w-md w-full border border-surface-low mt-12"
+  >
+    <h2 class="text-2xl font-bold text-neutral-dark text-center mb-1">
+      Create your workspace
+    </h2>
+    <p class="text-neutral-gray text-center mb-6 text-sm">
+      Join the editorial approach to task management.
+    </p>
 
-   <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="space-y-4">
-      
+    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <div>
-        <label class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5">Name</label>
-        <input type="text" formControlName="name" placeholder="Enter your full name"
-               class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark">
-        <p *ngIf="signUpForm.get('name')?.touched && signUpForm.get('name')?.invalid" class="text-error text-xs mt-1">
+        <label
+          class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5"
+          >Name</label
+        >
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="Enter your full name"
+          class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark"
+        />
+        <p
+          *ngIf="
+            signUpForm.get('name')?.touched && signUpForm.get('name')?.invalid
+          "
+          class="text-error text-xs mt-1"
+        >
           Please enter a valid name (3-50 characters, letters only).
         </p>
       </div>
 
-
       <div>
-        <label class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5">Email</label>
-        <input type="email" formControlName="email" placeholder="yourname@company.com"
-               class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark">
-        <p *ngIf="signUpForm.get('email')?.touched && signUpForm.get('email')?.invalid" class="text-error text-xs mt-1">
+        <label
+          class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5"
+          >Email</label
+        >
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="yourname@company.com"
+          class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark"
+        />
+        <p
+          *ngIf="
+            signUpForm.get('email')?.touched && signUpForm.get('email')?.invalid
+          "
+          class="text-error text-xs mt-1"
+        >
           Please enter a valid email address.
         </p>
       </div>
 
-  
       <div>
-        <label class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5">Job Title (Optional)</label>
-        <input type="text" formControlName="jobTitle" placeholder="e.g. Project Manager"
-               class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark">
+        <label
+          class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5"
+          >Job Title (Optional)</label
+        >
+        <input
+          type="text"
+          formControlName="jobTitle"
+          placeholder="e.g. Project Manager"
+          class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark"
+        />
       </div>
 
       <div class="grid grid-cols-2 gap-3">
         <div>
-          <label class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5">Password</label>
-          <input type="password" formControlName="password" placeholder="Password"
-                 class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark">
+          <label
+            class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5"
+            >Password</label
+          >
+          <input
+            type="password"
+            formControlName="password"
+            placeholder="Password"
+            class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark"
+          />
         </div>
         <div>
-          <label class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5">Confirm Password</label>
-          <input type="password" formControlName="confirmPassword" placeholder="Repeat password"
-                 class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark">
+          <label
+            class="block text-[11px] font-bold text-neutral-gray uppercase tracking-wider mb-1.5"
+            >Confirm Password</label
+          >
+          <input
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Repeat password"
+            class="w-full p-3 bg-surface-low rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-sm text-neutral-dark"
+          />
         </div>
       </div>
-      
-      <p *ngIf="signUpForm.get('password')?.touched && signUpForm.get('password')?.invalid" class="text-error text-xs mt-1">
-        Weak password! Must be 8-64 characters with uppercase, lowercase, number, and a special character.
+
+      <p
+        *ngIf="
+          signUpForm.get('password')?.touched &&
+          signUpForm.get('password')?.invalid
+        "
+        class="text-error text-xs mt-1"
+      >
+        Weak password! Must be 8-64 characters with uppercase, lowercase,
+        number, and a special character.
       </p>
-      <p *ngIf="signUpForm.hasError('passwordMismatch') && signUpForm.get('confirmPassword')?.touched" class="text-error text-xs mt-1">
+      <p
+        *ngIf="
+          signUpForm.hasError('passwordMismatch') &&
+          signUpForm.get('confirmPassword')?.touched
+        "
+        class="text-error text-xs mt-1"
+      >
         Passwords do not match!
       </p>
 
-      <!-- شروط كلمة السر التوضيحية -->
-      <div class="bg-surface-low p-3 rounded-lg text-xs text-neutral-gray space-y-1">
+      <div
+        class="bg-surface-low p-3 rounded-lg text-xs text-neutral-gray space-y-1"
+      >
         <div class="flex items-center gap-2">
           <span class="text-success">✓</span> At least 8 characters
         </div>
@@ -70,15 +135,18 @@
         </div>
       </div>
 
-      <button type="submit" [disabled]="signUpForm.invalid"
-              class="w-full py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary-container transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-2">
+      <button
+        type="submit"
+        [disabled]="signUpForm.invalid"
+        class="w-full py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary-container transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm mt-2"
+      >
         Create Account
       </button>
 
       <p class="text-center text-xs text-neutral-gray mt-4">
-        Already have an account? <a href="#" class="text-primary font-bold hover:underline">Log in</a>
+        Already have an account?
+        <a href="#" class="text-primary font-bold hover:underline">Log in</a>
       </p>
-
     </form>
   </div>
 </div>
