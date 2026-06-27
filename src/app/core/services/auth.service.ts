@@ -15,20 +15,17 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   login(loginData: any) {
-    // 1. بنجهز الكروت (Headers) اللي السيرفر شرط يشوفها
     const headers = new HttpHeaders({
       'apikey': this.supabaseKey,
       'Authorization': `Bearer ${this.supabaseKey}`,
       'Content-Type': 'application/json'
     });
 
-    // 2. بنرتب علبة البيانات بالأسماء اللي سوبابيز بيفهمها بالظبط
     const body = {
       email: loginData.email,
       password: loginData.password
     };
 
-    // 3. بنبعت الطلب للسيرفر ومعاه الكروت والبيانات
     return this.http.post(this.apiUrl, body, { headers: headers });
   }
 
