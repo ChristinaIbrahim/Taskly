@@ -29,6 +29,18 @@ export class AuthService {
     return this.http.post(this.apiUrl, body, { headers: headers });
   }
 
+  getUserData() {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    
+    const headers = new HttpHeaders({
+      'apikey': this.supabaseKey,
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get('https://ydfdgnmkmpobecxnkjbu.supabase.co/auth/v1/user', { headers: headers });
+  }
+
   saveToken(token: string, rememberMe: boolean) {
     if (rememberMe) {
       localStorage.setItem('token', token);
