@@ -7,11 +7,10 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   private baseUrl = 'https://ydfdgnmkmpobecxnkjbu.supabase.co/auth/v1';
-  private supabaseKey = 'sb_publishable_R2NQQmStwtA3XQpLlzihlw_BpSCLDIW'; 
+  private supabaseKey = 'sb_publishable_R2NQQmStwtA3XQpLlzihlw_BpSCLDIW';
 
   constructor(private http: HttpClient) { }
 
-  // 1. فانكشن تسجيل الدخول
   login(loginData: any) {
     const headers = new HttpHeaders({
       'apikey': this.supabaseKey,
@@ -32,11 +31,11 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
 
-   const body = JSON.stringify({
+    const body = JSON.stringify({
       email: signUpData.email,
       password: signUpData.password,
       data: {
-        full_name: signUpData.name 
+        full_name: signUpData.name
       }
     });
 
@@ -45,10 +44,10 @@ export class AuthService {
 
   getUserData() {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    
+
     const headers = new HttpHeaders({
       'apikey': this.supabaseKey,
-      'Authorization': `Bearer ${token}`, 
+      'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
 
@@ -61,5 +60,25 @@ export class AuthService {
     } else {
       sessionStorage.setItem('token', token);
     }
+  }
+  logOut() {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+    const headers = new HttpHeaders({
+      'apikey': this.supabaseKey,
+      'Authorization': `Bearer ${token}`
+    })
+    return this.http.post(`${this.baseUrl}/logout`, {}, { headers: headers });
+  }
+  clearData() {
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+
+    localStorage.clear();
+    sessionStorage.clear();
+    // document.cookie.split(";").forEach((c) => {
+    //   document.cookie = c
+    //     .replace(/^ +/, "")
+    //     .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    // });
   }
 }
