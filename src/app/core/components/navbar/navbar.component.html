@@ -1,0 +1,24 @@
+<nav class="flex justify-end  border-b p-5  h-70">
+
+    <div class="flex items-center gap-3">
+        <div class="flex flex-col text-right">
+            <span class="text-slate-800 font-semibold text-sm">{{userName}}</span>
+            <span class=" text-primary-container font-bold tracking-wider uppercase  text-sm ">{{userJob}}</span>
+
+        </div>
+        <div (click)="toggleDropDown()"
+            class="bg-primary-container h-10 w-10 text-white flex items-center justify-center rounded-lg font-bold">
+            {{userLetters}}
+        </div>
+        <div *ngIf="isDropdownOpen"
+            class="absolute left-0 mt-2 w-48 bg-white border border-slate-100 rounded-xl shadow-lg py-2 z-50"> <button
+                class="w-full text-right px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 font-bold flex items-center gap-2">
+              <img src="assets/logout.png" class="w-5 h-5">
+                <span>Sign out</span>
+            </button>
+        </div>
+
+    </div>
+
+
+</nav>
