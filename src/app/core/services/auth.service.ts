@@ -81,4 +81,14 @@ export class AuthService {
     //     .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
     // });
   }
+  forgotPassword(email: string) {
+    const headers = new HttpHeaders({
+      'apikey': this.supabaseKey,
+      'Content-Type': 'application/json'
+    });
+
+    const body = { email: email };
+
+    return this.http.post(`${this.baseUrl}/recover`, body, { headers: headers });
+  }
 }

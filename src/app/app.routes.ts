@@ -14,6 +14,11 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/project/project.component').then(m => m.ProjectComponent)
 
   },
+   {
+    path: 'forget-password',
+    loadComponent: () => import('./pages/forget-password/forget-password.component').then(m => m.ForgetPasswordComponent)
+
+  },
 
   {
     path: '', redirectTo: 'sign-up', pathMatch: 'full'
