@@ -1,0 +1,115 @@
+<div class="w-full max-w-5xl mx-auto px-4 py-6">
+  
+  <div class="mb-8">
+    <div class="flex items-center gap-2 text-xs font-bold text-slate-400 tracking-wider uppercase mb-2">
+      <span>Projects</span>
+      <span class="text-slate-300 font-normal">›</span>
+      <span class="text-blue-600">Add New Project</span>
+    </div>
+    <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Add New Project</h1>
+  </div>
+
+  <div class="bg-white rounded-xl shadow-sm border border-slate-100/80 overflow-hidden mb-6">
+    <div class="p-8 md:p-10">
+      
+      <div class="flex items-start gap-4 mb-8">
+        <div class="p-2.5 bg-blue-50 rounded-lg text-blue-600">
+          <img src="assets/InitalPro-icon.png" class="w-6 h-6 object-contain">
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-slate-800">Initialize New Project</h2>
+          <p class="text-sm text-slate-500 mt-0.5">Define the scope and foundational details of your project.</p>
+        </div>
+      </div>
+
+      <hr class="border-slate-100 mb-8" />
+
+      <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        
+        <div class="flex flex-col gap-2">
+          <label class="text-xs font-bold text-slate-700 tracking-wide uppercase">
+            Project Title <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            formControlName="name"
+            placeholder="Enter project name" 
+            class="w-full px-4 py-3.5 bg-blue-50/50 border rounded-lg text-sm focus:outline-none transition-all text-slate-800"
+            [ngClass]="{
+              'border-red-400 focus:border-red-500 bg-red-50/10': projectForm.get('name')?.invalid && projectForm.get('name')?.touched,
+              'border-blue-200 focus:border-blue-500': !(projectForm.get('name')?.invalid && projectForm.get('name')?.touched)
+            }"
+          />
+          
+          @if (projectForm.get('name')?.invalid && projectForm.get('name')?.touched) {
+            <div class="flex items-center gap-1.5 text-xs text-red-600 font-medium mt-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+              </svg>
+              @if (projectForm.get('name')?.errors?.['required']) {
+                <span>Project name is required.</span>
+              } @else if (projectForm.get('name')?.errors?.['minlength']) {
+                <span>Project name must be at least 3 characters.</span>
+              } @else if (projectForm.get('name')?.errors?.['maxlength']) {
+                <span>Project name cannot exceed 100 characters.</span>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="flex flex-col gap-2 pt-2">
+          <div class="flex justify-between items-center">
+            <label class="text-xs font-bold text-slate-700 tracking-wide uppercase">Description</label>
+            <span class="text-xs text-slate-400 font-medium">Optional</span>
+          </div>
+          <textarea 
+            rows="5" 
+            formControlName="description"
+            placeholder="Provide a high-level overview of the project's objectives and key milestones..." 
+            class="w-full px-4 py-3.5 bg-blue-50/50 border rounded-lg text-sm focus:outline-none transition-all text-slate-700 placeholder-slate-400 resize-none"
+            [ngClass]="{
+              'border-red-400 focus:border-red-500': projectForm.get('description')?.invalid && projectForm.get('description')?.touched,
+              'border-blue-100 focus:border-blue-500': !(projectForm.get('description')?.invalid && projectForm.get('description')?.touched)
+            }"
+          ></textarea>
+          
+          <div class="flex justify-between items-center mt-1">
+            <div>
+              @if (projectForm.get('description')?.errors?.['maxlength']) {
+                <span class="text-xs text-red-600 font-medium">Description cannot exceed 500 characters.</span>
+              }
+            </div>
+            <div class="text-xs text-slate-400 font-medium">
+              {{ projectForm.get('description')?.value?.length || 0 }} / 500 characters
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-6">
+          <button 
+            type="button" 
+            class="text-sm font-bold text-slate-600 hover:text-slate-800 px-4 py-2 transition-all">
+            Back
+          </button>
+          
+          <button 
+            type="submit" 
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm px-8 py-3 rounded-lg shadow-md hover:shadow-lg transition-all">
+            Create Project
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <div class="bg-blue-50/50 rounded-xl border border-blue-100/60 p-4 flex items-center gap-2.5">
+    <span class="text-blue-600">
+      <img src="assets/Tip-Icon.png">
+    </span>
+    <p class="text-xs text-slate-600 font-medium">
+      <span class="font-bold text-slate-800">Pro Tip:</span> You can invite project members and assign epics immediately after the initial creation process.
+    </p>
+  </div>
+
+</div>
