@@ -1,0 +1,40 @@
+<div class="flex flex-col w-full text-left gap-1.5">
+
+    @if(label){
+    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">
+        {{label}}
+        @if(isOptional){
+        <span class="text-[#737685]">(Optional)</span>
+        }
+    </label>
+    }
+    
+    <div class="w-full relative">
+        <input [type]="inputType" [placeholder]="placeholer" [formControl]="fieldControl"
+            class="w-full pl-4 pr-12 py-3 border border-slate-200 rounded-lg text-sm text-slate-800 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+            [class.border-red-500]="errorMessage">
+            
+        @if (showPasswordToggle) {
+        <button type="button" class="absolute right-3 top-1/2 -translate-y-1/2 text-[#737685] focus:outline-none" (click)="toggleVisibility()">
+            @if (isVisible) {
+            <svg icon-hide-password class="size-6 text-[#737685]"></svg>
+            } @else {
+            <svg icon-show-password class="size-6 text-[#737685]"></svg>
+            }
+        </button>
+        }
+    </div>
+
+    @if (errorMessage) {
+    <span class="text-xs text-red-500 font-medium mt-1">
+        {{ errorMessage }}
+    </span>
+    }
+
+    @if (hint && !errorMessage) {
+    <span class="text-xs text-slate-400 mt-1">
+        {{ hint }}
+    </span>
+    }
+
+</div>
