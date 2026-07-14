@@ -3,6 +3,7 @@ import { ReactiveFormsModule , FormBuilder , FormGroup, Validators } from '@angu
 import { Router , RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { ForgetPasswordComponent } from '../forget-password/forget-password.component';
 @Component({
   selector: 'app-login',
   standalone: true,

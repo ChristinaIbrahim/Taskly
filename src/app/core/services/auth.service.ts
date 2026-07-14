@@ -8,6 +8,7 @@ export class AuthService {
 
   private baseUrl = 'https://ydfdgnmkmpobecxnkjbu.supabase.co/auth/v1';
   private supabaseKey = 'sb_publishable_R2NQQmStwtA3XQpLlzihlw_BpSCLDIW';
+  private dbUrl = 'https://ydfdgnmkmpobecxnkjbu.supabase.co/rest/v1/projects';
 
   constructor(private http: HttpClient) { }
 
@@ -90,5 +91,18 @@ export class AuthService {
     const body = { email: email };
 
     return this.http.post(`${this.baseUrl}/recover`, body, { headers: headers });
+  }
+  createProject(projectData: { name: string; description: string }) {
+    // بنجيب التوكن اللي إنتي مخزناه بالظبط باسم 'token'
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token') || ''; 
+
+    const headers = new HttpHeaders({
+      'apikey': this.supabaseKey,
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation' 
+    });
+
+    return this.http.post(this.dbUrl, projectData, { headers: headers });
   }
 }
