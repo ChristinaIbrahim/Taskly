@@ -1,1 +1,66 @@
-<p>auth-container works!</p>
+<app-nav-logo />
+
+
+@if (headerOutside) {
+  <div class="pt-4 flex justify-center px-6 md:hidden" [class]="hightClass">
+    <div class="w-full max-w-130">
+      <div class="flex flex-col gap-2">
+        <h1 class="text-md-sm weight-semibold text-neutral-dark leading-lg tracking-normal" [class]="titleClass">
+          {{ title }}
+        </h1>
+
+        @if (mobileDescription) {
+          <p class="text-xs weight-regular text-neutral-mid leading-xs whitespace-pre-line">
+            {{ mobileDescription }}
+          </p>
+        } @else {
+          <p class="text-xs weight-regular text-neutral-mid leading-xs" [class]="descriptionClass">
+            {{ description }}
+          </p>
+        }
+      </div>
+    </div>
+  </div>
+}
+
+<div class="pt-4 flex justify-center" [class]="hightClass">
+  <div class="w-full md:shadow-box md:rounded-sm flex flex-col max-w-[550px]" [ngClass]="[backgroundColor, contentClass]">
+    
+    @if (!headerOutside) {
+      <div class="flex flex-col gap-2 pb-10">
+        <ng-content select="[header]"></ng-content>
+
+        <h1 class="text-md weight-semibold text-neutral-dark leading-lg tracking-normal" [class]="titleClass">
+          {{ title }}
+        </h1>
+
+        <p class="hidden md:block text-xs weight-regular text-neutral-mid leading-xs" [class]="descriptionClass">
+          {{ description }}
+        </p>
+
+        @if (mobileDescription) {
+          <p class="block md:hidden text-xs weight-regular text-neutral-mid leading-xs whitespace-pre-line">
+            {{ mobileDescription }}
+          </p>
+        } @else {
+          <p class="block md:hidden text-xs weight-regular text-neutral-mid leading-xs" [class]="descriptionClass">
+            {{ description }}
+          </p>
+        }
+      </div>
+    } @else {
+      <div class="hidden md:flex flex-col gap-2 pb-10">
+        <h1 class="text-md weight-bold text-neutral-dark leading-lg tracking-normal" [class]="titleClass">
+          {{ title }}
+        </h1>
+
+        <p class="text-xs weight-regular text-neutral-mid leading-xs" [class]="descriptionClass">
+          {{ description }}
+        </p>
+      </div>
+    }
+
+    <ng-content />
+    
+  </div>
+</div>
