@@ -22,7 +22,6 @@
       }
     </div>
 
-    <!-- 2. Email Field -->
     <div class="flex flex-col gap-1 w-full">
       <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Email</label>
       <input 
@@ -38,7 +37,6 @@
       }
     </div>
 
-    <!-- 3. Job Title Field -->
     <div class="flex flex-col gap-1 w-full">
       <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Job Title <span class="text-[10px] text-slate-400 lowercase">(optional)</span></label>
       <input 
@@ -70,12 +68,8 @@
       />
     </div>
 
-    <!-- 5. Password Checklist -->
- <!-- 5. Password Checklist (البوردر وعلامة الصح فقط باللون الأخضر، والخلفية بيضاء صريحة) -->
-   <!-- 5. Password Checklist (أخضر غامق وبولد زي Figma تماماً) -->
     <div class="requirements flex flex-col gap-2.5 bg-[#f0f4ff]/50 p-4 rounded-lg border border-slate-100 w-full">
       
-      <!-- الشرط الأول -->
       <div class="flex items-center gap-2.5 text-xs">
         <span class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all duration-200 text-[11px] bg-white font-extrabold"
               [ngClass]="hasMinLength ? 'border-[#064e3b] text-[#064e3b]' : 'border-slate-400 text-transparent'">
@@ -86,7 +80,6 @@
         </span>
       </div>
 
-      <!-- الشرط الثاني -->
       <div class="flex items-center gap-2.5 text-xs">
         <span class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all duration-200 text-[11px] bg-white font-extrabold"
               [ngClass]="hasUpperLowerDigit ? 'border-[#064e3b] text-[#064e3b]' : 'border-slate-400 text-transparent'">
@@ -118,7 +111,6 @@
       Create Account
     </button>
 
-    <!-- Bottom link -->
     <div class="text-center text-xs text-slate-500 mt-1">
       Already have an account? 
       <a routerLink="/login" class="text-blue-600 font-bold hover:underline">Log in</a>
