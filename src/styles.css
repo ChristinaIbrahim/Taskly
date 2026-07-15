@@ -1,20 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@import 'tailwindcss';
+/* استدعاء خط Inter */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
-@import 'tailwindcss';
 
-@theme {
+/* تعريف المتغيرات والألوان المتوافقة مع التصميم */
+:root {
   /* Action Blue & Tonal Range */
   --color-primary: #003d9b;
   --color-primary-container: #0052cc;
   --color-surface-highest: #d7e2ff;
   --color-surface-low: #f1f3ff;
   --color-background: #f9f9ff;
+  --color-white: #ffffff;
 
-  /*Slate Neutrals */
+  /* Slate Neutrals */
   --color-slate-dark: #041b3c;
   --color-slate-medium: #4f5f7b;
   --color-slate-light: #c3c6d6;
@@ -23,150 +20,116 @@
   --color-success: #82f9be;
   --color-error: #ba1a1a;
   --color-warning: #ffb300;
-  /* other colors */
+
+  /* Other Colors */
   --color-text-body: #434654;
-  --color-text-label: rgba(115, 118, 133, 1);
   --color-placeholder: #737685;
   --color-error-msg-bg: #ffdad6;
   --color-error-msg-text: #93000a;
-  --color-success-toast-bg: #82f9be;
-  --color-success-msg-bg: #82f9be33;
-  --color-success-msg-text: #005235;
   --color-active-task-label: #002113;
   --color-icon-card: #e8edff;
-  --color-circle-checked: #004e32;
-  --color-border-gray: #c3c6d64d;
-  --color-border-secodary: #c3c6d633;
-  --color-message-border: #0052351a;
-  --color-sidebar-text: #041b3c99;
-  --color-ghost-link: #43465499;
-  --color-ghost-icon: #43465466;
-  --color-add-task-icon-bg: #0052cc1a;
-  --color-second-optional-label: #4f5f7b99;
-  --color-secondary-green: #00523599;
   --color-third-heading: #041b3c;
-  --color-badge-member-bg: #cdddff;
-  --color-badge-member: #51617e;
-  --color-table-bg: #e0e8ff4d;
-  /* shadows */
-  --color-btn-shadow: #0000000d;
-  --shadow-form-shadow: 0px 24px 48px 0px #041b3c0f;
-  --btn-shadow: 0px 4px 6px -4px #003d9b33;
-  --color-navbar-border: #0000001a;
-  --add-project-form-box-shadow: 0px 1px 2px 0px #0000000d;
 
-  /* background */
-  --background-image-gradient-primary: linear-gradient(135deg,
-      var(--color-primary) 0%,
-      var(--color-primary-container) 100%);
-  --background-image-gradient-none: none;
+  /* Border Radius */
+  --rounded-2xs: 2px;
+  --rounded-xs: 4px;
+  --rounded-sm: 8px;
+  --rounded-md: 16px;
+  --rounded-full: 9999px;
 
-  /*Typography */
+  /* Typography */
   --font-sans: 'Inter', sans-serif;
-  --font-mono: 'Liberation Mono';
-
-  /* custom breakpoints */
-  --breakpoint-xs: 20rem;
 }
+
 body {
   font-family: var(--font-sans);
-}
-/* ============== UTILITIES ================== */
-
-/* logo */
-@utility logo-text {
-  @apply text-xl/[1.75rem] tracking-[-0.5px] text-slate-dark font-bold uppercase;
-}
-@utility logo-icon {
-  @apply me-2 text-primary-container;
-}
-/* fonts */
-@utility display-lg {
-  @apply text-[3.5rem]/[3.5rem]  text-slate-dark capitalize tracking-tighter font-bold;
+  background-color: var(--color-background);
 }
 
-@utility headline-lg {
-  @apply text-[2rem]/[2.5rem] text-slate-dark capitalize tracking-normal font-semibold;
+/* ==================== UTILITIES ==================== */
+
+/* Input fields matching Figma */
+.input-text {
+  display: block;
+  background-color: var(--color-surface-highest);
+  padding: 1rem 1.125rem;
+  color: var(--color-slate-dark);
+  width: 100%;
+  font-weight: 400;
+  font-size: 14px;
+  border-radius: var(--rounded-sm);
+  border: 1px solid transparent;
+  outline: none;
+  transition: all 0.2s ease;
+}
+.input-text:focus {
+  background-color: var(--color-white);
+  border-color: var(--color-primary-container);
 }
 
-@utility title-md {
-  @apply text-[clamp(1.5rem,1.2rem+1.25vw,1.875rem)]/[clamp(2rem,1.75rem+1vw,2.25rem)] text-slate-dark capitalize tracking-[-0.8px] font-semibold;
-}
-@utility title-sm {
-  @apply text-[clamp(1.75rem,1.2rem+1.25vw,1.875rem)]/[clamp(2rem,1.75rem+1vw,2.25rem)] text-slate-dark capitalize tracking-[-0.8px] font-semibold;
-}
-@utility card-title {
-  @apply text-[clamp(1.125rem,1.2rem+1.25vw,1.5rem)]/[1.75rem] text-third-heading capitalize tracking-normal font-semibold sm:font-medium;
-}
-@utility body-md {
-  @apply text-[1rem]/[1.5rem]  text-text-body normal-case  tracking-normal font-normal;
-}
-
-@utility body-sm {
-  @apply text-sm/[1.25rem]  text-text-body normal-case  tracking-normal font-normal;
+/* Form labels */
+.form-label {
+  font-size: 11px;
+  line-height: 16.5px;
+  letter-spacing: 0.55px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.375rem;
+  font-weight: 700;
+  color: var(--color-slate-medium);
 }
 
-@utility label-sm {
-  @apply text-[0.6875rem]/[16.5px]  text-slate-dark uppercase tracking-widest font-bold;
+/* Checklist Box container */
+.requirements {
+  border-radius: var(--rounded-sm);
+  background-color: var(--color-surface-low);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  font-size: 12px;
+  color: var(--color-text-body);
 }
-/* buttons */
-@utility btns-basic {
-  @apply py-3 px-6 sm:py-4 rounded-xs capitalize tracking-normal text-sm/[20px] cursor-pointer;
+
+/* Submit Button */
+.btn-primary {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--rounded-xs);
+  text-transform: capitalize;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 100%);
+  color: var(--color-white);
+  box-shadow: 0px 4px 6px -4px #003d9b33;
+  transition: opacity 0.2s ease;
 }
-@utility btn-primary {
-  @apply btns-basic bg-gradient-primary text-white  shadow-xs font-semibold  shadow-btn-shadow;
+.btn-primary:hover {
+  opacity: 0.9;
 }
-@utility btn-secondary {
-  @apply btns-basic  text-primary shadow-xs font-semibold;
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
-@utility btn-ghost {
-  @apply btns-basic  text-slate-medium shadow-lg font-medium bg-white bg-gradient-none;
+
+/* Optional description texts */
+.optional-text {
+  font-size: 11px;
+  color: var(--color-placeholder);
 }
-/* forms */
-@utility form-label-basic {
-  @apply text-[11px]/[16.5px] tracking-[0.55px] uppercase block mb-1.5 ms-1 font-bold;
+
+input::-ms-reveal,
+input::-ms-clear {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
-@utility form-label {
-  @apply form-label-basic text-slate-medium;
-}
-@utility error-label {
-  @apply form-label-basic text-error;
-}
-@utility input-text {
-  @apply block bg-surface-highest px-4.5 py-4 sm:px-4 sm:pt-3.5 pb-3.75 text-placeholder w-full font-normal tracking-normal text-[16px]/[100%] sm:rounded-sm rounded-lg  focus:outline-primary;
-}
-@utility error-msg {
-  @apply bg-error-msg-bg text-error-msg-text px-4 py-3;
-}
-@utility form-control {
-  @apply mb-6;
-}
-@utility optional-text {
-  @apply font-normal text-[11px]/[100%] tracking-normal text-placeholder;
-}
-@utility requirements-basic {
-  @apply rounded-lg bg-icon-card flex gap-[7.5px] p-4 text-[11px]/[16.5px] tracking-normal font-normal text-text-body;
-}
-@utility requirements {
-  @apply requirements-basic flex-col;
-}
-/* cards */
-@utility main-card {
-  @apply bg-white p-8 rounded-sm border-4 border-surface-low;
-}
-@utility active-task-card {
-  @apply bg-success px-2 py-0.5 text-[10px]/[15px] tracking-normal text-active-task-label uppercase font-bold;
-}
-@utility secondary-card {
-  @apply bg-surface-dark rounded-xs text-[0.75rem]/[1.125rem] tracking-normal font-normal text-placeholder;
-}
-@utility cta-card {
-  @apply bg-gradient-primary rounded-lg flex justify-between;
-}
-/* icons */
-@utility icon-label {
-  @apply font-mono text-[10px]/[15px] tracking-normal font-normal;
-}
-@utility icon-card {
-  @apply bg-icon-card text-primary p-2 rounded-sm;
+
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-credentials-auto-fill-button {
+    visibility: hidden !important;
+    display: none !important;
+    pointer-events: none !important;
 }

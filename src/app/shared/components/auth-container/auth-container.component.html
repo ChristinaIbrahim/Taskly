@@ -1,66 +1,24 @@
-<app-nav-logo />
+<div class="absolute top-2 left-6 md:top-1 md:left-10 z-50">
+  <app-nav-logo class="block w-[178px] h-[28px]" />
+</div>
 
-
-@if (headerOutside) {
-  <div class="pt-4 flex justify-center px-6 md:hidden" [class]="hightClass">
-    <div class="w-full max-w-130">
-      <div class="flex flex-col gap-2">
-        <h1 class="text-md-sm weight-semibold text-neutral-dark leading-lg tracking-normal" [class]="titleClass">
-          {{ title }}
-        </h1>
-
-        @if (mobileDescription) {
-          <p class="text-xs weight-regular text-neutral-mid leading-xs whitespace-pre-line">
-            {{ mobileDescription }}
-          </p>
-        } @else {
-          <p class="text-xs weight-regular text-neutral-mid leading-xs" [class]="descriptionClass">
-            {{ description }}
-          </p>
-        }
-      </div>
+<div class="h-screen w-full bg-[#f8fafc] flex flex-col justify-start md:justify-center items-center px-4 overflow-y-auto md:overflow-hidden py-16 md:py-0">
+  
+  <div class="w-full max-w-[530px] bg-transparent md:bg-white md:border md:border-slate-100 md:shadow-[0px_24px_48px_0px_#041b3c0f] md:rounded-2xl p-0 md:p-8 flex flex-col gap-4 mt-8 md:mt-4">
+    
+    <div class="flex flex-col gap-1 w-full text-left md:text-center">
+      <h1 class="text-2xl md:text-3xl font-bold text-slate-900 leading-tight tracking-tight">
+        {{ title }}
+      </h1>
+      <p class="text-xs md:text-sm text-slate-500 leading-relaxed">
+        {{ description }}
+      </p>
     </div>
-  </div>
-}
 
-<div class="pt-4 flex justify-center" [class]="hightClass">
-  <div class="w-full md:shadow-box md:rounded-sm flex flex-col max-w-[550px]" [ngClass]="[backgroundColor, contentClass]">
-    
-    @if (!headerOutside) {
-      <div class="flex flex-col gap-2 pb-10">
-        <ng-content select="[header]"></ng-content>
-
-        <h1 class="text-md weight-semibold text-neutral-dark leading-lg tracking-normal" [class]="titleClass">
-          {{ title }}
-        </h1>
-
-        <p class="hidden md:block text-xs weight-regular text-neutral-mid leading-xs" [class]="descriptionClass">
-          {{ description }}
-        </p>
-
-        @if (mobileDescription) {
-          <p class="block md:hidden text-xs weight-regular text-neutral-mid leading-xs whitespace-pre-line">
-            {{ mobileDescription }}
-          </p>
-        } @else {
-          <p class="block md:hidden text-xs weight-regular text-neutral-mid leading-xs" [class]="descriptionClass">
-            {{ description }}
-          </p>
-        }
-      </div>
-    } @else {
-      <div class="hidden md:flex flex-col gap-2 pb-10">
-        <h1 class="text-md weight-bold text-neutral-dark leading-lg tracking-normal" [class]="titleClass">
-          {{ title }}
-        </h1>
-
-        <p class="text-xs weight-regular text-neutral-mid leading-xs" [class]="descriptionClass">
-          {{ description }}
-        </p>
-      </div>
-    }
-
-    <ng-content />
+    <div class="w-full">
+      <ng-content />
+    </div>
     
   </div>
+
 </div>
