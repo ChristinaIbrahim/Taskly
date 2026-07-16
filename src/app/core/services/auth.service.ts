@@ -104,4 +104,7 @@ export class AuthService {
 
     return this.http.post(this.dbUrl, projectData, { headers: headers });
   }
+  isLoggedIn(): boolean {
+  return !!(localStorage.getItem('token') || sessionStorage.getItem('token'));
+  }
 }

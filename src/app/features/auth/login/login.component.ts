@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../../core/services/auth.service'; // 🚀 اتأكدي من المسار ده بالظبط عندك
 import { AuthContainerComponent } from '../../../shared/components/auth-container/auth-container.component';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
 import { SignupComponent } from '../signup/signup.component';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -33,8 +34,9 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/project']);
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    if (token) {
+      this.router.navigate(['/projects']); 
     }
 
     this.initForm();
@@ -59,17 +61,25 @@ export class LoginComponent implements OnInit {
 
     const { email, password, rememberMe } = this.loginForm.value;
 
-    this.authService.login({ email, password }, rememberMe).subscribe({
-      next: () => {
+    this.authService.login({ email, password }).subscribe({
+      next: (response: any) => {
         this.isLoading = false;
-        this.router.navigate(['/project']); 
+        
+        if (response && response.access_token) {
+          this.authService.saveToken(response.access_token, rememberMe);
+        }
+
+        console.log('Login successful!', response);
+        this.router.navigate(['/projects']); 
       },
       error: (err) => {
         this.isLoading = false;
+        console.error('Login failed', err);
+        
         if (err.status === 400) {
-          this.errorMessage = 'Invalid email or password. Please try again.';
+          this.errorMessage = err.error?.error_description || 'Invalid email or password. Please try again.';
         } else {
-          this.errorMessage = 'Something went wrong. Please check your internet connection.';
+          this.errorMessage = 'Something went wrong. Please check your connection or try again later.';
         }
       }
     });
