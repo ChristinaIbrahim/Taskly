@@ -36,7 +36,8 @@ export class AuthService {
       email: signUpData.email,
       password: signUpData.password,
       data: {
-        full_name: signUpData.name
+        full_name: signUpData.name,    
+        job_title: signUpData.jobTitle   
       }
     });
 
@@ -62,26 +63,24 @@ export class AuthService {
       sessionStorage.setItem('token', token);
     }
   }
+
   logOut() {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token')
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     const headers = new HttpHeaders({
       'apikey': this.supabaseKey,
       'Authorization': `Bearer ${token}`
-    })
+    });
     return this.http.post(`${this.baseUrl}/logout`, {}, { headers: headers });
   }
+
   clearData() {
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
 
     localStorage.clear();
     sessionStorage.clear();
-    // document.cookie.split(";").forEach((c) => {
-    //   document.cookie = c
-    //     .replace(/^ +/, "")
-    //     .replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
-    // });
   }
+
   forgotPassword(email: string) {
     const headers = new HttpHeaders({
       'apikey': this.supabaseKey,
@@ -92,8 +91,8 @@ export class AuthService {
 
     return this.http.post(`${this.baseUrl}/recover`, body, { headers: headers });
   }
+
   createProject(projectData: { name: string; description: string }) {
-    // بنجيب التوكن اللي إنتي مخزناه بالظبط باسم 'token'
     const token = localStorage.getItem('token') || sessionStorage.getItem('token') || ''; 
 
     const headers = new HttpHeaders({

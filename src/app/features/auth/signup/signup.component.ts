@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../../core/services/auth.service';
 import { AuthContainerComponent } from '../../../shared/components/auth-container/auth-container.component';
 import { AppIconsDirective } from '../../../shared/directives/app-icons.directive';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
@@ -25,10 +25,12 @@ export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   passwordVisible = false; 
   confirmPasswordVisible = false; 
+  errorMessage = ''; 
+  isLoading = false;  
 
   constructor(
     private fb: FormBuilder,
-    private http: HttpClient,
+    private authService: AuthService, 
     private router: Router
   ) {}
 
@@ -84,9 +86,13 @@ export class SignupComponent implements OnInit {
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
 
-  // 👇 ضفتلك الدالة دي هنا عشان الـ HTML يعرف يحسب ويعرض رسايل الأخطاء للحقول بدون مشاكل
   getError(controlName: string): string {
     const control = this.signupForm?.get(controlName);
+    
+    if (controlName === 'confirmPassword' && this.signupForm?.hasError('passwordMismatch') && control?.touched) {
+      return 'Passwords do not match.';
+    }
+
     if (!control || !control.touched || !control.errors) {
       return '';
     }
@@ -116,21 +122,26 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    const body = {
+    this.isLoading = true;
+    this.errorMessage = '';
+
+    const signUpData = {
+      name: this.signupForm.value.name,
       email: this.signupForm.value.email,
       password: this.signupForm.value.password,
-      data: {
-        name: this.signupForm.value.name,
-        job_title: this.signupForm.value.jobTitle || ''
-      }
+      jobTitle: this.signupForm.value.jobTitle
     };
 
-    this.http.post('/auth/v1/signup', body).subscribe({
-      next: () => {
-        this.router.navigate(['/project']);
+    this.authService.signUp(signUpData).subscribe({
+      next: (res: any) => {
+        this.isLoading = false;
+        console.log('Signup success:', res);
+        this.router.navigate(['/projects']); 
       },
       error: (err) => {
+        this.isLoading = false;
         console.error('Signup failed', err);
+        this.errorMessage = err.error?.error_description || err.error?.message || 'Signup failed, please try again.';
       }
     });
   }
