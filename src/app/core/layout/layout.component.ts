@@ -8,7 +8,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, NavbarComponent, RouterOutlet], // تأكدي من وجود السايدبار هنا!
+  imports: [CommonModule, SidebarComponent, NavbarComponent, RouterOutlet], 
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css']
 })
