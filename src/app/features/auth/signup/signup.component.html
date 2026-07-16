@@ -2,7 +2,7 @@
   title="Create your workspace" 
   description="Join the editorial approach to task management.">
 
-  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-4 w-full text-start">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-2 w-full text-start">
     
     <div class="flex flex-col gap-1 w-full">
       <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Name</label>
@@ -11,7 +11,7 @@
         formControlName="name" 
         placeholder="Enter your full name"
         autocomplete="new-name"
-        class="w-full px-4 py-2.5 bg-[#D7E2FF] text-slate-800 placeholder-slate-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border-none"
+        class="w-full px-3.5 py-2 bg-[#D7E2FF] text-slate-800 placeholder-slate-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border-none"
         [class.!ring-2]="signupForm.get('name')?.touched && signupForm.get('name')?.invalid"
         [class.!ring-red-500]="signupForm.get('name')?.touched && signupForm.get('name')?.invalid">
       
@@ -29,7 +29,7 @@
         formControlName="email" 
         placeholder="yourname@company.com"
         autocomplete="new-email"
-        class="w-full px-4 py-2.5 bg-[#D7E2FF] text-slate-800 placeholder-slate-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border-none"
+        class="w-full px-3.5 py-2 bg-[#D7E2FF] text-slate-800 placeholder-slate-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border-none"
         [class.!ring-2]="signupForm.get('email')?.touched && signupForm.get('email')?.invalid"
         [class.!ring-red-500]="signupForm.get('email')?.touched && signupForm.get('email')?.invalid">
       @if (signupForm.get('email')?.touched && signupForm.get('email')?.invalid) {
@@ -43,10 +43,10 @@
         type="text" 
         formControlName="jobTitle" 
         placeholder="e.g. Project Manager"
-        class="w-full px-4 py-2.5 bg-[#D7E2FF] text-slate-800 placeholder-slate-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border-none">
+        class="w-full px-3.5 py-2 bg-[#D7E2FF] text-slate-800 placeholder-slate-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border-none">
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
       <app-form-field
         label="Password"
         placeholder="Password"
@@ -68,9 +68,9 @@
       />
     </div>
 
-    <div class="requirements flex flex-col gap-2.5 bg-[#f0f4ff]/50 p-4 rounded-lg border border-slate-100 w-full">
+    <div class="requirements flex flex-col gap-1.5 bg-[#f0f4ff]/50 p-3 rounded-lg border border-slate-100 w-full">
       
-      <div class="flex items-center gap-2.5 text-xs">
+      <div class="flex items-center gap-2 text-xs">
         <span class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all duration-200 text-[11px] bg-white font-extrabold"
               [ngClass]="hasMinLength ? 'border-[#064e3b] text-[#064e3b]' : 'border-slate-400 text-transparent'">
           ✓
@@ -80,7 +80,7 @@
         </span>
       </div>
 
-      <div class="flex items-center gap-2.5 text-xs">
+      <div class="flex items-center gap-2 text-xs">
         <span class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all duration-200 text-[11px] bg-white font-extrabold"
               [ngClass]="hasUpperLowerDigit ? 'border-[#064e3b] text-[#064e3b]' : 'border-slate-400 text-transparent'">
           ✓
@@ -90,7 +90,7 @@
         </span>
       </div>
 
-      <div class="flex items-center gap-2.5 text-xs">
+      <div class="flex items-center gap-2 text-xs">
         <span class="w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all duration-200 text-[11px] bg-white font-extrabold"
               [ngClass]="hasSpecialChar ? 'border-[#064e3b] text-[#064e3b]' : 'border-slate-400 text-transparent'">
           ✓
@@ -101,21 +101,19 @@
       </div>
     </div>
 
-  
     <button 
       type="submit" 
       [disabled]="signupForm.invalid"
-      class="w-full py-3.5 text-white font-bold rounded-lg text-sm shadow-sm transition-all duration-200
+      class="w-full py-2.5 text-white font-bold rounded-lg text-sm shadow-sm transition-all duration-200
              disabled:bg-blue-300 disabled:cursor-not-allowed
-             bg-blue-600 hover:bg-blue-700 active:scale-[0.99] mt-2">
+             bg-blue-600 hover:bg-blue-700 active:scale-[0.99] mt-0.5">
       Create Account
     </button>
 
-    <div class="text-center text-xs text-slate-500 mt-1">
+    <div class="text-center text-xs text-slate-500 mt-0">
       Already have an account? 
       <a routerLink="/login" class="text-blue-600 font-bold hover:underline">Log in</a>
     </div>
 
   </form>
-
 </app-auth-container>

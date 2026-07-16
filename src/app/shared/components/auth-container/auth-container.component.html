@@ -1,24 +1,22 @@
-<div class="absolute top-2 left-6 md:top-1 md:left-10 z-50">
-  <app-nav-logo class="block w-[178px] h-[28px]" />
-</div>
-
-<div class="h-screen w-full bg-[#f8fafc] flex flex-col justify-start md:justify-center items-center px-4 overflow-y-auto md:overflow-hidden py-16 md:py-0">
+<div class="min-h-screen flex flex-col bg-[#F8FAFC]">
   
-  <div class="w-full max-w-[530px] bg-transparent md:bg-white md:border md:border-slate-100 md:shadow-[0px_24px_48px_0px_#041b3c0f] md:rounded-2xl p-0 md:p-8 flex flex-col gap-4 mt-8 md:mt-4">
-    
-    <div class="flex flex-col gap-1 w-full text-left md:text-center">
-      <h1 class="text-2xl md:text-3xl font-bold text-slate-900 leading-tight tracking-tight">
-        {{ title }}
-      </h1>
-      <p class="text-xs md:text-sm text-slate-500 leading-relaxed">
-        {{ description }}
-      </p>
-    </div>
+  <header class="h-[70px] flex items-center px-8 shrink-0">
+    <app-nav-logo></app-nav-logo>
+  </header>
 
-    <div class="w-full">
-      <ng-content />
-    </div>
+  <main class="flex-1 flex items-center justify-center py-6 md:py-10 px-6">
     
-  </div>
+    <div class="w-full max-w-[480px] bg-white rounded-[8px] shadow-[0_24px_48px_0_rgba(4,27,60,0.06)] border border-[#C3C6D6]/10 p-8 flex flex-col justify-between">
+      
+      <div class="text-center mb-5">
+        <h1 class="text-[#041B3C] font-['Inter'] font-bold text-2xl md:text-3xl mb-1.5">{{ title }}</h1>
+        <p class="text-slate-500 text-xs md:text-sm">{{ description }}</p>
+      </div>
 
+      <div class="flex-1 flex flex-col justify-center">
+        <ng-content></ng-content>
+      </div>
+
+    </div>
+  </main>
 </div>
