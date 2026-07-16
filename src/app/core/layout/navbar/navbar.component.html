@@ -1,1 +1,27 @@
-<p>navbar works!</p>
+<!-- navbar.component.html -->
+<nav class="flex items-center justify-end w-full px-8 py-4 bg-white border-b border-slate-100 shadow-sm">
+  
+  @if (user) {
+    <div class="flex items-center gap-4">
+      
+      <div class="flex flex-col items-end">
+        <span class="text-sm font-bold text-[#041B3C]">{{ user.name }}</span>
+        <span class="text-[10px] font-bold text-[#0052CC] uppercase tracking-wider mt-0.5">{{ user.job_title }}</span>
+      </div>
+
+      <div class="w-10 h-10 rounded-lg bg-[#0052CC] text-white flex items-center justify-center font-bold text-sm shadow-sm">
+        {{ avatarInitials }}
+      </div>
+
+    </div>
+  } @else {
+    <div class="flex items-center gap-4 animate-pulse">
+      <div class="flex flex-col items-end space-y-2">
+        <div class="h-4 bg-slate-200 rounded w-24"></div>
+        <div class="h-3 bg-slate-200 rounded w-16"></div>
+      </div>
+      <div class="w-10 h-10 bg-slate-200 rounded-lg"></div>
+    </div>
+  }
+
+</nav>
