@@ -1,1 +1,75 @@
-<p>sidebar works!</p>
+<aside 
+  class="hidden md:flex flex-col h-screen bg-[#F4F7FE] border-r border-slate-100 transition-all duration-300 ease-in-out text-[#64748B]"
+  [ngClass]="isCollapsed ? 'w-20' : 'w-64'">
+  
+  <div class="h-20 flex items-center px-6 gap-3 border-b border-slate-100">
+    <svg app-icon="logo" class="w-[28px] h-[28px] text-[#041B3C]"></svg>
+    <span *ngIf="!isCollapsed"  class="font-['Inter'] font-bold text-[20px] text-[#041B3C] tracking-[-0.5px] uppercase leading-[28px]" >TASKLY</span>
+  </div>
+
+  <nav class="flex-1 px-3 py-6 flex flex-col gap-2">
+    
+    <a routerLink="/projects" routerLinkActive="bg-white text-[#0052CC] shadow-sm font-bold" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-white/50 transition-all group">
+      <svg app-icon="projects" class="w-5 h-5 stroke-current transition-colors"></svg>
+      <span *ngIf="!isCollapsed" class="text-sm font-medium">Projects</span>
+    </a>
+    
+    <a routerLink="/epics" routerLinkActive="bg-white text-[#0052CC] shadow-sm font-bold" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-white/50 transition-all group">
+      <svg app-icon="epics" class="w-5 h-5 stroke-current transition-colors"></svg>
+      <span *ngIf="!isCollapsed" class="text-sm font-medium">Project Epics</span>
+    </a>
+    
+    <a routerLink="/tasks" routerLinkActive="bg-white text-[#0052CC] shadow-sm font-bold" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-white/50 transition-all group">
+      <svg app-icon="tasks" class="w-5 h-5 stroke-current transition-colors"></svg>
+      <span *ngIf="!isCollapsed" class="text-sm font-medium">Project Tasks</span>
+    </a>
+    
+    <a routerLink="/members" routerLinkActive="bg-white text-[#0052CC] shadow-sm font-bold" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-white/50 transition-all group">
+      <svg app-icon="members" class="w-5 h-5 stroke-current transition-colors"></svg>
+      <span *ngIf="!isCollapsed" class="text-sm font-medium">Project Members</span>
+    </a>
+    
+    <a routerLink="/details" routerLinkActive="bg-white text-[#0052CC] shadow-sm font-bold" class="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-white/50 transition-all group">
+      <svg app-icon="details" class="w-5 h-5 stroke-current transition-colors"></svg>
+      <span *ngIf="!isCollapsed" class="text-sm font-medium">Project Details</span>
+    </a>
+    
+  </nav>
+
+  <div class="p-4 border-t border-slate-100 flex flex-col gap-1">
+    
+    <button (click)="toggleSidebar()" class="flex items-center gap-4 w-full px-4 py-3 rounded-lg hover:bg-white/50 transition-all text-[#64748B]">
+      <svg [app-icon]="isCollapsed ? 'collapse-open' : 'collapse'" class="w-5 h-5 stroke-current"></svg>
+      <span *ngIf="!isCollapsed" class="text-sm font-medium">Collapse</span>
+    </button>
+
+    <button (click)="logout()" class="flex items-center gap-4 w-full px-4 py-3 rounded-lg hover:bg-red-50 text-red-500 transition-all">
+      <svg app-icon="logout" class="w-5 h-5 stroke-current"></svg>
+      <span *ngIf="!isCollapsed" class="text-sm font-medium">Logout</span>
+    </button>
+    
+  </div>
+</aside>
+
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#F4F7FE] border-t border-slate-100 flex items-center justify-around z-50 px-2 text-[#64748B]">
+  <a routerLink="/projects" routerLinkActive="text-[#0052CC] font-bold" class="flex flex-col items-center">
+    <svg app-icon="projects" class="w-5 h-5 stroke-current"></svg>
+    <span class="text-[9px] mt-0.5">Projects</span>
+  </a>
+  <a routerLink="/epics" routerLinkActive="text-[#0052CC] font-bold" class="flex flex-col items-center">
+    <svg app-icon="epics" class="w-5 h-5 stroke-current"></svg>
+    <span class="text-[9px] mt-0.5">Epics</span>
+  </a>
+  <a routerLink="/tasks" routerLinkActive="text-[#0052CC] font-bold" class="flex flex-col items-center">
+    <svg app-icon="tasks" class="w-5 h-5 stroke-current"></svg>
+    <span class="text-[9px] mt-0.5">Tasks</span>
+  </a>
+  <a routerLink="/members" routerLinkActive="text-[#0052CC] font-bold" class="flex flex-col items-center">
+    <svg app-icon="members" class="w-5 h-5 stroke-current"></svg>
+    <span class="text-[9px] mt-0.5">Members</span>
+  </a>
+  <a routerLink="/details" routerLinkActive="text-[#0052CC] font-bold" class="flex flex-col items-center">
+    <svg app-icon="details" class="w-5 h-5 stroke-current"></svg>
+    <span class="text-[9px] mt-0.5">Details</span>
+  </a>
+</nav>

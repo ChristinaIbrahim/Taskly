@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service'; // 🚀 اتأكدي من المسار ده بالظبط عندك
+import { AuthService } from '../../../core/services/auth.service'; 
 import { AuthContainerComponent } from '../../../shared/components/auth-container/auth-container.component';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
 import { SignupComponent } from '../signup/signup.component';
