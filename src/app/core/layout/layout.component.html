@@ -1,1 +1,18 @@
-<p>layout works!</p>
+<!-- core-layout.component.html -->
+<div class="flex h-screen w-screen overflow-hidden bg-[#F8FAFC]">
+  
+  <!-- السايدبار ثابت على اليسار -->
+  <app-sidebar></app-sidebar>
+
+  <!-- محتوى الصفحة كامل على اليمين -->
+  <div class="flex flex-col flex-1 h-full overflow-hidden">
+    <!-- النافبار فوق -->
+    <app-navbar></app-navbar>
+
+    <!-- محتوى الصفحات النشطة (المشاريع، الإيبكس، إلخ) -->
+    <main class="flex-grow p-8 overflow-y-auto">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+
+</div>
