@@ -6,10 +6,10 @@ export const routes: Routes = [
     path: 'sign-up',
     loadComponent: () => import('./features/auth/signup/signup.component').then(m => m.SignupComponent)
   },
-  // {
-  //   path: 'login',
-  //   loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent),
-  // },
+  {
+    path: 'login',
+    loadComponent: () => import('./features/auth/login/login.component').then(m=>m.LoginComponent),
+  },
   // {
   //   path: 'project',
   //   loadComponent: () => import('./pages/project/project.component').then(m => m.ProjectComponent),
