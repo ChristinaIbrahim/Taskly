@@ -10,11 +10,11 @@ import { FormFieldComponent } from '../../../shared/components/form-field/form-f
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule,          
+    CommonModule,         
     ReactiveFormsModule,   
-    RouterModule,          
-    AuthContainerComponent,
-    FormFieldComponent,
+    RouterModule,         
+    AuthContainerComponent, 
+    FormFieldComponent,  
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string | null = null;
   isLoading = false;
-  showPassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -46,10 +45,6 @@ export class LoginComponent implements OnInit {
       password: ['', [Validators.required]],
       rememberMe: [false] 
     });
-  }
-
-  togglePasswordVisibility() {
-    this.showPassword = !this.showPassword;
   }
 
   onSubmit() {
@@ -78,5 +73,4 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-
 }
