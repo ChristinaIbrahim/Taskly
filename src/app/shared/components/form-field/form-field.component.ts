@@ -14,7 +14,7 @@ import { AppIconsDirective } from '../../directives/app-icons.directive';
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.css'
 })
-export class FormFieldComponent {
+export class FormFieldComponent  {
   @Input() label: string = '';
   @Input() placeholder: string = ''; 
   @Input() fieldType: string = 'text';
