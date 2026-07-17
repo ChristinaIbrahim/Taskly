@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service'; 
 import { AuthContainerComponent } from '../../../shared/components/auth-container/auth-container.component';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -14,7 +14,8 @@ import { FormFieldComponent } from '../../../shared/components/form-field/form-f
     ReactiveFormsModule,   
     RouterModule,         
     AuthContainerComponent, 
-    FormFieldComponent
+    FormFieldComponent,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
