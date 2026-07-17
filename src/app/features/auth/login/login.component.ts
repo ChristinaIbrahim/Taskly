@@ -5,7 +5,6 @@ import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service'; 
 import { AuthContainerComponent } from '../../../shared/components/auth-container/auth-container.component';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
-import { SignupComponent } from '../signup/signup.component';
 
 @Component({
   selector: 'app-login',
@@ -15,14 +14,12 @@ import { SignupComponent } from '../signup/signup.component';
     ReactiveFormsModule,   
     RouterModule,         
     AuthContainerComponent, 
-    FormFieldComponent,
-    SignupComponent  
+    FormFieldComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
-
   loginForm!: FormGroup;
   errorMessage: string | null = null;
   isLoading = false;
@@ -34,11 +31,10 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    if (token) {
+    if (this.authService.isLoggedIn()) {
       this.router.navigate(['/projects']); 
+      return;
     }
-
     this.initForm();
   }
 
@@ -64,20 +60,19 @@ export class LoginComponent implements OnInit {
     this.authService.login({ email, password }).subscribe({
       next: (response: any) => {
         this.isLoading = false;
-        
         if (response && response.access_token) {
           this.authService.saveToken(response.access_token, rememberMe);
+          console.log('Login successful!', response);
+          this.router.navigate(['/projects']); 
+        } else {
+          this.errorMessage = 'Unexpected response from server.';
         }
-
-        console.log('Login successful!', response);
-        this.router.navigate(['/projects']); 
       },
       error: (err) => {
         this.isLoading = false;
         console.error('Login failed', err);
-        
-        if (err.status === 400) {
-          this.errorMessage = err.error?.error_description || 'Invalid email or password. Please try again.';
+        if (err.status === 400 || err.status === 401 || err.status === 403) {
+          this.errorMessage = 'Invalid email or password. Please try again.';
         } else {
           this.errorMessage = 'Something went wrong. Please check your connection or try again later.';
         }
