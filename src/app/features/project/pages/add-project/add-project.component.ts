@@ -65,13 +65,14 @@ export class AddProjectComponent implements OnInit {
       next: (res) => {
         this.isLoading = false;
         this.successMessage = 'Project created successfully!';
+        this.projectForm.reset();
         setTimeout(() => {
           this.router.navigate(['/projects']);
         }, 1500);
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.message || 'Failed to create project. Please try again.';
+        this.errorMessage = err.error?.message || err.message || 'Failed to create project. Please try again.';
       }
     });
   }
