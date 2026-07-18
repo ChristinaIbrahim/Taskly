@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardProjectComponent } from '../../components/card-project/card-project.component'; 
 import { ProjectService } from '../../project.service';
+
 @Component({
   selector: 'app-project-list',
   standalone: true,
@@ -12,14 +13,11 @@ import { ProjectService } from '../../project.service';
 })
 export class ProjectListComponent implements OnInit {
   projects: any[] = [];
-  
-  // 📊 Pagination State
   currentPage: number = 1;
-  limit: number = 6; 
+  limit: number = 3;
   totalCount: number = 0;
   totalPages: number = 0;
-  pagesArray: number[] = []; 
-  
+  pagesArray: number[] = [];
   isLoading: boolean = false;
   isError: boolean = false;
   isMobile: boolean = false;
@@ -49,19 +47,20 @@ export class ProjectListComponent implements OnInit {
         const data = response.body || [];
         
         if (append) {
-          this.projects = [...this.projects, ...data]; 
+          this.projects = [...this.projects, ...data];
         } else {
-          this.projects = data; 
+          this.projects = data;
         }
 
         const contentRange = response.headers.get('Content-Range');
         if (contentRange && contentRange.includes('/')) {
           const parts = contentRange.split('/');
           this.totalCount = parseInt(parts[1], 10);
-          
           this.totalPages = Math.ceil(this.totalCount / this.limit);
-          
           this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+        } else {
+          this.totalPages = 1;
+          this.pagesArray = [1];
         }
 
         this.isLoading = false;
