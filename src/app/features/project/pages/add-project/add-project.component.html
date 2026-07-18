@@ -1,94 +1,113 @@
-<div class="p-4 sm:p-8 max-w-3xl mx-auto min-h-screen flex flex-col justify-between">
-  
+<div class="p-4 sm:p-10 max-w-4xl flex flex-col justify-between min-h-[calc(100vh-80px)]">
   <div>
-    <div class="mb-6">
-      <span class="text-xs uppercase font-bold tracking-wider text-gray-400">Projects > Add New Project</span>
-      <h1 class="text-2xl sm:text-3xl font-bold text-[#0A192F] mt-1">Add New Project</h1>
+    <div class="mb-8">
+      <div class="flex items-center gap-1.5 text-xs font-bold tracking-wider text-gray-400 uppercase">
+        <span>Projects</span>
+        <span class="text-gray-300">›</span>
+        <span class="text-blue-600">Add New Project</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-bold text-[#0A192F] mt-2">Add New Project</h1>
     </div>
 
-    <div *ngIf="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm">
-      {{ successMessage }}
-    </div>
-    <div *ngIf="errorMessage" class="mb-4 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
-      {{ errorMessage }}
-    </div>
+    @if (successMessage) {
+      <div class="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-sm">
+        {{ successMessage }}
+      </div>
+    }
+    @if (errorMessage) {
+      <div class="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-sm">
+        {{ errorMessage }}
+      </div>
+    }
 
-    <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
+    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
       
-      <div class="flex items-start gap-4 pb-6 border-b border-gray-100 mb-6">
-        <div class="bg-blue-50 p-3 rounded-xl flex items-center justify-center text-[#004EEB]">
-            <svg app-icon="initialize-project" class="w-6 h-6 block"></svg>
+      <div class="p-8">
+        <div class="flex items-start gap-4 pb-6 border-b border-gray-100 mb-8">
+           <div class="bg-[#E8EFFF] w-12 h-12 rounded-xl flex items-center justify-center  ">       
+                 <svg app-icon="initialize-project" class="w-6 h-6 block"></svg>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-[#0A192F]">Initialize New Project</h2>
+            <p class="text-sm text-gray-400 mt-1">Define the scope and foundational details of your project.</p>
+          </div>
         </div>
-        <div>
-          <h2 class="text-lg font-bold text-gray-900">Initialize New Project</h2>
-          <p class="text-sm text-gray-500 mt-0.5">Define the scope and foundational details of your project.</p>
-        </div>
+
+        <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="space-y-6">
+          
+          <!-- Input: Project Title -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
+              Project Title <span class="text-red-500">*</span>
+            </label>
+           <input 
+                type="text" 
+               formControlName="name"
+               placeholder="e.g. Website Redesign"
+               class="w-full px-4 py-3.5 bg-[#E8EFFF] border border-transparent rounded-xl text-sm focus:outline-none focus:border-[#004EEB] focus:bg-white transition-all"
+                [ngClass]="{'border-red-500 bg-red-50/30': projectForm.get('name')?.touched && projectForm.get('name')?.invalid}"
+              />
+            
+            @if (projectForm.get('name')?.touched && projectForm.get('name')?.invalid) {
+              <div class="flex items-center gap-1.5 mt-2 text-red-600">
+                @if (projectForm.get('name')?.hasError('required')) {
+                  <p class="text-xs font-semibold">Project title is required.</p>
+                }
+                @if (projectForm.get('name')?.hasError('minlength')) {
+                  <p class="text-xs font-semibold">Project name must be at least 3 characters.</p>
+                }
+              </div>
+            }
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">
+                Description
+              </label>
+              <span class="text-xs text-gray-400 font-normal">Optional</span>
+            </div>
+            <textarea 
+              formControlName="description"
+              rows="5"
+              placeholder="Provide a high-level overview of the project's architectural objectives and key milestones..."
+              class="w-full px-4 py-3.5 bg-[#E8EFFF] border border-transparent rounded-xl text-sm focus:outline-none focus:border-[#004EEB] focus:bg-white transition-all resize-none placeholder-gray-400"
+            ></textarea>
+            <div class="flex justify-end mt-1.5">
+              <span class="text-xs text-gray-400 font-medium">{{ descriptionLength || 0 }} / 500 characters</span>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between border-t border-gray-100 pt-6 mt-8">
+            <button 
+              type="button" 
+              routerLink="/projects" 
+              class="text-sm font-bold text-gray-500 hover:text-gray-900 transition-colors">
+              Back
+            </button>
+            
+            <button 
+              type="submit" 
+              [disabled]="isLoading"
+              class="bg-[#004EEB] hover:bg-[#003BB3] disabled:bg-blue-400 text-white font-bold py-3.5 px-8 rounded-xl text-sm transition-all shadow-md flex items-center gap-2">
+              @if (isLoading) {
+                <span class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              }
+              {{ isLoading ? 'Creating...' : 'Create Project' }}
+            </button>
+          </div>
+
+        </form>
       </div>
 
-      <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="space-y-6">
-        
-        <div>
-          <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
-            Project Title <span class="text-red-500">*</span>
-          </label>
-          <input 
-            type="text" 
-            formControlName="name"
-            placeholder="e.g. Website Redesign"
-            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#004EEB] focus:bg-white transition-colors"
-            [ngClass]="{'border-red-500 bg-red-50/30': projectForm.get('name')?.touched && projectForm.get('name')?.invalid}"
-          />
-          <p *ngIf="getErrorMessage('name')" class="text-xs text-red-500 mt-1.5 flex items-center gap-1">
-             {{ getErrorMessage('name') }}
-          </p>
-        </div>
-
-        <div>
-          <div class="flex justify-between items-center mb-2">
-            <label class="block text-xs font-bold uppercase tracking-wider text-gray-500">
-              Description <span class="text-gray-400 font-normal lowercase">(optional)</span>
-            </label>
-            <span class="text-xs text-gray-400 font-medium">{{ descriptionLength }} / 500 characters</span>
-          </div>
-          <textarea 
-            formControlName="description"
-            rows="5"
-            placeholder="Provide a high-level overview of the project's architectural objectives..."
-            class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-[#004EEB] focus:bg-white transition-colors resize-none"
-            [ngClass]="{'border-red-500 bg-red-50/30': projectForm.get('description')?.touched && projectForm.get('description')?.invalid}"
-          ></textarea>
-          <p *ngIf="getErrorMessage('description')" class="text-xs text-red-500 mt-1.5">
-             {{ getErrorMessage('description') }}
-          </p>
-        </div>
-
-        <div class="flex items-center justify-between border-t border-gray-50 pt-6 mt-6">
-          <button 
-            type="button" 
-            routerLink="/project" 
-            class="text-sm font-semibold text-gray-600 hover:text-gray-900 transition-colors">
-            Back
-          </button>
-          
-          <button 
-            type="submit" 
-            [disabled]="isLoading"
-            class="bg-[#004EEB] hover:bg-[#003BB3] disabled:bg-blue-400 text-white font-semibold py-3 px-6 rounded-xl text-sm transition-colors shadow-sm flex items-center gap-2">
-            <span *ngIf="isLoading" class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-            {{ isLoading ? 'Creating...' : 'Create Project' }}
-          </button>
-        </div>
-
-      </form>
+      <div class="bg-[#EEF2F6] px-8 py-5 flex items-center gap-3 border-t border-gray-50">
+        <svg app-icon="tip" class="w-5 h-5 text-gray-500 block shrink-0"></svg>
+        <p class="text-xs text-gray-600 leading-relaxed">
+          <strong class="text-gray-700">Pro Tip:</strong> You can invite project members and assign epics immediately after the initial creation process.
+        </p>
+      </div>
 
     </div>
-  </div>
-
-  <div class="mt-8 bg-blue-50/50 rounded-xl p-4 border border-blue-50/80 flex items-start gap-3">
-   <svg app-icon="tip" class="w-6 h-6  mt-0.5 text-sm block"></svg>
-    <p class="text-xs text-blue-900 leading-relaxed">
-      <strong>Pro Tip:</strong> You can invite project members and assign epics immediately after the initial creation process.
-    </p>
   </div>
 
 </div>
