@@ -28,11 +28,10 @@ export const routes: Routes = [
     loadComponent: () => import('./core/layout/layout.component').then(m => m.LayoutComponent),
     children: [
       
-      { 
-        path: '', 
-        redirectTo: 'projects', 
-        pathMatch: 'full' 
-      }
+      {
+      path: 'projects',
+      loadChildren: () => import('./features/project/project.routes').then(m => m.routes)
+    } 
     ]
   },
 

@@ -1,1 +1,26 @@
-<p>project-list works!</p>
+<div class="p-6 max-w-7xl mx-auto">
+  <header class="flex justify-between items-center mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-slate-900">Projects</h1>
+      <p class="text-slate-500 mt-1">Manage and curate your projects</p>
+    </div>
+    
+    <button routerLink="add" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2">
+      <span>+ Create New Project</span>
+    </button>
+  </header>
+
+
+  <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    <app-card-project></app-card-project>
+    <app-card-project></app-card-project>
+    <app-card-project></app-card-project>
+    
+    <a routerLink="add" class="border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center min-h-[200px] hover:border-blue-500 hover:bg-slate-50 transition-all p-6 text-center group">
+      <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600 mb-2">
+        <span class="text-xl font-bold">+</span>
+      </div>
+      <span class="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-blue-600">Add Project</span>
+    </a>
+  </section>
+</div>
