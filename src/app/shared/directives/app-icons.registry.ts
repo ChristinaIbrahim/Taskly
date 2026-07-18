@@ -13,8 +13,8 @@ export type IconName =
   | 'clock'
   | 'forgot-lock'
   | 'arrow-left'
-  | 'right';
-  
+  | 'right'
+ 
   
 export const ICONS_MAP: Record<IconName, { viewBox: string; path: string }> = {
   logo: {
