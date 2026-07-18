@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../core/services/auth.service';
@@ -21,20 +21,25 @@ export class ProjectService {
     return `${url}${endpoint}`;
   }
 
-  
-  getProjects(): Observable<any[]> {
+  getProjects(limit: number, offset: number): Observable<HttpResponse<any[]>> {
     const token = this.authService.getToken(); 
 
     const headers = new HttpHeaders({
       'apikey': this.apiKey,
       'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Prefer': 'count=exact' 
     });
 
-    return this.http.get<any[]>(this.getCleanUrl('rest/v1/rpc/get_projects'), { headers });
+    return this.http.get<any[]>(
+      `${this.getCleanUrl('rest/v1/rpc/get_projects')}?limit=${limit}&offset=${offset}`, 
+      { 
+        headers,
+        observe: 'response' 
+      }
+    );
   }
 
- 
   createProject(projectData: { name: string; description: string }): Observable<any> {
     const token = this.authService.getToken();
 
