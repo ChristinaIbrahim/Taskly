@@ -27,10 +27,7 @@ export const routes: Routes = [
     path: '',
     loadComponent: () => import('./core/layout/layout.component').then(m => m.LayoutComponent),
     children: [
-      {
-        path: 'projects',
-        loadComponent: () => import('./features/projects/projects.component').then(m => m.ProjectsComponent)
-      },
+      
       { 
         path: '', 
         redirectTo: 'projects', 
