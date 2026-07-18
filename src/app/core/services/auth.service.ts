@@ -8,9 +8,15 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = `${environment.supabaseUrl}auth/v1`; 
+  private getCleanBaseUrl(): string {
+    const url = environment.supabaseUrl.endsWith('/') 
+      ? environment.supabaseUrl 
+      : `${environment.supabaseUrl}/`;
+    return `${url}auth/v1`;
+  }
+
   private supabaseKey = environment.supabase_api_key; 
-  private dbUrl = `${environment.supabaseUrl}rest/v1/projects`;
+  private dbUrl = `${environment.supabaseUrl.endsWith('/') ? environment.supabaseUrl : environment.supabaseUrl + '/'}rest/v1/projects`;
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -25,7 +31,7 @@ export class AuthService {
       password: loginData.password
     };
 
-    return this.http.post<any>(`${this.baseUrl}/token?grant_type=password`, body, { headers });
+    return this.http.post<any>(`${this.getCleanBaseUrl()}/token?grant_type=password`, body, { headers });
   }
 
   signUp(signUpData: any): Observable<any> {
@@ -43,7 +49,7 @@ export class AuthService {
       }
     };
 
-    return this.http.post<any>(`${this.baseUrl}/signup`, body, { headers });
+    return this.http.post<any>(`${this.getCleanBaseUrl()}/signup`, body, { headers });
   }
 
   getUserData(): Observable<any> {
@@ -54,7 +60,7 @@ export class AuthService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.get<any>(`${this.baseUrl}/user`, { headers });
+    return this.http.get<any>(`${this.getCleanBaseUrl()}/user`, { headers });
   }
 
   saveToken(token: string, rememberMe: boolean): void {
@@ -75,7 +81,7 @@ export class AuthService {
       'apikey': this.supabaseKey,
       'Authorization': `Bearer ${token}`
     });
-    return this.http.post<any>(`${this.baseUrl}/logout`, {}, { headers });
+    return this.http.post<any>(`${this.getCleanBaseUrl()}/logout`, {}, { headers });
   }
 
   clearData(): void {
@@ -92,9 +98,10 @@ export class AuthService {
   forgotPassword(email: string): Observable<any> {
     const headers = new HttpHeaders({
       'apikey': this.supabaseKey,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Redirect-To': 'http://localhost:4200/reset-password' 
     });
-    return this.http.post<any>(`${this.baseUrl}/recover`, { email }, { headers });
+    return this.http.post<any>(`${this.getCleanBaseUrl()}/recover`, { email }, { headers });
   }
 
   updatePassword(password: string, accessToken: string): Observable<any> {
@@ -103,6 +110,6 @@ export class AuthService {
       'Authorization': `Bearer ${accessToken}`,
       'Content-Type': 'application/json'
     });
-    return this.http.put<any>(`${this.baseUrl}/user`, { password }, { headers });
+    return this.http.put<any>(`${this.getCleanBaseUrl()}/user`, { password }, { headers });
   }
 }

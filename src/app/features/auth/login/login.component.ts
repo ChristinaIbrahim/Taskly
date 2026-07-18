@@ -6,6 +6,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { AuthContainerComponent } from '../../../shared/components/auth-container/auth-container.component';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
 import { RouterLink } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -32,6 +33,14 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // 👈 السطور السحرية هنا: لو الرابط جاي من الإيميل وفيه توكن إعادة التعيين
+    if (window.location.hash && window.location.hash.includes('access_token=')) {
+      const currentHash = window.location.hash;
+      // بنعمل إعادة توجيه فورية لصفحة الـ reset-password وبنمرر معاها الـ Hash كاملاً
+      this.router.navigateByUrl(`/reset-password${currentHash}`);
+      return; // بنوقف تنفيذ دالة الـ ngOnInit عشان ما يكملش تحميل اللوجين
+    }
+
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/projects']); 
       return;

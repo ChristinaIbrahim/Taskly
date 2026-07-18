@@ -73,18 +73,37 @@ export class ResetPasswordComponent implements OnInit {
     this.route.fragment.subscribe(fragment => {
       if (fragment) {
         const params = new URLSearchParams(fragment);
-        const type = params.get('type');
         const token = params.get('access_token');
 
-        if (type === 'recovery' && token) {
+        if (token) {
           this.accessToken = token;
           this.errorMessage = null;
-        } else {
-          this.errorMessage = 'Invalid or expired reset link.';
+          return;
         }
-      } else {
-        this.errorMessage = 'Invalid or expired reset link.';
       }
+
+      const currentHash = window.location.hash;
+      if (currentHash) {
+        const cleanHash = currentHash.startsWith('#') ? currentHash.substring(1) : currentHash;
+        const params = new URLSearchParams(cleanHash);
+        const token = params.get('access_token');
+
+        if (token) {
+          this.accessToken = token;
+          this.errorMessage = null;
+          return;
+        }
+      }
+
+      const queryToken = this.route.snapshot.queryParamMap.get('access_token') || 
+                         this.route.snapshot.queryParamMap.get('token');
+      if (queryToken) {
+        this.accessToken = queryToken;
+        this.errorMessage = null;
+        return;
+      }
+
+      this.errorMessage = 'Invalid or expired reset link.';
     });
   }
 
@@ -112,7 +131,9 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     this.isLoading = true;
-    const url = `${this.baseUrl}auth/v1/user`;
+    
+    const formattedBaseUrl = this.baseUrl.endsWith('/') ? this.baseUrl : `${this.baseUrl}/`;
+    const url = `${formattedBaseUrl}auth/v1/user`;
     
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.accessToken}`,
@@ -133,7 +154,7 @@ export class ResetPasswordComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.msg || 'An error occurred while updating your password.';
+        this.errorMessage = err.error?.msg || err.error?.message || 'An error occurred while updating your password.';
       }
     });
   }

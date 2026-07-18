@@ -35,6 +35,12 @@ export class SignupComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (window.location.hash && window.location.hash.includes('access_token=')) {
+      const currentHash = window.location.hash;
+      this.router.navigateByUrl(`/reset-password${currentHash}`);
+      return; 
+    }
+
     this.signupForm = this.fb.group({
       name: ['', [
         Validators.required,
