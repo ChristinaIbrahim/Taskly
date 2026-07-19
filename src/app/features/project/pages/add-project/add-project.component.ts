@@ -44,20 +44,7 @@ export class AddProjectComponent implements OnInit {
   }
 
   get descriptionLength(): number {
-    return this.projectForm?.get('description')?.value?.length || 0;
-  }
-
-  getErrorMessage(controlName: string): string {
-    const control = this.projectForm.get(controlName);
-    if (!control || !control.touched || !control.errors) return '';
-
-    if (control.errors['required']) return 'This field is required.';
-    if (control.errors['minlength'])
-      return `Must be at least ${control.errors['minlength'].requiredLength} characters.`;
-    if (control.errors['maxlength'])
-      return `Cannot exceed ${control.errors['maxlength'].requiredLength} characters.`;
-
-    return '';
+    return this.projectForm.get('description')?.value?.length || 0;
   }
 
   onSubmit(): void {
@@ -75,15 +62,15 @@ export class AddProjectComponent implements OnInit {
         this.isLoading = false;
         this.successMessage = 'Project created successfully!';
         this.projectForm.reset();
+        
         setTimeout(() => {
-          this.router.navigate(['/projects']);
+          this.router.navigate(['/project']);
         }, 1500);
       },
       error: (err) => {
         this.isLoading = false;
         this.errorMessage =
           err.error?.message ||
-          err.message ||
           'Failed to create project. Please try again.';
       },
     });
