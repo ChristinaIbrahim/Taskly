@@ -6,8 +6,6 @@ import { AppIconsDirective } from '../../directives/app-icons.directive';
   standalone: true,
   imports: [AppIconsDirective],
   templateUrl: './nav-logo.component.html',
-  styleUrl: './nav-logo.component.css'
+  styleUrl: './nav-logo.component.css',
 })
-export class NavLogoComponent {
-
-}
+export class NavLogoComponent {}

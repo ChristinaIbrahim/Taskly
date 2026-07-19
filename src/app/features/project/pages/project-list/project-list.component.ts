@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CardProjectComponent } from '../../components/card-project/card-project.component'; 
+import { CardProjectComponent } from '../../components/card-project/card-project.component';
 import { ProjectService } from '../../project.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { ProjectService } from '../../project.service';
   standalone: true,
   imports: [RouterLink, CardProjectComponent, CommonModule],
   templateUrl: './project-list.component.html',
-  styleUrl: './project-list.component.css'
+  styleUrl: './project-list.component.css',
 })
 export class ProjectListComponent implements OnInit {
   projects: any[] = [];
@@ -36,7 +36,7 @@ export class ProjectListComponent implements OnInit {
 
   loadProjects(append: boolean = false): void {
     if (this.isLoading) return;
-    
+
     this.isLoading = true;
     this.isError = false;
 
@@ -45,7 +45,7 @@ export class ProjectListComponent implements OnInit {
     this.projectService.getProjects(this.limit, offset).subscribe({
       next: (response) => {
         const data = response.body || [];
-        
+
         if (append) {
           this.projects = [...this.projects, ...data];
         } else {
@@ -57,7 +57,10 @@ export class ProjectListComponent implements OnInit {
           const parts = contentRange.split('/');
           this.totalCount = parseInt(parts[1], 10);
           this.totalPages = Math.ceil(this.totalCount / this.limit);
-          this.pagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+          this.pagesArray = Array.from(
+            { length: this.totalPages },
+            (_, i) => i + 1,
+          );
         } else {
           this.totalPages = 1;
           this.pagesArray = [1];
@@ -69,15 +72,18 @@ export class ProjectListComponent implements OnInit {
         console.error(err);
         this.isError = true;
         this.isLoading = false;
-      }
+      },
     });
   }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    if (!this.isMobile || this.isLoading || this.currentPage >= this.totalPages) return;
+    if (!this.isMobile || this.isLoading || this.currentPage >= this.totalPages)
+      return;
 
-    const pos = (document.documentElement.scrollTop || document.body.scrollTop) + window.innerHeight;
+    const pos =
+      (document.documentElement.scrollTop || document.body.scrollTop) +
+      window.innerHeight;
     const max = document.documentElement.scrollHeight;
 
     if (pos >= max - 50) {

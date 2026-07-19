@@ -4,22 +4,29 @@
       <h1 class="text-3xl font-bold text-slate-900">Projects</h1>
       <p class="text-slate-500 mt-1">Manage and curate your projects</p>
     </div>
-    
-    <button routerLink="add" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2">
+
+    <button
+      routerLink="add"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2"
+    >
       <span>+ Create New Project</span>
     </button>
   </header>
 
   @if (isLoading && projects.length === 0) {
     <div class="flex flex-col items-center justify-center py-20">
-      <div class="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <div
+        class="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"
+      ></div>
       <p class="text-slate-500 text-sm mt-3 font-medium">Loading projects...</p>
     </div>
   }
 
   @if (isError) {
-    <div class="p-4 bg-red-50 border border-red-100 rounded-xl text-center text-red-600 text-sm my-6 font-semibold">
-       Failed to load projects. Please try again.
+    <div
+      class="p-4 bg-red-50 border border-red-100 rounded-xl text-center text-red-600 text-sm my-6 font-semibold"
+    >
+      Failed to load projects. Please try again.
     </div>
   }
 
@@ -28,25 +35,39 @@
       @for (project of projects; track project.id) {
         <app-card-project [project]="project"></app-card-project>
       }
-      
-      <a routerLink="add" class="border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center min-h-[200px] hover:border-blue-500 hover:bg-slate-50 transition-all p-6 text-center group">
-        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600 mb-2">
+
+      <a
+        routerLink="add"
+        class="border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center min-h-[200px] hover:border-blue-500 hover:bg-slate-50 transition-all p-6 text-center group"
+      >
+        <div
+          class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600 mb-2"
+        >
           <span class="text-xl font-bold">+</span>
         </div>
-        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-blue-600">Add Project</span>
+        <span
+          class="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-blue-600"
+          >Add Project</span
+        >
       </a>
     </section>
   }
 
   @if (!isLoading && !isError && projects.length === 0) {
-    <div class="text-center py-20 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-6">
-      <p class="text-slate-400 font-medium">No projects found. Click above to create one!</p>
+    <div
+      class="text-center py-20 bg-slate-50 rounded-2xl border border-dashed border-slate-200 mt-6"
+    >
+      <p class="text-slate-400 font-medium">
+        No projects found. Click above to create one!
+      </p>
     </div>
   }
 
   @if (isLoading && projects.length > 0 && isMobile) {
     <div class="flex justify-center py-6">
-      <div class="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <div
+        class="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"
+      ></div>
     </div>
   }
 
@@ -57,29 +78,33 @@
       </div>
 
       <div class="flex items-center gap-1.5">
-        <button 
-          (click)="goToPage(currentPage - 1)" 
+        <button
+          (click)="goToPage(currentPage - 1)"
           [disabled]="currentPage === 1"
-          class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-white disabled:hover:text-slate-400 transition-all text-xs font-bold shadow-sm">
+          class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-white disabled:hover:text-slate-400 transition-all text-xs font-bold shadow-sm"
+        >
           ‹
         </button>
 
         @for (page of pagesArray; track page) {
-          <button 
+          <button
             (click)="goToPage(page)"
             [ngClass]="{
               'bg-[#0052CC] text-white border-[#0052CC]': currentPage === page,
-              'bg-white text-slate-700 border-slate-200 hover:bg-slate-50': currentPage !== page
+              'bg-white text-slate-700 border-slate-200 hover:bg-slate-50':
+                currentPage !== page,
             }"
-            class="w-9 h-9 flex items-center justify-center rounded-lg border text-xs font-bold transition-all shadow-sm">
+            class="w-9 h-9 flex items-center justify-center rounded-lg border text-xs font-bold transition-all shadow-sm"
+          >
             {{ page }}
           </button>
         }
 
-        <button 
-          (click)="goToPage(currentPage + 1)" 
+        <button
+          (click)="goToPage(currentPage + 1)"
           [disabled]="currentPage === totalPages || totalPages === 0"
-          class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-white disabled:hover:text-slate-400 transition-all text-xs font-bold shadow-sm">
+          class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30 disabled:hover:bg-white disabled:hover:text-slate-400 transition-all text-xs font-bold shadow-sm"
+        >
           ›
         </button>
       </div>

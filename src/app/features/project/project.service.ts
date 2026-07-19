@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 import { AuthService } from '../../core/services/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectService {
   private baseUrl = environment.supabaseUrl;
@@ -13,7 +13,7 @@ export class ProjectService {
 
   constructor(
     private http: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   private getCleanUrl(endpoint: string): string {
@@ -22,34 +22,41 @@ export class ProjectService {
   }
 
   getProjects(limit: number, offset: number): Observable<HttpResponse<any[]>> {
-    const token = this.authService.getToken(); 
-
-    const headers = new HttpHeaders({
-      'apikey': this.apiKey,
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-      'Prefer': 'count=exact' 
-    });
-
-    return this.http.get<any[]>(
-      `${this.getCleanUrl('rest/v1/rpc/get_projects')}?limit=${limit}&offset=${offset}`, 
-      { 
-        headers,
-        observe: 'response' 
-      }
-    );
-  }
-
-  createProject(projectData: { name: string; description: string }): Observable<any> {
     const token = this.authService.getToken();
 
     const headers = new HttpHeaders({
-      'apikey': this.apiKey,
-      'Authorization': `Bearer ${token}`,
+      apikey: this.apiKey,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
-      'Prefer': 'return=representation' 
+      Prefer: 'count=exact',
     });
 
-    return this.http.post<any>(this.getCleanUrl('rest/v1/projects'), projectData, { headers });
+    return this.http.get<any[]>(
+      `${this.getCleanUrl('rest/v1/rpc/get_projects')}?limit=${limit}&offset=${offset}`,
+      {
+        headers,
+        observe: 'response',
+      },
+    );
+  }
+
+  createProject(projectData: {
+    name: string;
+    description: string;
+  }): Observable<any> {
+    const token = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      apikey: this.apiKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=representation',
+    });
+
+    return this.http.post<any>(
+      this.getCleanUrl('rest/v1/projects'),
+      projectData,
+      { headers },
+    );
   }
 }

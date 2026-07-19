@@ -1,22 +1,24 @@
 <div class="min-h-screen flex flex-col bg-[#F8FAFC]">
-  
   <header class="h-[70px] flex items-center px-8 shrink-0">
     <app-nav-logo></app-nav-logo>
   </header>
 
   <main class="flex-1 flex items-center justify-center py-6 md:py-10 px-6">
-    
-    <div class="w-full max-w-[480px] bg-white rounded-[8px] shadow-[0_24px_48px_0_rgba(4,27,60,0.06)] border border-[#C3C6D6]/10 p-8 flex flex-col justify-between">
-      
+    <div
+      class="w-full max-w-[480px] bg-white rounded-[8px] shadow-[0_24px_48px_0_rgba(4,27,60,0.06)] border border-[#C3C6D6]/10 p-8 flex flex-col justify-between"
+    >
       <div class="text-center mb-5">
-        <h1 class="text-[#041B3C] font-['Inter'] font-bold text-2xl md:text-3xl mb-1.5">{{ title }}</h1>
+        <h1
+          class="text-[#041B3C] font-['Inter'] font-bold text-2xl md:text-3xl mb-1.5"
+        >
+          {{ title }}
+        </h1>
         <p class="text-slate-500 text-xs md:text-sm">{{ description }}</p>
       </div>
 
       <div class="flex-1 flex flex-col justify-center">
         <ng-content></ng-content>
       </div>
-
     </div>
   </main>
 </div>

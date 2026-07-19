@@ -5,59 +5,68 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private getCleanBaseUrl(): string {
-    const url = environment.supabaseUrl.endsWith('/') 
-      ? environment.supabaseUrl 
+    const url = environment.supabaseUrl.endsWith('/')
+      ? environment.supabaseUrl
       : `${environment.supabaseUrl}/`;
     return `${url}auth/v1`;
   }
 
-  private supabaseKey = environment.supabase_api_key; 
+  private supabaseKey = environment.supabase_api_key;
   private dbUrl = `${environment.supabaseUrl.endsWith('/') ? environment.supabaseUrl : environment.supabaseUrl + '/'}rest/v1/projects`;
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   login(loginData: any): Observable<any> {
     const headers = new HttpHeaders({
-      'apikey': this.supabaseKey,
-      'Content-Type': 'application/json'
+      apikey: this.supabaseKey,
+      'Content-Type': 'application/json',
     });
 
     const body = {
       email: loginData.email,
-      password: loginData.password
+      password: loginData.password,
     };
 
-    return this.http.post<any>(`${this.getCleanBaseUrl()}/token?grant_type=password`, body, { headers });
+    return this.http.post<any>(
+      `${this.getCleanBaseUrl()}/token?grant_type=password`,
+      body,
+      { headers },
+    );
   }
 
   signUp(signUpData: any): Observable<any> {
     const headers = new HttpHeaders({
-      'apikey': this.supabaseKey,
-      'Content-Type': 'application/json'
+      apikey: this.supabaseKey,
+      'Content-Type': 'application/json',
     });
 
     const body = {
       email: signUpData.email,
       password: signUpData.password,
       data: {
-        full_name: signUpData.name,    
-        job_title: signUpData.jobTitle   
-      }
+        full_name: signUpData.name,
+        job_title: signUpData.jobTitle,
+      },
     };
 
-    return this.http.post<any>(`${this.getCleanBaseUrl()}/signup`, body, { headers });
+    return this.http.post<any>(`${this.getCleanBaseUrl()}/signup`, body, {
+      headers,
+    });
   }
 
   getUserData(): Observable<any> {
     const token = this.getToken();
     const headers = new HttpHeaders({
-      'apikey': this.supabaseKey,
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
+      apikey: this.supabaseKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
     });
 
     return this.http.get<any>(`${this.getCleanBaseUrl()}/user`, { headers });
@@ -78,10 +87,14 @@ export class AuthService {
   logOut(): Observable<any> {
     const token = this.getToken();
     const headers = new HttpHeaders({
-      'apikey': this.supabaseKey,
-      'Authorization': `Bearer ${token}`
+      apikey: this.supabaseKey,
+      Authorization: `Bearer ${token}`,
     });
-    return this.http.post<any>(`${this.getCleanBaseUrl()}/logout`, {}, { headers });
+    return this.http.post<any>(
+      `${this.getCleanBaseUrl()}/logout`,
+      {},
+      { headers },
+    );
   }
 
   clearData(): void {
@@ -97,19 +110,27 @@ export class AuthService {
 
   forgotPassword(email: string): Observable<any> {
     const headers = new HttpHeaders({
-      'apikey': this.supabaseKey,
+      apikey: this.supabaseKey,
       'Content-Type': 'application/json',
-      'Redirect-To': 'http://localhost:4200/reset-password' 
+      'Redirect-To': 'http://localhost:4200/reset-password',
     });
-    return this.http.post<any>(`${this.getCleanBaseUrl()}/recover`, { email }, { headers });
+    return this.http.post<any>(
+      `${this.getCleanBaseUrl()}/recover`,
+      { email },
+      { headers },
+    );
   }
 
   updatePassword(password: string, accessToken: string): Observable<any> {
     const headers = new HttpHeaders({
-      'apikey': this.supabaseKey,
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json'
+      apikey: this.supabaseKey,
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     });
-    return this.http.put<any>(`${this.getCleanBaseUrl()}/user`, { password }, { headers });
+    return this.http.put<any>(
+      `${this.getCleanBaseUrl()}/user`,
+      { password },
+      { headers },
+    );
   }
 }

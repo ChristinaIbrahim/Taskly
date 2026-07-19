@@ -1,29 +1,32 @@
 <div class="flex flex-col w-full text-left gap-1">
-
   @if (label) {
-    <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+    <label
+      class="text-[11px] font-bold text-slate-500 uppercase tracking-wider"
+    >
       {{ label }}
       @if (isOptional) {
         <span class="text-[#737685] text-[10px] lowercase">(optional)</span>
       }
     </label>
   }
-  
+
   <div class="w-full relative flex items-center">
-    <input 
-      [type]="inputType" 
-      [placeholder]="placeholder" 
+    <input
+      [type]="inputType"
+      [placeholder]="placeholder"
       [formControl]="fieldControl"
-      [attr.autocomplete]="fieldType === 'password' ? 'new-password' : 'none'" 
+      [attr.autocomplete]="fieldType === 'password' ? 'new-password' : 'none'"
       class="w-full pl-4 pr-11 py-2.5 bg-[#D7E2FF] text-slate-800 placeholder-slate-400 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border-none"
       [class.!ring-2]="errorMessage"
-      [class.!ring-red-500]="errorMessage">
-        
+      [class.!ring-red-500]="errorMessage"
+    />
+
     @if (showPasswordToggle) {
-      <button 
-        type="button" 
-        class="absolute right-4 top-[60%] -translate-y-1/2 w-[22px] h-[24px] flex items-center justify-center text-[#737685] hover:text-slate-600 transition-colors focus:outline-none" 
-        (click)="toggleVisibility()">
+      <button
+        type="button"
+        class="absolute right-4 top-[60%] -translate-y-1/2 w-[22px] h-[24px] flex items-center justify-center text-[#737685] hover:text-slate-600 transition-colors focus:outline-none"
+        (click)="toggleVisibility()"
+      >
         @if (isVisible) {
           <svg app-icon="hide" class="w-full h-full text-[#737685]"></svg>
         } @else {
@@ -44,5 +47,4 @@
       {{ hint }}
     </span>
   }
-
 </div>

@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './navbar.component.html'
+  templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
   user: { name: string; job_title: string } | null = null;
@@ -20,14 +20,14 @@ export class NavbarComponent implements OnInit {
         if (response && response.user_metadata) {
           this.user = {
             name: response.user_metadata.full_name || 'User',
-            job_title: response.user_metadata.job_title || 'Team Member'
+            job_title: response.user_metadata.job_title || 'Team Member',
           };
           this.avatarInitials = this.getInitials(this.user.name);
         }
       },
       error: (err) => {
         console.error('Failed to load user data:', err);
-      }
+      },
     });
   }
 
@@ -35,8 +35,8 @@ export class NavbarComponent implements OnInit {
     if (!name) return 'US';
     const parts = name.trim().split(' ');
     if (parts.length >= 2) {
-      return (parts[0][0] + parts[1][0]).toUpperCase(); 
+      return (parts[0][0] + parts[1][0]).toUpperCase();
     }
-    return name.slice(0, 2).toUpperCase(); 
+    return name.slice(0, 2).toUpperCase();
   }
 }

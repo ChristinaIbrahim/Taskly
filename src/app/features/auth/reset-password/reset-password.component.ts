@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AppIconsDirective } from '../../../shared/directives/app-icons.directive'; 
+import { AppIconsDirective } from '../../../shared/directives/app-icons.directive';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
 import { AuthContainerComponent } from '../../../shared/components/auth-container/auth-container.component';
 import { environment } from '../../../../environments/environment';
@@ -12,15 +17,15 @@ import { environment } from '../../../../environments/environment';
   selector: 'app-reset-password',
   standalone: true,
   imports: [
-    CommonModule, 
-    ReactiveFormsModule, 
-    RouterLink, 
-    AppIconsDirective, 
-    FormFieldComponent, 
-    AuthContainerComponent
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    AppIconsDirective,
+    FormFieldComponent,
+    AuthContainerComponent,
   ],
   templateUrl: './reset-password.component.html',
-  styleUrl: './reset-password.component.css'
+  styleUrl: './reset-password.component.css',
 })
 export class ResetPasswordComponent implements OnInit {
   resetForm!: FormGroup;
@@ -35,7 +40,7 @@ export class ResetPasswordComponent implements OnInit {
     uppercase: false,
     lowercase: false,
     digit: false,
-    special: false
+    special: false,
   };
 
   private baseUrl = environment.supabaseUrl;
@@ -45,7 +50,7 @@ export class ResetPasswordComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
 
   ngOnInit(): void {
@@ -54,23 +59,31 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   initForm(): void {
-    this.resetForm = this.fb.group({
-      password: ['', [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(64),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,64}$/)
-      ]],
-      confirmPassword: ['', [Validators.required]]
-    }, { validators: this.passwordMatchValidator });
+    this.resetForm = this.fb.group(
+      {
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(64),
+            Validators.pattern(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,64}$/,
+            ),
+          ],
+        ],
+        confirmPassword: ['', [Validators.required]],
+      },
+      { validators: this.passwordMatchValidator },
+    );
 
-    this.resetForm.get('password')?.valueChanges.subscribe(value => {
+    this.resetForm.get('password')?.valueChanges.subscribe((value) => {
       this.checkPasswordRequirements(value || '');
     });
   }
 
   extractTokenFromUrl(): void {
-    this.route.fragment.subscribe(fragment => {
+    this.route.fragment.subscribe((fragment) => {
       if (fragment) {
         const params = new URLSearchParams(fragment);
         const token = params.get('access_token');
@@ -84,7 +97,9 @@ export class ResetPasswordComponent implements OnInit {
 
       const currentHash = window.location.hash;
       if (currentHash) {
-        const cleanHash = currentHash.startsWith('#') ? currentHash.substring(1) : currentHash;
+        const cleanHash = currentHash.startsWith('#')
+          ? currentHash.substring(1)
+          : currentHash;
         const params = new URLSearchParams(cleanHash);
         const token = params.get('access_token');
 
@@ -95,8 +110,9 @@ export class ResetPasswordComponent implements OnInit {
         }
       }
 
-      const queryToken = this.route.snapshot.queryParamMap.get('access_token') || 
-                         this.route.snapshot.queryParamMap.get('token');
+      const queryToken =
+        this.route.snapshot.queryParamMap.get('access_token') ||
+        this.route.snapshot.queryParamMap.get('token');
       if (queryToken) {
         this.accessToken = queryToken;
         this.errorMessage = null;
@@ -109,11 +125,13 @@ export class ResetPasswordComponent implements OnInit {
 
   passwordMatchValidator(g: FormGroup) {
     return g.get('password')?.value === g.get('confirmPassword')?.value
-      ? null : { mismatch: true };
+      ? null
+      : { mismatch: true };
   }
 
   checkPasswordRequirements(password: string): void {
-    this.passwordRequirements.length = password.length >= 8 && password.length <= 64;
+    this.passwordRequirements.length =
+      password.length >= 8 && password.length <= 64;
     this.passwordRequirements.uppercase = /[A-Z]/.test(password);
     this.passwordRequirements.lowercase = /[a-z]/.test(password);
     this.passwordRequirements.digit = /\d/.test(password);
@@ -131,14 +149,16 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     this.isLoading = true;
-    
-    const formattedBaseUrl = this.baseUrl.endsWith('/') ? this.baseUrl : `${this.baseUrl}/`;
+
+    const formattedBaseUrl = this.baseUrl.endsWith('/')
+      ? this.baseUrl
+      : `${this.baseUrl}/`;
     const url = `${formattedBaseUrl}auth/v1/user`;
-    
+
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.accessToken}`,
-      'apikey': this.apiKey,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${this.accessToken}`,
+      apikey: this.apiKey,
+      'Content-Type': 'application/json',
     });
 
     const body = { password: this.resetForm.value.password };
@@ -146,16 +166,20 @@ export class ResetPasswordComponent implements OnInit {
     this.http.put(url, body, { headers }).subscribe({
       next: () => {
         this.isLoading = false;
-        this.successMessage = 'Your password has been updated successfully. You can now log in';
-        
+        this.successMessage =
+          'Your password has been updated successfully. You can now log in';
+
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 3000);
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.msg || err.error?.message || 'An error occurred while updating your password.';
-      }
+        this.errorMessage =
+          err.error?.msg ||
+          err.error?.message ||
+          'An error occurred while updating your password.';
+      },
     });
   }
 }

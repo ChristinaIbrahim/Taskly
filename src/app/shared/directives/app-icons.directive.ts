@@ -1,9 +1,14 @@
-
-import { Directive, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { IconName, ICONS_MAP } from './app-icons.registry'; 
+import {
+  Directive,
+  ElementRef,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
+import { IconName, ICONS_MAP } from './app-icons.registry';
 @Directive({
   selector: 'svg[app-icon]',
-  standalone: true
+  standalone: true,
 })
 export class AppIconsDirective implements OnChanges {
   @Input('app-icon') iconName!: IconName;
@@ -22,7 +27,7 @@ export class AppIconsDirective implements OnChanges {
 
     if (icon) {
       svg.setAttribute('viewBox', icon.viewBox);
-      svg.setAttribute('fill', 'none'); 
+      svg.setAttribute('fill', 'none');
       svg.innerHTML = icon.path;
     } else {
     }

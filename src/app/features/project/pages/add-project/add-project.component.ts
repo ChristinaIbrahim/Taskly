@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { ProjectService } from '../../project.service';
 import { AppIconsDirective } from '../../../../shared/directives/app-icons.directive';
@@ -8,14 +13,9 @@ import { AppIconsDirective } from '../../../../shared/directives/app-icons.direc
 @Component({
   selector: 'app-add-project',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
-    AppIconsDirective
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, AppIconsDirective],
   templateUrl: './add-project.component.html',
-  styleUrls: ['./add-project.component.css']
+  styleUrls: ['./add-project.component.css'],
 })
 export class AddProjectComponent implements OnInit {
   projectForm!: FormGroup;
@@ -26,13 +26,20 @@ export class AddProjectComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private projectService: ProjectService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     this.projectForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      description: ['', [Validators.maxLength(500)]]
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50),
+        ],
+      ],
+      description: ['', [Validators.maxLength(500)]],
     });
   }
 
@@ -43,11 +50,13 @@ export class AddProjectComponent implements OnInit {
   getErrorMessage(controlName: string): string {
     const control = this.projectForm.get(controlName);
     if (!control || !control.touched || !control.errors) return '';
-    
+
     if (control.errors['required']) return 'This field is required.';
-    if (control.errors['minlength']) return `Must be at least ${control.errors['minlength'].requiredLength} characters.`;
-    if (control.errors['maxlength']) return `Cannot exceed ${control.errors['maxlength'].requiredLength} characters.`;
-    
+    if (control.errors['minlength'])
+      return `Must be at least ${control.errors['minlength'].requiredLength} characters.`;
+    if (control.errors['maxlength'])
+      return `Cannot exceed ${control.errors['maxlength'].requiredLength} characters.`;
+
     return '';
   }
 
@@ -72,8 +81,11 @@ export class AddProjectComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.message || err.message || 'Failed to create project. Please try again.';
-      }
+        this.errorMessage =
+          err.error?.message ||
+          err.message ||
+          'Failed to create project. Please try again.';
+      },
     });
   }
 }

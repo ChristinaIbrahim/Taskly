@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service'; 
+import { AuthService } from '../../../core/services/auth.service';
 import { AuthContainerComponent } from '../../../shared/components/auth-container/auth-container.component';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
 import { RouterLink } from '@angular/router';
@@ -11,15 +16,15 @@ import { RouterLink } from '@angular/router';
   selector: 'app-login',
   standalone: true,
   imports: [
-    CommonModule,         
-    ReactiveFormsModule,   
-    RouterModule,         
-    AuthContainerComponent, 
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    AuthContainerComponent,
     FormFieldComponent,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
@@ -29,12 +34,15 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
     // 👈 السطور السحرية هنا: لو الرابط جاي من الإيميل وفيه توكن إعادة التعيين
-    if (window.location.hash && window.location.hash.includes('access_token=')) {
+    if (
+      window.location.hash &&
+      window.location.hash.includes('access_token=')
+    ) {
       const currentHash = window.location.hash;
       // بنعمل إعادة توجيه فورية لصفحة الـ reset-password وبنمرر معاها الـ Hash كاملاً
       this.router.navigateByUrl(`/reset-password${currentHash}`);
@@ -42,7 +50,7 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/projects']); 
+      this.router.navigate(['/projects']);
       return;
     }
     this.initForm();
@@ -50,15 +58,15 @@ export class LoginComponent implements OnInit {
 
   private initForm() {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]], 
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      rememberMe: [false] 
+      rememberMe: [false],
     });
   }
 
   onSubmit() {
     if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched(); 
+      this.loginForm.markAllAsTouched();
       return;
     }
 
@@ -73,7 +81,7 @@ export class LoginComponent implements OnInit {
         if (response && response.access_token) {
           this.authService.saveToken(response.access_token, rememberMe);
           console.log('Login successful!', response);
-          this.router.navigate(['/projects']); 
+          this.router.navigate(['/projects']);
         } else {
           this.errorMessage = 'Unexpected response from server.';
         }
@@ -84,9 +92,10 @@ export class LoginComponent implements OnInit {
         if (err.status === 400 || err.status === 401 || err.status === 403) {
           this.errorMessage = 'Invalid email or password. Please try again.';
         } else {
-          this.errorMessage = 'Something went wrong. Please check your connection or try again later.';
+          this.errorMessage =
+            'Something went wrong. Please check your connection or try again later.';
         }
-      }
+      },
     });
   }
 }
