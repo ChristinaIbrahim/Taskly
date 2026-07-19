@@ -7,7 +7,7 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'sign-up',
+    path: '',
     loadComponent: () => import('./features/auth/signup/signup.component').then(m => m.SignupComponent)
   },
   {
