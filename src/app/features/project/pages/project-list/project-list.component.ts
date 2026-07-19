@@ -3,11 +3,11 @@ import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { CardProjectComponent } from '../../components/card-project/card-project.component';
 import { ProjectService } from '../../project.service';
-
+import { EmptyProjectsComponent } from '../../components/empty-projects/empty-projects.component';
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [RouterLink, CardProjectComponent, CommonModule],
+  imports: [RouterLink, CardProjectComponent, CommonModule , EmptyProjectsComponent],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.css',
 })

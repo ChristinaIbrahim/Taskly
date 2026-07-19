@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.authService.getUserData().subscribe({
+    this.authService.user$.subscribe({
       next: (response: any) => {
         if (response && response.user_metadata) {
           this.user = {
@@ -23,12 +23,17 @@ export class NavbarComponent implements OnInit {
             job_title: response.user_metadata.job_title || 'Team Member',
           };
           this.avatarInitials = this.getInitials(this.user.name);
+        } else {
+          this.user = null;
+          this.avatarInitials = '';
         }
       },
       error: (err) => {
-        console.error('Failed to load user data:', err);
+        console.error('Failed to update navbar data:', err);
       },
     });
+
+    this.authService.getUserData().subscribe();
   }
 
   getInitials(name: string): string {

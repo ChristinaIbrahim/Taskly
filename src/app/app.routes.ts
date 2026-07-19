@@ -29,7 +29,7 @@ export const routes: Routes = [
     children: [
       
       {
-      path: 'projects',
+      path: 'project',
       loadChildren: () => import('./features/project/project.routes').then(m => m.routes)
     } 
     ]

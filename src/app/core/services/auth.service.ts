@@ -1,136 +1,63 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private userSubject = new BehaviorSubject<any>(null);
+  user$ = this.userSubject.asObservable();
+
   private getCleanBaseUrl(): string {
-    const url = environment.supabaseUrl.endsWith('/')
-      ? environment.supabaseUrl
-      : `${environment.supabaseUrl}/`;
+    const url = environment.supabaseUrl.endsWith('/') ? environment.supabaseUrl : `${environment.supabaseUrl}/`;
     return `${url}auth/v1`;
   }
 
   private supabaseKey = environment.supabase_api_key;
-  private dbUrl = `${environment.supabaseUrl.endsWith('/') ? environment.supabaseUrl : environment.supabaseUrl + '/'}rest/v1/projects`;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(loginData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      apikey: this.supabaseKey,
-      'Content-Type': 'application/json',
-    });
-
-    const body = {
-      email: loginData.email,
-      password: loginData.password,
-    };
-
-    return this.http.post<any>(
-      `${this.getCleanBaseUrl()}/token?grant_type=password`,
-      body,
-      { headers },
-    );
+    const headers = new HttpHeaders({ apikey: this.supabaseKey, 'Content-Type': 'application/json' });
+    return this.http.post<any>(`${this.getCleanBaseUrl()}/token?grant_type=password`, { email: loginData.email, password: loginData.password }, { headers });
   }
 
   signUp(signUpData: any): Observable<any> {
-    const headers = new HttpHeaders({
-      apikey: this.supabaseKey,
-      'Content-Type': 'application/json',
-    });
-
-    const body = {
-      email: signUpData.email,
-      password: signUpData.password,
-      data: {
-        full_name: signUpData.name,
-        job_title: signUpData.jobTitle,
-      },
-    };
-
-    return this.http.post<any>(`${this.getCleanBaseUrl()}/signup`, body, {
-      headers,
-    });
+    const headers = new HttpHeaders({ apikey: this.supabaseKey, 'Content-Type': 'application/json' });
+    const body = { email: signUpData.email, password: signUpData.password, data: { full_name: signUpData.name, job_title: signUpData.jobTitle } };
+    return this.http.post<any>(`${this.getCleanBaseUrl()}/signup`, body, { headers });
   }
 
   getUserData(): Observable<any> {
     const token = this.getToken();
-    const headers = new HttpHeaders({
-      apikey: this.supabaseKey,
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.get<any>(`${this.getCleanBaseUrl()}/user`, { headers });
+    const headers = new HttpHeaders({ apikey: this.supabaseKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' });
+    return this.http.get<any>(`${this.getCleanBaseUrl()}/user`, { headers }).pipe(
+      tap(user => this.userSubject.next(user))
+    );
   }
 
-  saveToken(token: string, rememberMe: boolean): void {
-    if (rememberMe) {
-      localStorage.setItem('token', token);
-    } else {
-      sessionStorage.setItem('token', token);
-    }
+  saveToken(token: string): void {
+    localStorage.setItem('token', token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token') || sessionStorage.getItem('token');
+    return localStorage.getItem('token');
   }
 
   logOut(): Observable<any> {
-    const token = this.getToken();
-    const headers = new HttpHeaders({
-      apikey: this.supabaseKey,
-      Authorization: `Bearer ${token}`,
-    });
-    return this.http.post<any>(
-      `${this.getCleanBaseUrl()}/logout`,
-      {},
-      { headers },
-    );
+    const headers = new HttpHeaders({ apikey: this.supabaseKey, Authorization: `Bearer ${this.getToken()}` });
+    return this.http.post<any>(`${this.getCleanBaseUrl()}/logout`, {}, { headers });
   }
 
   clearData(): void {
     localStorage.removeItem('token');
-    sessionStorage.removeItem('token');
     localStorage.clear();
-    sessionStorage.clear();
   }
 
   isLoggedIn(): boolean {
     return !!this.getToken();
-  }
-
-  forgotPassword(email: string): Observable<any> {
-    const headers = new HttpHeaders({
-      apikey: this.supabaseKey,
-      'Content-Type': 'application/json',
-      'Redirect-To': 'http://localhost:4200/reset-password',
-    });
-    return this.http.post<any>(
-      `${this.getCleanBaseUrl()}/recover`,
-      { email },
-      { headers },
-    );
-  }
-
-  updatePassword(password: string, accessToken: string): Observable<any> {
-    const headers = new HttpHeaders({
-      apikey: this.supabaseKey,
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    });
-    return this.http.put<any>(
-      `${this.getCleanBaseUrl()}/user`,
-      { password },
-      { headers },
-    );
   }
 }

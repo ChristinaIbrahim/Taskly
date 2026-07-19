@@ -1,35 +1,23 @@
-<div
-  class="flex flex-col items-center justify-center min-h-[400px] bg-white border border-gray-100 rounded-2xl p-8 text-center shadow-sm"
->
-  <div
-    class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-4"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke-width="1.5"
-      stroke="currentColor"
-      class="w-8 h-8"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M2.25 12.75V12A2.25 2.25 0 0 1 4.5 9.75h15A2.25 2.25 0 0 1 21.75 12v.75m-8.69-6.44-2.12-2.12a1.5 1.5 0 0 0-1.061-.44H4.5A2.25 2.25 0 0 0 2.25 6v12a2.25 2.25 0 0 0 2.25 2.25h15A2.25 2.25 0 0 0 21.75 18V9a2.25 2.25 0 0 0-2.25-2.25h-5.379a1.5 1.5 0 0 1-1.06-.44Z"
-      />
-    </svg>
+<div class="flex flex-col items-center justify-center min-h-[400px] p-8 text-center">
+  
+  <div class="mb-6">
+    <img src="assets/Abstract_Kinetic.svg" class="w-64 h-64" alt="No projects illustration" />
   </div>
 
-  <h3 class="text-xl font-bold text-[#0A192F]">No projects found</h3>
-  <p class="text-gray-500 text-sm mt-2 max-w-sm leading-relaxed">
-    You haven't created any projects yet. Get started by creating your first
-    project now.
+  <h3 class="text-2xl font-bold text-[#0A192F]">No Projects</h3>
+  <p class="text-gray-500 text-sm mt-3 max-w-xs leading-relaxed">
+    You don’t have any projects yet. Start by defining your first architectural workspace to begin tracking tasks and epics.
   </p>
 
   <a
-    routerLink="add"
-    class="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg font-medium shadow-sm transition-colors flex items-center gap-2"
+    routerLink="/add-project"
+    class="mt-8 bg-[#0052CC] hover:bg-[#0047b3] text-white px-6 py-3 rounded-lg font-medium shadow-md transition-all flex items-center gap-2"
   >
-    <span>Create Your First Project</span>
+    <div class="w-6 h-6 rounded-full border-2 border-white/50  flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+      </svg>
+    </div>
+    <span>Create New Project</span>
   </a>
 </div>

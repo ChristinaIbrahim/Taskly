@@ -33,6 +33,7 @@ export class SignupComponent implements OnInit {
   errorMessage = '';
   isLoading = false;
   isSuccess = false; 
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -83,16 +84,28 @@ export class SignupComponent implements OnInit {
       return;
     }
 
+    const { confirmPassword, ...signUpData } = this.signupForm.value;
     this.isLoading = true;
-    this.authService.signUp(this.signupForm.value).subscribe({
-      next: () => {
+
+    this.authService.signUp(signUpData).subscribe({
+      next: (res: any) => {
+        if (res && res.access_token) {
+          // استخدام دالة واحدة فقط كما هو متوقع في الخدمة الحالية
+          this.authService.saveToken(res.access_token);
+        }
+        
         this.isLoading = false;
         this.isSuccess = true; 
+        
+        this.authService.getUserData().subscribe();
+
         setTimeout(() => {
-          this.router.navigate(['/projects']); 
+          // تم تعديل المسار هنا ليطابق 'project' كما في app.routes.ts
+          this.router.navigate(['/project']); 
         }, 3000);
       },
-      error: (err) => {
+      // تم إضافة نوع 'any' لحل خطأ TS7006
+      error: (err: any) => {
         this.isLoading = false;
         this.errorMessage = err.error?.message || 'Signup failed.';
       },

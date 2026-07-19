@@ -38,15 +38,13 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 👈 السطور السحرية هنا: لو الرابط جاي من الإيميل وفيه توكن إعادة التعيين
     if (
       window.location.hash &&
       window.location.hash.includes('access_token=')
     ) {
       const currentHash = window.location.hash;
-      // بنعمل إعادة توجيه فورية لصفحة الـ reset-password وبنمرر معاها الـ Hash كاملاً
       this.router.navigateByUrl(`/reset-password${currentHash}`);
-      return; // بنوقف تنفيذ دالة الـ ngOnInit عشان ما يكملش تحميل اللوجين
+      return;
     }
 
     if (this.authService.isLoggedIn()) {
@@ -73,20 +71,22 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = null;
 
-    const { email, password, rememberMe } = this.loginForm.value;
+    const { email, password } = this.loginForm.value;
 
     this.authService.login({ email, password }).subscribe({
       next: (response: any) => {
         this.isLoading = false;
         if (response && response.access_token) {
-          this.authService.saveToken(response.access_token, rememberMe);
+          // تم تعديلها لتأخذ وسيطاً واحداً فقط كما تم تحديثه في AuthService
+          this.authService.saveToken(response.access_token);
           console.log('Login successful!', response);
-          this.router.navigate(['/projects']);
+          this.router.navigate(['/project']);
         } else {
           this.errorMessage = 'Unexpected response from server.';
         }
       },
-      error: (err) => {
+      // تم إضافة نوع 'any' لحل خطأ TS7006
+      error: (err: any) => {
         this.isLoading = false;
         console.error('Login failed', err);
         if (err.status === 400 || err.status === 401 || err.status === 403) {
