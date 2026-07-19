@@ -1,84 +1,48 @@
-<div class="p-6 max-w-7xl mx-auto">
-  <header class="flex justify-between items-center mb-8">
-   
+<div class="p-8 max-w-7xl mx-auto">
+  <header class="flex justify-between items-end mb-8">
+    <div>
+      <h1 class="text-3xl font-bold text-[#0A192F]">Projects</h1>
+      <p class="text-slate-500 mt-1">Manage and curate your projects</p>
+    </div>
+    <a routerLink="add" class="bg-[#0052CC] hover:bg-[#0043a8] text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all shadow-sm">
+      <span>+</span> Create New Project
+    </a>
   </header>
 
-  @if (isLoading && projects.length === 0) {
-    <div class="flex flex-col items-center justify-center py-20">
-      <div class="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-      <p class="text-slate-500 text-sm mt-3 font-medium">Loading projects...</p>
-    </div>
-  }
+  <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    
+    @for (project of projects; track project.id) {
+      <app-card-project [project]="project"></app-card-project>
+    }
 
-  @if (isError) {
-    <div class="p-4 bg-red-50 border border-red-100 rounded-xl text-center text-red-600 text-sm my-6 font-semibold">
-      Failed to load projects. Please try again.
-    </div>
-  }
+   <a
+  routerLink="add"
+  class="border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center min-h-[220px] hover:border-blue-400 hover:bg-slate-50 transition-all p-6 text-center group"
+    >
+  <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-black-500 shadow-sm border border-slate-500 group-hover:scale-110 group-hover:shadow-md transition-all duration-300 mb-4">
+    <span class="text-2xl font-bold text-[]">+</span>
+  </div>
+  
+  <span class="text-sm font-bold uppercase tracking-widest text-slate-500 group-hover:text-blue-600">Add Project</span>
+</a>
+  </section>
 
-  @if (!isError && (projects.length > 0 || isLoading)) {
-    <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-      @for (project of projects; track project.id) {
-        <app-card-project [project]="project"></app-card-project>
-      }
-
-      <a
-        routerLink="add"
-        class="border-2 border-dashed border-slate-200 rounded-xl flex flex-col items-center justify-center min-h-[200px] hover:border-blue-500 hover:bg-slate-50 transition-all p-6 text-center group"
-      >
-        <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600 mb-2">
-          <span class="text-xl font-bold">+</span>
-        </div>
-        <span class="text-xs font-bold uppercase tracking-wider text-slate-400 group-hover:text-blue-600">Add Project</span>
-      </a>
-    </section>
-  }
-
-  @if (!isLoading && !isError && projects.length === 0) {
-    <app-empty-projects></app-empty-projects>
-  }
-
-  @if (isLoading && projects.length > 0 && isMobile) {
-    <div class="flex justify-center py-6">
-      <div class="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-    </div>
-  }
-
-  @if (!isMobile && projects.length > 0) {
-    <div class="flex items-center justify-between pt-8 mt-12">
+  @if (projects.length > 0) {
+    <div class="flex items-center justify-between pt-12 mt-12 border-t border-slate-100">
       <div class="text-sm text-slate-500 font-medium">
         Showing {{ projects.length }} of {{ totalCount }} active projects
       </div>
 
-      <div class="flex items-center gap-1.5">
-        <button
-          (click)="goToPage(currentPage - 1)"
-          [disabled]="currentPage === 1"
-          class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30 transition-all text-xs font-bold shadow-sm"
-        >
-          ‹
-        </button>
-
+      <div class="flex items-center gap-1">
+        <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50">‹</button>
+        
         @for (page of pagesArray; track page) {
-          <button
-            (click)="goToPage(page)"
-            [ngClass]="{
-              'bg-[#0052CC] text-white border-[#0052CC]': currentPage === page,
-              'bg-white text-slate-700 border-slate-200 hover:bg-slate-50': currentPage !== page
-            }"
-            class="w-9 h-9 flex items-center justify-center rounded-lg border text-xs font-bold transition-all shadow-sm"
-          >
+          <button (click)="goToPage(page)" [class.bg-[#0052CC]]="currentPage === page" [class.text-white]="currentPage === page" class="w-10 h-10 rounded-lg border border-slate-200 hover:bg-slate-50">
             {{ page }}
           </button>
         }
-
-        <button
-          (click)="goToPage(currentPage + 1)"
-          [disabled]="currentPage === totalPages || totalPages === 0"
-          class="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-400 hover:bg-slate-50 hover:text-slate-700 disabled:opacity-30 transition-all text-xs font-bold shadow-sm"
-        >
-          ›
-        </button>
+        
+        <button (click)="goToPage(currentPage + 1)" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50">›</button>
       </div>
     </div>
   }
