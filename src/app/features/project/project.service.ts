@@ -59,4 +59,36 @@ export class ProjectService {
       { headers },
     );
   }
+
+  getProjectById(id: string): Observable<any[]> {
+    const token = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      apikey: this.apiKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get<any[]>(
+      `${this.getCleanUrl('rest/v1/projects')}?id=eq.${id}`,
+      { headers }
+    );
+  }
+
+  updateProject(id: string, projectData: { name: string; description: string }): Observable<any> {
+    const token = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      apikey: this.apiKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation' 
+    });
+
+    return this.http.patch<any>(
+      `${this.getCleanUrl('rest/v1/projects')}?id=eq.${id}`,
+      projectData,
+      { headers }
+    );
+  }
 }
