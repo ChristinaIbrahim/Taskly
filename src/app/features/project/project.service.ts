@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../core/services/auth.service';
+import { ProjectMember } from './project.model'; 
 
 @Injectable({
   providedIn: 'root',
@@ -88,6 +89,21 @@ export class ProjectService {
     return this.http.patch<any>(
       `${this.getCleanUrl('rest/v1/projects')}?id=eq.${id}`,
       projectData,
+      { headers }
+    );
+  }
+
+  getProjectMembers(projectId: string): Observable<ProjectMember[]> {
+    const token = this.authService.getToken();
+
+    const headers = new HttpHeaders({
+      apikey: this.apiKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.get<ProjectMember[]>(
+      `${this.getCleanUrl('rest/v1/get_project_members')}?project_id=eq.${projectId}`,
       { headers }
     );
   }
