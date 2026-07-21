@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
-
-import { ReactiveFormsModule } from '@angular/forms';
-import { AppIconsDirective } from '../../directives/app-icons.directive';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-form-field',
   standalone: true,
-  imports: [ReactiveFormsModule, AppIconsDirective],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.css',
 })
@@ -17,7 +16,7 @@ export class FormFieldComponent {
   @Input() errorMessage = '';
   @Input() isOptional = false;
   @Input() hint = '';
-  @Input() fieldControl!: any;
+  @Input() fieldControl: FormControl = new FormControl('');
   @Input() showPasswordToggle = false;
 
   isVisible = false;
@@ -27,6 +26,11 @@ export class FormFieldComponent {
       return this.fieldType;
     }
     return this.isVisible ? 'text' : 'password';
+  }
+
+  get fieldId(): string {
+    if (!this.label) return 'field-input';
+    return 'field-' + this.label.toLowerCase().trim().replace(/\s+/g, '-');
   }
 
   toggleVisibility(): void {

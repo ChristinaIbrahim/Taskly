@@ -70,11 +70,13 @@
           >
             <div>
               <label
+                for="new-project-title"
                 class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2"
               >
                 Project Title <span class="text-red-500">*</span>
               </label>
               <input
+                id="new-project-title"
                 type="text"
                 formControlName="name"
                 placeholder="e.g. Website Redesign"
@@ -112,6 +114,7 @@
             <div>
               <div class="flex justify-between items-center mb-2">
                 <label
+                  for="new-project-description"
                   class="block text-xs font-bold uppercase tracking-wider text-gray-400"
                 >
                   Description
@@ -119,6 +122,7 @@
                 <span class="text-xs text-gray-400 font-normal">Optional</span>
               </div>
               <textarea
+                id="new-project-description"
                 formControlName="description"
                 rows="5"
                 placeholder="Provide a high-level overview of the project's architectural objectives and key milestones..."

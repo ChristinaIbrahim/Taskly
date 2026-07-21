@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -30,21 +30,19 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./forget-password.component.scss'],
 })
 export class ForgetPasswordComponent implements OnInit, OnDestroy {
+  private fb = inject(FormBuilder);
+  private http = inject(HttpClient);
+
   forgotForm!: FormGroup;
   isLoading = false;
   isSubmittedSuccessfully = false;
   timeLeft = 300;
   timerDisplay = '05:00';
   resendTrials = 3;
-  timerSubscription!: Subscription;
+  timerSubscription?: Subscription;
 
   private baseUrl = environment.supabaseUrl;
   private apiKey = environment.supabase_api_key;
-
-  constructor(
-    private fb: FormBuilder,
-    private http: HttpClient,
-  ) {}
 
   ngOnInit(): void {
     this.forgotForm = this.fb.group({
@@ -70,13 +68,14 @@ export class ForgetPasswordComponent implements OnInit, OnDestroy {
       'Content-Type': 'application/json',
     });
 
-    const body = { email: this.forgotForm.value.email };
+    const body = { email: this.forgotForm.value.email as string };
 
     this.http.post(url, body, { headers }).subscribe({
       next: () => {
         this.handleSuccess();
       },
-      error: (error) => {
+      // 2️⃣ تحديد نوع الخطأ بـ unknown
+      error: (error: unknown) => {
         console.error('API Error:', error);
         this.handleSuccess();
       },

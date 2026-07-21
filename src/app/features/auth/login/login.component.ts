@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -6,11 +6,21 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 
-import { Router, RouterModule } from '@angular/router';
+import { Router, RouterModule, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { AuthContainerComponent } from '../../../shared/components/auth-container/auth-container.component';
 import { FormFieldComponent } from '../../../shared/components/form-field/form-field.component';
-import { RouterLink } from '@angular/router';
+
+export interface LoginResponse {
+  access_token?: string;
+  [key: string]: unknown;
+}
+
+export interface AuthError {
+  status?: number;
+  message?: string;
+  [key: string]: unknown;
+}
 
 @Component({
   selector: 'app-login',
@@ -20,21 +30,20 @@ import { RouterLink } from '@angular/router';
     RouterModule,
     AuthContainerComponent,
     FormFieldComponent,
-    RouterLink
-],
+    RouterLink,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
+  // 2️⃣ استبدال الـ constructor بـ inject()
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   loginForm!: FormGroup;
   errorMessage: string | null = null;
   isLoading = false;
-
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     if (
@@ -53,7 +62,7 @@ export class LoginComponent implements OnInit {
     this.initForm();
   }
 
-  private initForm() {
+  private initForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -61,7 +70,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
@@ -73,10 +82,11 @@ export class LoginComponent implements OnInit {
     const { email, password } = this.loginForm.value;
 
     this.authService.login({ email, password }).subscribe({
-      next: (response: any) => {
+      // 3️⃣ استبدال any بأنواع محددة أو unknown
+      next: (res: unknown) => {
+        const response = res as LoginResponse;
         this.isLoading = false;
         if (response && response.access_token) {
-          // تم تعديلها لتأخذ وسيطاً واحداً فقط كما تم تحديثه في AuthService
           this.authService.saveToken(response.access_token);
           console.log('Login successful!', response);
           this.router.navigate(['/project']);
@@ -84,11 +94,15 @@ export class LoginComponent implements OnInit {
           this.errorMessage = 'Unexpected response from server.';
         }
       },
-      // تم إضافة نوع 'any' لحل خطأ TS7006
-      error: (err: any) => {
+      error: (err: unknown) => {
+        const error = err as AuthError;
         this.isLoading = false;
-        console.error('Login failed', err);
-        if (err.status === 400 || err.status === 401 || err.status === 403) {
+        console.error('Login failed', error);
+        if (
+          error.status === 400 ||
+          error.status === 401 ||
+          error.status === 403
+        ) {
           this.errorMessage = 'Invalid email or password. Please try again.';
         } else {
           this.errorMessage =

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
@@ -19,19 +19,17 @@ import { ProjectMember } from '../../epics.model';
   styleUrl: './form-epic.component.css',
 })
 export class FormEpicComponent implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly epicsService = inject(EpicsService);
+
   projectId: string | null = null;
   epicForm!: FormGroup;
   members: ProjectMember[] = [];
   isLoadingMembers = true;
   isSubmitting = false;
   errorMessage: string | null = null;
-
-  constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private epicsService: EpicsService,
-  ) {}
 
   ngOnInit(): void {
     this.projectId =
@@ -73,7 +71,7 @@ export class FormEpicComponent implements OnInit {
 
   private futureDateValidator(
     control: AbstractControl,
-  ): Record<string, any> | null {
+  ): Record<string, boolean> | null {
     if (!control.value) return null;
 
     const today = new Date();

@@ -1,22 +1,35 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { CardProjectComponent } from '../../components/card-project/card-project.component';
 import { ProjectService } from '../../project.service';
 import { EmptyProjectsComponent } from '../../components/empty-projects/empty-projects.component';
+
+export interface Project {
+  id?: string | number;
+  name?: string;
+  description?: string;
+  [key: string]: unknown;
+}
+
+export interface ProjectsResponse {
+  body: Project[] | null;
+  headers: {
+    get(name: string): string | null;
+  };
+}
+
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [
-    RouterLink,
-    CardProjectComponent,
-    EmptyProjectsComponent
-],
+  imports: [RouterLink, CardProjectComponent, EmptyProjectsComponent],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.css',
 })
 export class ProjectListComponent implements OnInit {
-  projects: any[] = [];
+  private projectService = inject(ProjectService);
+
+  projects: Project[] = [];
   currentPage = 1;
   limit = 3;
   totalCount = 0;
@@ -26,15 +39,13 @@ export class ProjectListComponent implements OnInit {
   isError = false;
   isMobile = false;
 
-  constructor(private projectService: ProjectService) {}
-
   ngOnInit(): void {
     this.checkScreenSize();
     this.loadProjects();
   }
 
-  @HostListener('window:resize', ['$event'])
-  checkScreenSize() {
+  @HostListener('window:resize')
+  checkScreenSize(): void {
     this.isMobile = window.innerWidth < 768;
   }
 
@@ -47,7 +58,8 @@ export class ProjectListComponent implements OnInit {
     const offset = (this.currentPage - 1) * this.limit;
 
     this.projectService.getProjects(this.limit, offset).subscribe({
-      next: (response) => {
+      next: (res: unknown) => {
+        const response = res as ProjectsResponse;
         const data = response.body || [];
 
         if (append) {
@@ -72,7 +84,7 @@ export class ProjectListComponent implements OnInit {
 
         this.isLoading = false;
       },
-      error: (err) => {
+      error: (err: unknown) => {
         console.error(err);
         this.isError = true;
         this.isLoading = false;
@@ -80,8 +92,8 @@ export class ProjectListComponent implements OnInit {
     });
   }
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
     if (!this.isMobile || this.isLoading || this.currentPage >= this.totalPages)
       return;
 

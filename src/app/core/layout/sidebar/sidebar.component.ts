@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -12,14 +12,12 @@ import { filter, Subscription } from 'rxjs';
   templateUrl: './sidebar.component.html',
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
   isCollapsed = false;
   currentProjectId: string | null = null;
   private routerSubscription!: Subscription;
-
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.extractProjectId();

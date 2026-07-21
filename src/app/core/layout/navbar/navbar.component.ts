@@ -1,26 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
+  private readonly authService = inject(AuthService);
+
   user: { name: string; job_title: string } | null = null;
   avatarInitials = '';
 
-  constructor(private authService: AuthService) {}
-
   ngOnInit(): void {
     this.authService.user$.subscribe({
-      next: (response: any) => {
-        if (response && response.user_metadata) {
+      next: (response: Record<string, unknown> | null) => {
+        if (response && response['user_metadata']) {
+          const metadata = response['user_metadata'] as Record<string, string>;
           this.user = {
-            name: response.user_metadata.full_name || 'User',
-            job_title: response.user_metadata.job_title || 'Team Member',
+            name: metadata['full_name'] || 'User',
+            job_title: metadata['job_title'] || 'Team Member',
           };
           this.avatarInitials = this.getInitials(this.user.name);
         } else {

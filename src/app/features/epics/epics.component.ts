@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { EpicsService } from './epics.service';
 import { Epic } from './epics.model';
@@ -9,21 +10,19 @@ import { SkeltonComponent } from '../project/components/skelton/skelton.componen
 @Component({
   selector: 'app-epics',
   standalone: true,
-  imports: [RouterLink, CardEpicComponent, SkeltonComponent],
+  imports: [CommonModule, RouterLink, CardEpicComponent, SkeltonComponent],
   templateUrl: './epics.component.html',
   styleUrl: './epics.component.css',
 })
 export class EpicsComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly epicsService = inject(EpicsService);
+
   projectId: string | null = null;
   projectName = 'PROJECT NAME';
   epics: Epic[] = [];
   isLoading = true;
   errorMessage: string | null = null;
-
-  constructor(
-    private route: ActivatedRoute,
-    private epicsService: EpicsService,
-  ) {}
 
   ngOnInit(): void {
     this.projectId =

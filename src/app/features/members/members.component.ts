@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SkeltonComponent } from '../project/components/skelton/skelton.component';
@@ -13,15 +13,13 @@ import { ProjectService } from '../project/project.service';
   styleUrl: './members.component.css',
 })
 export class MembersComponent implements OnInit {
+  private readonly route = inject(ActivatedRoute);
+  private readonly projectService = inject(ProjectService);
+
   projectId: string | null = null;
   members: ProjectMember[] = [];
   isLoading = true;
   errorMessage: string | null = null;
-
-  constructor(
-    private route: ActivatedRoute,
-    private projectService: ProjectService,
-  ) {}
 
   ngOnInit(): void {
     this.projectId =

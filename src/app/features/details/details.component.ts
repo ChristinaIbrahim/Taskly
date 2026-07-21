@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {
   FormBuilder,
@@ -17,22 +17,19 @@ import { CommonModule } from '@angular/common';
   styleUrl: './details.component.css',
 })
 export class DetailsComponent implements OnInit {
-  projectForm: FormGroup;
-  projectId!: string;
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly fb = inject(FormBuilder);
+  private readonly projectService = inject(ProjectService);
+
+  projectForm: FormGroup = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    description: ['', [Validators.maxLength(500)]],
+  });
+
+  projectId = '';
   projectTitleForBreadcrumb = 'Loading...';
   isLoading = false;
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private fb: FormBuilder,
-    private projectService: ProjectService,
-  ) {
-    this.projectForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.maxLength(500)]],
-    });
-  }
 
   ngOnInit(): void {
     this.projectId = this.route.snapshot.paramMap.get('id') || '';
@@ -43,13 +40,13 @@ export class DetailsComponent implements OnInit {
 
     if (this.projectId) {
       this.projectService.getProjectById(this.projectId).subscribe({
-        next: (res: any[]) => {
+        next: (res: Record<string, unknown>[]) => {
           const project = res[0];
           if (project) {
-            this.projectTitleForBreadcrumb = project.name;
+            this.projectTitleForBreadcrumb = String(project['name'] || '');
             this.projectForm.patchValue({
-              name: project.name,
-              description: project.description || '',
+              name: project['name'],
+              description: project['description'] || '',
             });
 
             this.projectForm.get('name')?.valueChanges.subscribe((value) => {

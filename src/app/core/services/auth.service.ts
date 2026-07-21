@@ -1,15 +1,34 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
+
+export interface UserProfile {
+  id?: string;
+  email?: string;
+  [key: string]: unknown;
+}
+
+export interface AuthCredentials {
+  email?: string;
+  password?: string;
+  name?: string;
+  jobTitle?: string;
+  [key: string]: unknown;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private userSubject = new BehaviorSubject<any>(null);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+
+  private userSubject = new BehaviorSubject<UserProfile | null>(null);
   user$ = this.userSubject.asObservable();
+
+  private supabaseKey = environment.supabase_api_key;
 
   private getCleanBaseUrl(): string {
     const url = environment.supabaseUrl.endsWith('/')
@@ -18,26 +37,19 @@ export class AuthService {
     return `${url}auth/v1`;
   }
 
-  private supabaseKey = environment.supabase_api_key;
-
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) {}
-
-  login(loginData: any): Observable<any> {
+  login(loginData: AuthCredentials): Observable<unknown> {
     const headers = new HttpHeaders({
       apikey: this.supabaseKey,
       'Content-Type': 'application/json',
     });
-    return this.http.post<any>(
+    return this.http.post<unknown>(
       `${this.getCleanBaseUrl()}/token?grant_type=password`,
       { email: loginData.email, password: loginData.password },
       { headers },
     );
   }
 
-  signUp(signUpData: any): Observable<any> {
+  signUp(signUpData: AuthCredentials): Observable<unknown> {
     const headers = new HttpHeaders({
       apikey: this.supabaseKey,
       'Content-Type': 'application/json',
@@ -47,20 +59,20 @@ export class AuthService {
       password: signUpData.password,
       data: { full_name: signUpData.name, job_title: signUpData.jobTitle },
     };
-    return this.http.post<any>(`${this.getCleanBaseUrl()}/signup`, body, {
+    return this.http.post<unknown>(`${this.getCleanBaseUrl()}/signup`, body, {
       headers,
     });
   }
 
-  getUserData(): Observable<any> {
+  getUserData(): Observable<UserProfile> {
     const token = this.getToken();
     const headers = new HttpHeaders({
       apikey: this.supabaseKey,
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token ?? ''}`,
       'Content-Type': 'application/json',
     });
     return this.http
-      .get<any>(`${this.getCleanBaseUrl()}/user`, { headers })
+      .get<UserProfile>(`${this.getCleanBaseUrl()}/user`, { headers })
       .pipe(tap((user) => this.userSubject.next(user)));
   }
 
@@ -72,12 +84,12 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  logOut(): Observable<any> {
+  logOut(): Observable<unknown> {
     const headers = new HttpHeaders({
       apikey: this.supabaseKey,
-      Authorization: `Bearer ${this.getToken()}`,
+      Authorization: `Bearer ${this.getToken() ?? ''}`,
     });
-    return this.http.post<any>(
+    return this.http.post<unknown>(
       `${this.getCleanBaseUrl()}/logout`,
       {},
       { headers },

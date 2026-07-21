@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Epic, ProjectMember } from './epics.model';
@@ -8,10 +8,10 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root',
 })
 export class EpicsService {
+  private readonly http = inject(HttpClient);
+
   private baseUrl = environment.supabaseUrl;
   private apiKey = environment.supabase_api_key;
-
-  constructor(private http: HttpClient) {}
 
   private getCleanUrl(endpoint: string): string {
     const url = this.baseUrl.endsWith('/') ? this.baseUrl : `${this.baseUrl}/`;
@@ -40,9 +40,11 @@ export class EpicsService {
     );
   }
 
-  createEpic(epicData: Partial<Epic>): Observable<any> {
-    return this.http.post(this.getCleanUrl('rest/v1/epics'), epicData, {
-      headers: this.getHeaders(),
-    });
+  createEpic(epicData: Partial<Epic>): Observable<Record<string, unknown>> {
+    return this.http.post<Record<string, unknown>>(
+      this.getCleanUrl('rest/v1/epics'),
+      epicData,
+      { headers: this.getHeaders() },
+    );
   }
 }

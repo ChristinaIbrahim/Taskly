@@ -10,5 +10,5 @@ import { RouterLink } from '@angular/router';
   styleUrl: './card-project.component.css',
 })
 export class CardProjectComponent {
-  @Input() project: any;
+  @Input() project: Record<string, unknown> | null = null;
 }

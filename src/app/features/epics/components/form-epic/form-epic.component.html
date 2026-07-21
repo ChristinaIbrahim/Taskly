@@ -5,161 +5,164 @@
         [routerLink]="['/project', projectId, 'epics']"
         class="hover:text-[#003D9B] hover:underline transition-all cursor-pointer"
         >EPICS</a
-        >
-        &gt;
-        <span class="text-[#003D9B] font-semibold">CREATE EPIC</span>
-      </nav>
-      <h1 class="text-2xl font-bold text-[#0F172A]">Create New Epic</h1>
-    </div>
-
-    @if (errorMessage) {
-      <div
-        class="mb-4 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm font-medium"
-        >
-        {{ errorMessage }}
-      </div>
-    }
-
-    <form
-      [formGroup]="epicForm"
-      (ngSubmit)="onSubmit()"
-      class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 space-y-5"
       >
-      <div class="flex flex-col gap-1.5">
-        <label class="text-xs font-bold uppercase tracking-wider text-[#64748B]"
-          >Title <span class="text-red-500">*</span></label
-          >
-          <input
-            type="text"
-            formControlName="title"
-            placeholder="e.g., Epic 8888"
-            class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#0F172A] placeholder-gray-400 focus:bg-white focus:border-[#003D9B] focus:ring-1 focus:ring-[#003D9B] outline-none transition-all"
+      &gt;
+      <span class="text-[#003D9B] font-semibold">CREATE EPIC</span>
+    </nav>
+    <h1 class="text-2xl font-bold text-[#0F172A]">Create New Epic</h1>
+  </div>
+
+  @if (errorMessage) {
+    <div
+      class="mb-4 p-4 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm font-medium"
+    >
+      {{ errorMessage }}
+    </div>
+  }
+
+  <form
+    [formGroup]="epicForm"
+    (ngSubmit)="onSubmit()"
+    class="bg-white rounded-xl border border-gray-100 shadow-sm p-6 space-y-5"
+  >
+    <div class="flex flex-col gap-1.5">
+      <label
+        for="title"
+        class="text-xs font-bold uppercase tracking-wider text-[#64748B]"
+        >Title <span class="text-red-500">*</span></label
+      >
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        placeholder="e.g., Epic 8888"
+        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#0F172A] placeholder-gray-400 focus:bg-white focus:border-[#003D9B] focus:ring-1 focus:ring-[#003D9B] outline-none transition-all"
         [ngClass]="{
           'border-red-400 focus:border-red-400 focus:ring-red-400':
             epicForm.get('title')?.touched && epicForm.get('title')?.invalid,
         }"
+      />
+      @if (epicForm.get('title')?.touched && epicForm.get('title')?.errors) {
+        <div class="text-xs text-red-500 font-medium mt-0.5">
+          @if (epicForm.get('title')?.hasError('required')) {
+            <span>Title is required.</span>
+          }
+          @if (epicForm.get('title')?.hasError('minlength')) {
+            <span>Title must be at least 3 characters.</span>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="flex flex-col gap-1.5">
+      <label
+        for="description"
+        class="text-xs font-bold uppercase tracking-wider text-[#64748B]"
+        >Description</label
+      >
+      <textarea
+        id="description"
+        formControlName="description"
+        rows="4"
+        placeholder="All design & implementation tasks..."
+        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#0F172A] placeholder-gray-400 focus:bg-white focus:border-[#003D9B] focus:ring-1 focus:ring-[#003D9B] outline-none transition-all resize-none"
+      ></textarea>
+    </div>
+
+    <div class="flex flex-col gap-1.5">
+      <label
+        for="assignee_id"
+        class="text-xs font-bold uppercase tracking-wider text-[#64748B]"
+        >Assignee</label
+      >
+      <div class="relative">
+        <select
+          id="assignee_id"
+          formControlName="assignee_id"
+          class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#0F172A] focus:bg-white focus:border-[#003D9B] focus:ring-1 focus:ring-[#003D9B] outline-none transition-all appearance-none cursor-pointer"
+        >
+          <option value="">Select project member</option>
+          @for (member of members; track member) {
+            <option [value]="member.id">
+              {{ member.name || member.email }} ({{ member.role }})
+            </option>
+          }
+        </select>
+        @if (isLoadingMembers) {
+          <span class="absolute right-10 top-3 text-xs text-gray-400"
+            >Loading members...</span
+          >
+        }
+        <div
+          class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+            stroke="currentColor"
+            class="w-4 h-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m19.5 8.25-7.5 7.5-7.5-7.5"
             />
-          @if (epicForm.get('title')?.touched && epicForm.get('title')?.errors) {
-            <div
-              class="text-xs text-red-500 font-medium mt-0.5"
-              >
-              @if (epicForm.get('title')?.hasError('required')) {
-                <span
-                  >Title is required.</span
-                  >
-                }
-                @if (epicForm.get('title')?.hasError('minlength')) {
-                  <span
-                    >Title must be at least 3 characters.</span
-                    >
-                  }
-                </div>
-              }
-            </div>
+          </svg>
+        </div>
+      </div>
+    </div>
 
-            <div class="flex flex-col gap-1.5">
-              <label class="text-xs font-bold uppercase tracking-wider text-[#64748B]"
-                >Description</label
-                >
-                <textarea
-                  formControlName="description"
-                  rows="4"
-                  placeholder="All design & implementation tasks..."
-                  class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#0F172A] placeholder-gray-400 focus:bg-white focus:border-[#003D9B] focus:ring-1 focus:ring-[#003D9B] outline-none transition-all resize-none"
-                ></textarea>
-              </div>
-
-              <div class="flex flex-col gap-1.5">
-                <label class="text-xs font-bold uppercase tracking-wider text-[#64748B]"
-                  >Assignee</label
-                  >
-                  <div class="relative">
-                    <select
-                      formControlName="assignee_id"
-                      class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#0F172A] focus:bg-white focus:border-[#003D9B] focus:ring-1 focus:ring-[#003D9B] outline-none transition-all appearance-none cursor-pointer"
-                      >
-                      <option value="">Select project member</option>
-                      @for (member of members; track member) {
-                        <option [value]="member.id">
-                          {{ member.name || member.email }} ({{ member.role }})
-                        </option>
-                      }
-                    </select>
-                    @if (isLoadingMembers) {
-                      <span
-                        class="absolute right-10 top-3 text-xs text-gray-400"
-                        >Loading members...</span
-                        >
-                      }
-                      <div
-                        class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400"
-                        >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke-width="2.5"
-                          stroke="currentColor"
-                          class="w-4 h-4"
-                          >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                            />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="flex flex-col gap-1.5">
-                    <label class="text-xs font-bold uppercase tracking-wider text-[#64748B]"
-                      >Deadline</label
-                      >
-                      <input
-                        type="date"
-                        formControlName="deadline"
-                        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#0F172A] focus:bg-white focus:border-[#003D9B] focus:ring-1 focus:ring-[#003D9B] outline-none transition-all cursor-pointer"
+    <div class="flex flex-col gap-1.5">
+      <label
+        for="deadline"
+        class="text-xs font-bold uppercase tracking-wider text-[#64748B]"
+        >Deadline</label
+      >
+      <input
+        id="deadline"
+        type="date"
+        formControlName="deadline"
+        class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-[#0F172A] focus:bg-white focus:border-[#003D9B] focus:ring-1 focus:ring-[#003D9B] outline-none transition-all cursor-pointer"
         [ngClass]="{
           'border-red-400 focus:border-red-400 focus:ring-red-400':
             epicForm.get('deadline')?.touched &&
             epicForm.get('deadline')?.invalid,
         }"
-                        />
-                      @if (
-                        epicForm.get('deadline')?.touched &&
-                        epicForm.get('deadline')?.hasError('pastDate')
-                        ) {
-                        <div
-                          class="text-xs text-red-500 font-medium mt-0.5"
-                          >
-                          Deadline must be today or a future date.
-                        </div>
-                      }
-                    </div>
+      />
+      @if (
+        epicForm.get('deadline')?.touched &&
+        epicForm.get('deadline')?.hasError('pastDate')
+      ) {
+        <div class="text-xs text-red-500 font-medium mt-0.5">
+          Deadline must be today or a future date.
+        </div>
+      }
+    </div>
 
-                    <div
-                      class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-6"
-                      >
-                      <button
-                        type="button"
-                        [routerLink]="['/project', projectId, 'epics']"
-                        class="px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
-                        >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        [disabled]="epicForm.invalid || isSubmitting"
-                        class="bg-[#003D9B] text-white px-6 py-2.5 rounded-lg font-medium text-sm hover:bg-[#002d72] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-                        >
-                        @if (isSubmitting) {
-                          <span
-                            class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
-                          ></span>
-                        }
-                        {{ isSubmitting ? "Creating..." : "Create" }}
-                      </button>
-                    </div>
-                  </form>
-                </div>
+    <div
+      class="flex items-center justify-end gap-3 pt-4 border-t border-gray-100 mt-6"
+    >
+      <button
+        type="button"
+        [routerLink]="['/project', projectId, 'epics']"
+        class="px-5 py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        [disabled]="epicForm.invalid || isSubmitting"
+        class="bg-[#003D9B] text-white px-6 py-2.5 rounded-lg font-medium text-sm hover:bg-[#002d72] transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+      >
+        @if (isSubmitting) {
+          <span
+            class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+          ></span>
+        }
+        {{ isSubmitting ? "Creating..." : "Create" }}
+      </button>
+    </div>
+  </form>
+</div>

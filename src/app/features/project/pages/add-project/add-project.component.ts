@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -18,16 +18,14 @@ import { AppIconsDirective } from '../../../../shared/directives/app-icons.direc
   styleUrls: ['./add-project.component.css'],
 })
 export class AddProjectComponent implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly projectService = inject(ProjectService);
+  private readonly router = inject(Router);
+
   projectForm!: FormGroup;
   isLoading = false;
   errorMessage = '';
   successMessage = '';
-
-  constructor(
-    private fb: FormBuilder,
-    private projectService: ProjectService,
-    private router: Router,
-  ) {}
 
   ngOnInit(): void {
     this.projectForm = this.fb.group({
@@ -58,7 +56,7 @@ export class AddProjectComponent implements OnInit {
     this.successMessage = '';
 
     this.projectService.createProject(this.projectForm.value).subscribe({
-      next: (res) => {
+      next: () => {
         this.isLoading = false;
         this.successMessage = 'Project created successfully!';
         this.projectForm.reset();

@@ -4,14 +4,14 @@
   <div>
     <div class="flex justify-between items-start gap-4">
       <h3
-        [routerLink]="['/project', project.id, 'epics']"
+        [routerLink]="['/project', $any(project)?.['id'], 'epics']"
         class="text-xl font-bold text-[#0A192F] tracking-tight hover:text-[#004EEB] cursor-pointer transition-colors flex-1"
       >
-        {{ project.name }}
+        {{ $any(project)?.['name'] }}
       </h3>
 
       <button
-        [routerLink]="['/project', project.id, 'details']"
+        [routerLink]="['/project', $any(project)?.['id'], 'details']"
         class="p-2 bg-gradient-to-tr from-blue-50 to-indigo-50 text-[#004EEB] hover:text-white hover:from-[#004EEB] hover:to-[#4f46e5] rounded-xl transition-all duration-300 shadow-sm hover:shadow-md border border-blue-100 flex items-center justify-center group shrink-0"
         title="Edit Project"
       >
@@ -50,10 +50,10 @@
     </div>
 
     <p
-      [routerLink]="['/project', project.id, 'epics']"
+      [routerLink]="['/project', $any(project)?.['id'], 'epics']"
       class="text-gray-500 text-sm mt-3 leading-relaxed line-clamp-3 cursor-pointer hover:text-gray-700 transition-colors"
     >
-      {{ project.description }}
+      {{ $any(project)?.['description'] }}
     </p>
   </div>
 
@@ -64,7 +64,7 @@
       >Created At</span
     >
     <span class="text-sm font-semibold text-[#0A192F]">
-      {{ project.created_at | date: "dd MMM yyyy" }}
+      {{ $any(project)?.['created_at'] | date: "dd MMM yyyy" }}
     </span>
   </div>
 </div>

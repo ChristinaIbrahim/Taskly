@@ -45,11 +45,13 @@
   <form [formGroup]="projectForm" (ngSubmit)="onSave()" class="space-y-6">
     <div>
       <label
+        for="project-name"
         class="block text-xs font-bold uppercase tracking-wider text-[#0A192F] mb-2"
       >
         Project Title <span class="text-red-500">*</span>
       </label>
       <input
+        id="project-name"
         type="text"
         formControlName="name"
         placeholder="Project Title"
@@ -71,12 +73,14 @@
     <div>
       <div class="flex justify-between items-center mb-2">
         <label
+          for="project-description"
           class="block text-xs font-bold uppercase tracking-wider text-[#0A192F]"
           >Description</label
         >
         <span class="text-xs text-gray-400">Optional</span>
       </div>
       <textarea
+        id="project-description"
         formControlName="description"
         rows="5"
         placeholder="Provide a high-level overview of the project's architectural objectives and key milestones..."

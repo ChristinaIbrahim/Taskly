@@ -9,10 +9,13 @@
   >
     <div class="flex flex-col gap-1.5 w-full">
       <label
+        for="signup-name"
         class="text-[11px] font-bold text-slate-500 uppercase tracking-wider"
-        >Name</label
       >
+        Name
+      </label>
       <input
+        id="signup-name"
         type="text"
         formControlName="name"
         placeholder="Enter your full name"
@@ -26,22 +29,25 @@
         "
       />
       @if (signupForm.get("name")?.touched && signupForm.get("name")?.invalid) {
-        <span class="text-[10px] text-red-500 font-medium"
-          >3-50 characters, letters only.</span
-        >
+        <span class="text-[10px] text-red-500 font-medium">
+          3-50 characters, letters only.
+        </span>
       } @else {
-        <span class="text-[10px] text-slate-400"
-          >3-50 characters, letters only.</span
-        >
+        <span class="text-[10px] text-slate-400">
+          3-50 characters, letters only.
+        </span>
       }
     </div>
 
     <div class="flex flex-col gap-1.5 w-full">
       <label
+        for="signup-email"
         class="text-[11px] font-bold text-slate-500 uppercase tracking-wider"
-        >Email</label
       >
+        Email
+      </label>
       <input
+        id="signup-email"
         type="email"
         formControlName="email"
         placeholder="yourname@company.com"
@@ -57,20 +63,22 @@
       @if (
         signupForm.get("email")?.touched && signupForm.get("email")?.invalid
       ) {
-        <span class="text-[10px] text-red-500 font-medium"
-          >Please enter a valid email.</span
-        >
+        <span class="text-[10px] text-red-500 font-medium">
+          Please enter a valid email.
+        </span>
       }
     </div>
 
     <div class="flex flex-col gap-1.5 w-full">
       <label
+        for="signup-job-title"
         class="text-[11px] font-bold text-slate-500 uppercase tracking-wider"
       >
         Job Title
         <span class="text-[10px] text-slate-400 lowercase">(optional)</span>
       </label>
       <input
+        id="signup-job-title"
         type="text"
         formControlName="jobTitle"
         placeholder="e.g. Project Manager"
@@ -84,7 +92,7 @@
         placeholder="Password"
         fieldType="password"
         class="custom-blue-input"
-        [fieldControl]="signupForm.get('password')"
+        [fieldControl]="$any(signupForm.get('password'))"
         [showPasswordToggle]="true"
         [errorMessage]="getError('password')"
       />
@@ -93,7 +101,7 @@
         placeholder="Repeat your password"
         fieldType="password"
         class="custom-blue-input"
-        [fieldControl]="signupForm.get('confirmPassword')"
+        [fieldControl]="$any(signupForm.get('confirmPassword'))"
         [showPasswordToggle]="false"
         [errorMessage]="getError('confirmPassword')"
       />
@@ -110,8 +118,9 @@
               ? 'border-[#064e3b] text-[#064e3b]'
               : 'border-slate-400 text-transparent'
           "
-          >✓</span
         >
+          ✓
+        </span>
         <span class="text-slate-600 font-normal"> At least 8 characters </span>
       </div>
       <div class="flex items-center gap-2 text-xs">
@@ -122,8 +131,9 @@
               ? 'border-[#064e3b] text-[#064e3b]'
               : 'border-slate-400 text-transparent'
           "
-          >✓</span
         >
+          ✓
+        </span>
         <span class="text-slate-600 font-normal">
           One uppercase, lowercase, and digit
         </span>
@@ -136,8 +146,9 @@
               ? 'border-[#064e3b] text-[#064e3b]'
               : 'border-slate-400 text-transparent'
           "
-          >✓</span
         >
+          ✓
+        </span>
         <span class="text-slate-600 font-normal"> One special character </span>
       </div>
     </div>
@@ -161,9 +172,9 @@
 
     <div class="text-center text-xs text-slate-500">
       Already have an account?
-      <a routerLink="/login" class="text-blue-600 font-bold hover:underline"
-        >Log in</a
-      >
+      <a routerLink="/login" class="text-blue-600 font-bold hover:underline">
+        Log in
+      </a>
     </div>
   </form>
 </app-auth-container>

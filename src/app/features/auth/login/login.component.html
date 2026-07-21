@@ -14,12 +14,14 @@
         <span class="font-medium">{{ errorMessage }}</span>
       </div>
     }
+   
     <div class="flex flex-col gap-1 w-full">
       <label
+        for="email"
         class="text-[11px] font-bold text-slate-500 uppercase tracking-wider"
-        >Email</label
-      >
+      >Email</label>
       <input
+        id="email"
         type="email"
         formControlName="email"
         placeholder="yourname@company.com"
@@ -34,9 +36,9 @@
       />
 
       @if (loginForm.get("email")?.touched && loginForm.get("email")?.invalid) {
-        <span class="text-[10px] text-red-500 font-medium mt-1"
-          >Please enter a valid email.</span
-        >
+        <span class="text-[10px] text-red-500 font-medium mt-1">
+          Please enter a valid email.
+        </span>
       }
     </div>
 
@@ -46,7 +48,7 @@
         placeholder="Enter your password"
         fieldType="password"
         class="custom-blue-input"
-        [fieldControl]="loginForm.get('password')"
+        [fieldControl]="$any(loginForm.get('password'))"
         [showPasswordToggle]="true"
         [errorMessage]="
           loginForm.get('password')?.touched &&
@@ -56,11 +58,14 @@
         "
       />
     </div>
+
     <div class="flex items-center justify-between text-xs mt-1">
       <label
+        for="rememberMe"
         class="flex items-center gap-2 cursor-pointer text-slate-500 font-medium"
       >
         <input
+          id="rememberMe"
           type="checkbox"
           formControlName="rememberMe"
           class="rounded border-slate-300 font-bold text-[#434654] focus:ring-[#434654] w-4 h-4 transition-all"
@@ -79,7 +84,7 @@
     <button
       type="submit"
       [disabled]="loginForm.invalid || isLoading"
-      class="w-full h-[48px] text-white font-bold rounded-[8px] text-sm shadow-sm transition-all duration-200 disabled:bg-blue-300 disabled:cursor-not-allowed bg-[#003D9B] hover:bg-[#041B3C] active:scale-[0.99] mt-2 flex items-center justify-center gap-2"
+      class="w-full h-[48px] text-white font-bold rounded-[8px] text-sm shadow-sm transition-all duration-200 disabled:bg-blue-300 disabled:cursor-not-allowed bg-[#003D9B] hover:bg-[#041B3C] active:scale-[0.99] mt-2 flex items-center justify-center gap-2 cursor-pointer"
     >
       @if (isLoading) {
         <span
@@ -93,9 +98,7 @@
 
     <div class="border-t border-[#C3C6D6]/30 pt-[32px] text-center mt-2">
       <span class="text-[#041B3C]/60 text-sm">Don't have an account? </span>
-      <a href="#" class="text-[#003D9B] font-bold hover:underline text-sm"
-        >Sign Up</a
-      >
+      <a routerLink="/" class="text-[#003D9B] font-bold hover:underline text-sm">Sign Up</a>
     </div>
   </form>
 </app-auth-container>

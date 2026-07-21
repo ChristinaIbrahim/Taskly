@@ -4,16 +4,18 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  inject,
 } from '@angular/core';
 import { IconName, ICONS_MAP } from './app-icons.registry';
+
 @Directive({
-  selector: 'svg[app-icon]',
+  selector: 'svg[appIcon]',
   standalone: true,
 })
 export class AppIconsDirective implements OnChanges {
-  @Input('app-icon') iconName!: IconName;
+  private readonly el = inject<ElementRef<SVGAElement>>(ElementRef);
 
-  constructor(private el: ElementRef<SVGAElement>) {}
+  @Input('appIcon') iconName!: IconName;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['iconName']) {
@@ -29,7 +31,6 @@ export class AppIconsDirective implements OnChanges {
       svg.setAttribute('viewBox', icon.viewBox);
       svg.setAttribute('fill', 'none');
       svg.innerHTML = icon.path;
-    } else {
     }
   }
 }

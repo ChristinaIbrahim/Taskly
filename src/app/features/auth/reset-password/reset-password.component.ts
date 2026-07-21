@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
+  FormControl,
   Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
@@ -28,6 +29,11 @@ import { environment } from '../../../../environments/environment';
   styleUrl: './reset-password.component.css',
 })
 export class ResetPasswordComponent implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly http = inject(HttpClient);
+
   resetForm!: FormGroup;
   isLoading = false;
   accessToken: string | null = null;
@@ -45,13 +51,6 @@ export class ResetPasswordComponent implements OnInit {
 
   private baseUrl = environment.supabaseUrl;
   private apiKey = environment.supabase_api_key;
-
-  constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private http: HttpClient,
-  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -80,6 +79,11 @@ export class ResetPasswordComponent implements OnInit {
     this.resetForm.get('password')?.valueChanges.subscribe((value) => {
       this.checkPasswordRequirements(value || '');
     });
+  }
+
+  // دالة مساعدة لتوفير FormControl للمكون الفرعي وتجنب أخطاء النوع null
+  getControl(name: string): FormControl {
+    return this.resetForm.get(name) as FormControl;
   }
 
   extractTokenFromUrl(): void {
