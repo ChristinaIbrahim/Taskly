@@ -1,26 +1,30 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { CardProjectComponent } from '../../components/card-project/card-project.component';
 import { ProjectService } from '../../project.service';
 import { EmptyProjectsComponent } from '../../components/empty-projects/empty-projects.component';
 @Component({
   selector: 'app-project-list',
   standalone: true,
-  imports: [RouterLink, CardProjectComponent, CommonModule , EmptyProjectsComponent],
+  imports: [
+    RouterLink,
+    CardProjectComponent,
+    EmptyProjectsComponent
+],
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.css',
 })
 export class ProjectListComponent implements OnInit {
   projects: any[] = [];
-  currentPage: number = 1;
-  limit: number = 3;
-  totalCount: number = 0;
-  totalPages: number = 0;
+  currentPage = 1;
+  limit = 3;
+  totalCount = 0;
+  totalPages = 0;
   pagesArray: number[] = [];
-  isLoading: boolean = false;
-  isError: boolean = false;
-  isMobile: boolean = false;
+  isLoading = false;
+  isError = false;
+  isMobile = false;
 
   constructor(private projectService: ProjectService) {}
 
@@ -34,7 +38,7 @@ export class ProjectListComponent implements OnInit {
     this.isMobile = window.innerWidth < 768;
   }
 
-  loadProjects(append: boolean = false): void {
+  loadProjects(append = false): void {
     if (this.isLoading) return;
 
     this.isLoading = true;

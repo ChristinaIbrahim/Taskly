@@ -12,31 +12,56 @@ export class AuthService {
   user$ = this.userSubject.asObservable();
 
   private getCleanBaseUrl(): string {
-    const url = environment.supabaseUrl.endsWith('/') ? environment.supabaseUrl : `${environment.supabaseUrl}/`;
+    const url = environment.supabaseUrl.endsWith('/')
+      ? environment.supabaseUrl
+      : `${environment.supabaseUrl}/`;
     return `${url}auth/v1`;
   }
 
   private supabaseKey = environment.supabase_api_key;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {}
 
   login(loginData: any): Observable<any> {
-    const headers = new HttpHeaders({ apikey: this.supabaseKey, 'Content-Type': 'application/json' });
-    return this.http.post<any>(`${this.getCleanBaseUrl()}/token?grant_type=password`, { email: loginData.email, password: loginData.password }, { headers });
+    const headers = new HttpHeaders({
+      apikey: this.supabaseKey,
+      'Content-Type': 'application/json',
+    });
+    return this.http.post<any>(
+      `${this.getCleanBaseUrl()}/token?grant_type=password`,
+      { email: loginData.email, password: loginData.password },
+      { headers },
+    );
   }
 
   signUp(signUpData: any): Observable<any> {
-    const headers = new HttpHeaders({ apikey: this.supabaseKey, 'Content-Type': 'application/json' });
-    const body = { email: signUpData.email, password: signUpData.password, data: { full_name: signUpData.name, job_title: signUpData.jobTitle } };
-    return this.http.post<any>(`${this.getCleanBaseUrl()}/signup`, body, { headers });
+    const headers = new HttpHeaders({
+      apikey: this.supabaseKey,
+      'Content-Type': 'application/json',
+    });
+    const body = {
+      email: signUpData.email,
+      password: signUpData.password,
+      data: { full_name: signUpData.name, job_title: signUpData.jobTitle },
+    };
+    return this.http.post<any>(`${this.getCleanBaseUrl()}/signup`, body, {
+      headers,
+    });
   }
 
   getUserData(): Observable<any> {
     const token = this.getToken();
-    const headers = new HttpHeaders({ apikey: this.supabaseKey, Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' });
-    return this.http.get<any>(`${this.getCleanBaseUrl()}/user`, { headers }).pipe(
-      tap(user => this.userSubject.next(user))
-    );
+    const headers = new HttpHeaders({
+      apikey: this.supabaseKey,
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+    return this.http
+      .get<any>(`${this.getCleanBaseUrl()}/user`, { headers })
+      .pipe(tap((user) => this.userSubject.next(user)));
   }
 
   saveToken(token: string): void {
@@ -48,8 +73,15 @@ export class AuthService {
   }
 
   logOut(): Observable<any> {
-    const headers = new HttpHeaders({ apikey: this.supabaseKey, Authorization: `Bearer ${this.getToken()}` });
-    return this.http.post<any>(`${this.getCleanBaseUrl()}/logout`, {}, { headers });
+    const headers = new HttpHeaders({
+      apikey: this.supabaseKey,
+      Authorization: `Bearer ${this.getToken()}`,
+    });
+    return this.http.post<any>(
+      `${this.getCleanBaseUrl()}/logout`,
+      {},
+      { headers },
+    );
   }
 
   clearData(): void {

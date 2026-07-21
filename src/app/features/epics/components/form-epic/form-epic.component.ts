@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+} from '@angular/forms';
 import { EpicsService } from '../../epics.service';
 import { ProjectMember } from '../../epics.model';
 
@@ -10,7 +16,7 @@ import { ProjectMember } from '../../epics.model';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './form-epic.component.html',
-  styleUrl: './form-epic.component.css'
+  styleUrl: './form-epic.component.css',
 })
 export class FormEpicComponent implements OnInit {
   projectId: string | null = null;
@@ -24,13 +30,14 @@ export class FormEpicComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private epicsService: EpicsService
+    private epicsService: EpicsService,
   ) {}
 
   ngOnInit(): void {
-    this.projectId = this.route.snapshot.paramMap.get('id') || 
-                     this.route.parent?.snapshot.paramMap.get('id') || 
-                     null;
+    this.projectId =
+      this.route.snapshot.paramMap.get('id') ||
+      this.route.parent?.snapshot.paramMap.get('id') ||
+      null;
 
     this.initForm();
 
@@ -46,7 +53,7 @@ export class FormEpicComponent implements OnInit {
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: [''],
       assignee_id: [''],
-      deadline: ['', [this.futureDateValidator]]
+      deadline: ['', [this.futureDateValidator]],
     });
   }
 
@@ -60,13 +67,15 @@ export class FormEpicComponent implements OnInit {
       error: (err) => {
         console.error('Error fetching members:', err);
         this.isLoadingMembers = false;
-      }
+      },
     });
   }
 
-  private futureDateValidator(control: AbstractControl): { [key: string]: any } | null {
+  private futureDateValidator(
+    control: AbstractControl,
+  ): Record<string, any> | null {
     if (!control.value) return null;
-    
+
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const selectedDate = new Date(control.value);
@@ -90,7 +99,7 @@ export class FormEpicComponent implements OnInit {
       description: formValues.description || null,
       assignee_id: formValues.assignee_id || null,
       deadline: formValues.deadline || null,
-      project_id: this.projectId
+      project_id: this.projectId,
     };
 
     this.epicsService.createEpic(epicPayload).subscribe({
@@ -102,7 +111,7 @@ export class FormEpicComponent implements OnInit {
         console.error('Error creating epic:', err);
         this.errorMessage = 'Failed to create epic. Please try again.';
         this.isSubmitting = false;
-      }
+      },
     });
   }
 }

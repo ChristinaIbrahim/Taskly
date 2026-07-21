@@ -1,49 +1,70 @@
-<div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm flex flex-col justify-between min-h-[220px] relative group">
+<div
+  class="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm flex flex-col justify-between min-h-[220px] relative group"
+>
   <div>
     <div class="flex justify-between items-start gap-4">
-      <h3 
-        [routerLink]="['/project', project.id, 'epics']" 
-        class="text-xl font-bold text-[#0A192F] tracking-tight hover:text-[#004EEB] cursor-pointer transition-colors flex-1">
+      <h3
+        [routerLink]="['/project', project.id, 'epics']"
+        class="text-xl font-bold text-[#0A192F] tracking-tight hover:text-[#004EEB] cursor-pointer transition-colors flex-1"
+      >
         {{ project.name }}
       </h3>
-      
-      <button 
-        [routerLink]="['/project', project.id, 'details']" 
+
+      <button
+        [routerLink]="['/project', project.id, 'details']"
         class="p-2 bg-gradient-to-tr from-blue-50 to-indigo-50 text-[#004EEB] hover:text-white hover:from-[#004EEB] hover:to-[#4f46e5] rounded-xl transition-all duration-300 shadow-sm hover:shadow-md border border-blue-100 flex items-center justify-center group shrink-0"
-        title="Edit Project">
-        
-        <svg class="w-5 h-5 transition-transform duration-300 group-hover:rotate-12 pointer-events-none" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        title="Edit Project"
+      >
+        <svg
+          class="w-5 h-5 transition-transform duration-300 group-hover:rotate-12 pointer-events-none"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <defs>
             <linearGradient id="editGrad" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#004EEB" />
               <stop offset="100%" stop-color="#4f46e5" />
             </linearGradient>
           </defs>
-          
-          <path d="M11 20H21" stroke="url(#editGrad)" class="group-hover:stroke-current" stroke-width="2.5" stroke-linecap="round"/>
-          
-          <path d="M16.75 2.75C17.413 2.08696 18.312 1.71405 19.25 1.71405C20.188 1.71405 21.087 2.08696 21.75 2.75C22.413 3.41304 22.7859 4.31201 22.7859 5.25C22.7859 6.18799 22.413 7.08696 21.75 7.75L7.5 22L2 23L3 17.5L17.25 3.25L16.75 2.75Z" 
-                fill="#EEF2FF" 
-                stroke="url(#editGrad)" 
-                class="group-hover:fill-transparent group-hover:stroke-current" 
-                stroke-width="2.5" 
-                stroke-linecap="round" 
-                stroke-linejoin="round"/>
+
+          <path
+            d="M11 20H21"
+            stroke="url(#editGrad)"
+            class="group-hover:stroke-current"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          />
+
+          <path
+            d="M16.75 2.75C17.413 2.08696 18.312 1.71405 19.25 1.71405C20.188 1.71405 21.087 2.08696 21.75 2.75C22.413 3.41304 22.7859 4.31201 22.7859 5.25C22.7859 6.18799 22.413 7.08696 21.75 7.75L7.5 22L2 23L3 17.5L17.25 3.25L16.75 2.75Z"
+            fill="#EEF2FF"
+            stroke="url(#editGrad)"
+            class="group-hover:fill-transparent group-hover:stroke-current"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
     </div>
-    
-    <p 
+
+    <p
       [routerLink]="['/project', project.id, 'epics']"
-      class="text-gray-500 text-sm mt-3 leading-relaxed line-clamp-3 cursor-pointer hover:text-gray-700 transition-colors">
+      class="text-gray-500 text-sm mt-3 leading-relaxed line-clamp-3 cursor-pointer hover:text-gray-700 transition-colors"
+    >
       {{ project.description }}
     </p>
   </div>
 
-  <div class="flex items-center justify-between border-t border-gray-50 pt-4 mt-4">
-    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Created At</span>
+  <div
+    class="flex items-center justify-between border-t border-gray-50 pt-4 mt-4"
+  >
+    <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400"
+      >Created At</span
+    >
     <span class="text-sm font-semibold text-[#0A192F]">
-      {{ project.created_at | date:'dd MMM yyyy' }}
+      {{ project.created_at | date: "dd MMM yyyy" }}
     </span>
   </div>
 </div>

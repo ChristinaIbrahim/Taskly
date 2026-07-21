@@ -1,63 +1,124 @@
 <div class="p-6 max-w-7xl mx-auto">
-  <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+  <div
+    class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6"
+    >
     <div>
       <nav class="text-xs text-gray-400 uppercase tracking-wider mb-2">
-        <a routerLink="/project" class="hover:text-[#003D9B] hover:underline transition-all cursor-pointer">PROJECTS</a> 
-        &gt; 
-        <span>{{ projectName }}</span> 
-        &gt; 
-        <span class="text-[#003D9B] font-semibold">EPICS</span>
-      </nav>
-      <h1 class="text-3xl font-bold text-[#0F172A]">Project Epics</h1>
-    </div>
-    
-    <button  class="bg-[#003D9B] text-white px-5 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-[#002d72] transition-colors shrink-0 shadow-sm">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-      </svg>
-      New Epic
-    </button>
-  </div>
+        <a
+          routerLink="/project"
+          class="hover:text-[#003D9B] hover:underline transition-all cursor-pointer"
+          >PROJECTS</a
+          >
+          &gt;
+          <span>{{ projectName }}</span>
+          &gt;
+          <span class="text-[#003D9B] font-semibold">EPICS</span>
+        </nav>
+        <h1 class="text-3xl font-bold text-[#0F172A]">Project Epics</h1>
+      </div>
 
-  <div class="mb-6 flex gap-3">
-    <div class="relative flex-1 max-w-md">
-      <span class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.608 10.608Z" />
+      <button
+        class="bg-[#003D9B] text-white px-5 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-[#002d72] transition-colors shrink-0 shadow-sm"
+        >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="2.5"
+          stroke="currentColor"
+          class="w-4 h-4"
+          >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 4.5v15m7.5-7.5h-15"
+            />
         </svg>
-      </span>
-      <input type="text" placeholder="Search epics..." class="w-full bg-[#EAF0F9]/50 border-0 rounded-lg pl-10 pr-4 py-2.5 text-sm text-[#0F172A] placeholder-gray-400 focus:ring-2 focus:ring-[#003D9B]/20 outline-none">
-    </div>
-  </div>
-
-  <div *ngIf="isLoading">
-    <app-skelton></app-skelton>
-  </div>
-
-  <div *ngIf="!isLoading && errorMessage" class="p-6 text-center text-red-500 font-medium text-sm">
-    {{ errorMessage }}
-  </div>
-
-  <div *ngIf="!isLoading && !errorMessage">
-    <div *ngIf="epics.length === 0" class="p-12 text-center text-gray-500 bg-white rounded-xl border border-gray-100 shadow-sm">
-      No epics found for this project. Click "New Epic" to add one.
+        New Epic
+      </button>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <app-card-epic 
-        *ngFor="let item of epics" 
-        [epic]="item">
-      </app-card-epic>
-    </div>
-
-    <div class="flex justify-between items-center mt-6 text-xs text-gray-500">
-      <div>Showing 0 of {{ epics.length }} epics</div>
-      <div class="flex gap-1">
-        <button class="p-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer">&lt;</button>
-        <button class="px-3 py-1.5 rounded bg-[#003D9B] text-white font-semibold">1</button>
-        <button class="px-3 py-1.5 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer">2</button>
-        <button class="p-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer">&gt;</button>
+    <div class="mb-6 flex gap-3">
+      <div class="relative flex-1 max-w-md">
+        <span
+          class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400"
+          >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            class="w-4 h-4"
+            >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.608 10.608Z"
+              />
+          </svg>
+        </span>
+        <input
+          type="text"
+          placeholder="Search epics..."
+          class="w-full bg-[#EAF0F9]/50 border-0 rounded-lg pl-10 pr-4 py-2.5 text-sm text-[#0F172A] placeholder-gray-400 focus:ring-2 focus:ring-[#003D9B]/20 outline-none"
+          />
       </div>
     </div>
+
+    @if (isLoading) {
+      <div>
+        <app-skelton></app-skelton>
+      </div>
+    }
+
+    @if (!isLoading && errorMessage) {
+      <div
+        class="p-6 text-center text-red-500 font-medium text-sm"
+        >
+        {{ errorMessage }}
+      </div>
+    }
+
+    @if (!isLoading && !errorMessage) {
+      <div>
+        @if (epics.length === 0) {
+          <div
+            class="p-12 text-center text-gray-500 bg-white rounded-xl border border-gray-100 shadow-sm"
+            >
+            No epics found for this project. Click "New Epic" to add one.
+          </div>
+        }
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          @for (item of epics; track item) {
+            <app-card-epic [epic]="item"> </app-card-epic>
+          }
+        </div>
+        <div class="flex justify-between items-center mt-6 text-xs text-gray-500">
+          <div>Showing 0 of {{ epics.length }} epics</div>
+          <div class="flex gap-1">
+            <button
+              class="p-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+              >
+              &lt;
+            </button>
+            <button
+              class="px-3 py-1.5 rounded bg-[#003D9B] text-white font-semibold"
+              >
+              1
+            </button>
+            <button
+              class="px-3 py-1.5 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+              >
+              2
+            </button>
+            <button
+              class="p-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
+              >
+              &gt;
+            </button>
+          </div>
+        </div>
+      </div>
+    }
   </div>
-</div>

@@ -4,45 +4,70 @@
       <h1 class="text-3xl font-bold text-[#0A192F]">Projects</h1>
       <p class="text-slate-500 mt-1">Manage and curate your projects</p>
     </div>
-    <a routerLink="add" class="bg-[#0052CC] hover:bg-[#0043a8] text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all shadow-sm">
+    <a
+      routerLink="add"
+      class="bg-[#0052CC] hover:bg-[#0043a8] text-white px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all shadow-sm"
+    >
       <span>+</span> Create New Project
     </a>
   </header>
 
   <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    
     @for (project of projects; track project.id) {
       <app-card-project [project]="project"></app-card-project>
     }
 
-   <a
-  routerLink="add"
-  class="border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center min-h-[220px] hover:border-blue-400 hover:bg-slate-50 transition-all p-6 text-center group"
+    <a
+      routerLink="add"
+      class="border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center min-h-[220px] hover:border-blue-400 hover:bg-slate-50 transition-all p-6 text-center group"
     >
-  <div class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-black-500 shadow-sm border border-slate-500 group-hover:scale-110 group-hover:shadow-md transition-all duration-300 mb-4">
-    <span class="text-2xl font-bold text-[]">+</span>
-  </div>
-  
-  <span class="text-sm font-bold uppercase tracking-widest text-slate-500 group-hover:text-blue-600">Add Project</span>
-</a>
+      <div
+        class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-black-500 shadow-sm border border-slate-500 group-hover:scale-110 group-hover:shadow-md transition-all duration-300 mb-4"
+      >
+        <span class="text-2xl font-bold text-[]">+</span>
+      </div>
+
+      <span
+        class="text-sm font-bold uppercase tracking-widest text-slate-500 group-hover:text-blue-600"
+        >Add Project</span
+      >
+    </a>
   </section>
 
   @if (projects.length > 0) {
-    <div class="flex items-center justify-between pt-12 mt-12 border-t border-slate-100">
+    <div
+      class="flex items-center justify-between pt-12 mt-12 border-t border-slate-100"
+    >
       <div class="text-sm text-slate-500 font-medium">
         Showing {{ projects.length }} of {{ totalCount }} active projects
       </div>
 
       <div class="flex items-center gap-1">
-        <button (click)="goToPage(currentPage - 1)" [disabled]="currentPage === 1" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50">‹</button>
-        
+        <button
+          (click)="goToPage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50 disabled:opacity-50"
+        >
+          ‹
+        </button>
+
         @for (page of pagesArray; track page) {
-          <button (click)="goToPage(page)" [class.bg-[#0052CC]]="currentPage === page" [class.text-white]="currentPage === page" class="w-10 h-10 rounded-lg border border-slate-200 hover:bg-slate-50">
+          <button
+            (click)="goToPage(page)"
+            [class.bg-[#0052CC]]="currentPage === page"
+            [class.text-white]="currentPage === page"
+            class="w-10 h-10 rounded-lg border border-slate-200 hover:bg-slate-50"
+          >
             {{ page }}
           </button>
         }
-        
-        <button (click)="goToPage(currentPage + 1)" class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50">›</button>
+
+        <button
+          (click)="goToPage(currentPage + 1)"
+          class="w-10 h-10 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-50"
+        >
+          ›
+        </button>
       </div>
     </div>
   }

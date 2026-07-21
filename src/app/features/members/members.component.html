@@ -2,70 +2,122 @@
   <div class="flex justify-between items-center mb-6">
     <div>
       <nav class="text-xs text-gray-400 uppercase tracking-wider mb-2">
-        PROJECTS &gt; PROJECT NAME &gt; <span class="text-[#003D9B] font-semibold">MEMBERS</span>
+        PROJECTS &gt; PROJECT NAME &gt;
+        <span class="text-[#003D9B] font-semibold">MEMBERS</span>
       </nav>
       <h1 class="text-3xl font-bold text-[#0F172A]">Project Members</h1>
     </div>
-    
-    <button class="bg-[#003D9B] text-white px-4 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-[#002d72] transition-colors">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+
+    <button
+      class="bg-[#003D9B] text-white px-4 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-[#002d72] transition-colors"
+      >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="currentColor"
+        class="w-4 h-4"
+        >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z"
+          />
       </svg>
       Invite Member
     </button>
   </div>
 
-  <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-    <div class="grid grid-cols-12 gap-4 bg-[#F8FAFC] px-6 py-4 border-b border-gray-100 text-xs font-bold uppercase tracking-wider text-[#64748B]">
+  <div
+    class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden"
+    >
+    <div
+      class="grid grid-cols-12 gap-4 bg-[#F8FAFC] px-6 py-4 border-b border-gray-100 text-xs font-bold uppercase tracking-wider text-[#64748B]"
+      >
       <div class="col-span-6 md:col-span-7">Member</div>
       <div class="col-span-4 md:col-span-3 text-center md:text-left">Role</div>
       <div class="col-span-2 text-right">Actions</div>
     </div>
 
-    <div *ngIf="isLoading" class="p-6">
-      <app-skelton></app-skelton>
-    </div>
-
-    <div *ngIf="!isLoading && errorMessage" class="p-6 text-center text-red-500 font-medium text-sm">
-      {{ errorMessage }}
-    </div>
-
-    <div *ngIf="!isLoading && !errorMessage">
-      <div *ngIf="members.length === 0" class="p-8 text-center text-gray-500 text-sm">
-        No members found in this project.
+    @if (isLoading) {
+      <div class="p-6">
+        <app-skelton></app-skelton>
       </div>
+    }
 
-      <div *ngFor="let member of members" class="grid grid-cols-12 gap-4 px-6 py-4 items-center border-b border-gray-100 last:border-b-0 hover:bg-gray-50/50 transition-colors">
-        
-        <div class="col-span-6 md:col-span-7 flex items-center gap-3">
-          <div class="flex items-center justify-center w-10 h-10 rounded-lg bg-[#D2E3FF] text-[#003D9B] font-semibold text-sm shrink-0">
-            {{ getInitials(member.name || member.email) }}
-          </div>
-          <div class="flex flex-col justify-center overflow-hidden">
-            <span class="text-[#0F172A] font-semibold text-sm leading-tight mb-0.5 truncate">
-              {{ member.name || (member.email ? member.email.split('@')[0] : 'No Name') }}
-            </span>
-            <span class="text-[#434654] text-xs leading-tight truncate">
-              {{ member.email }}
-            </span>
-          </div>
-        </div>
-
-        <div class="col-span-4 md:col-span-3 text-center md:text-left">
-          <span class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider" [ngClass]="getRoleClass(member.role)">
-            {{ member.role }}
-          </span>
-        </div>
-
-        <div class="col-span-2 text-right flex justify-end">
-          <button class="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z" />
-            </svg>
-          </button>
-        </div>
-
+    @if (!isLoading && errorMessage) {
+      <div
+        class="p-6 text-center text-red-500 font-medium text-sm"
+        >
+        {{ errorMessage }}
       </div>
-    </div>
+    }
+
+    @if (!isLoading && !errorMessage) {
+      <div>
+        @if (members.length === 0) {
+          <div
+            class="p-8 text-center text-gray-500 text-sm"
+            >
+            No members found in this project.
+          </div>
+        }
+        @for (member of members; track member) {
+          <div
+            class="grid grid-cols-12 gap-4 px-6 py-4 items-center border-b border-gray-100 last:border-b-0 hover:bg-gray-50/50 transition-colors"
+            >
+            <div class="col-span-6 md:col-span-7 flex items-center gap-3">
+              <div
+                class="flex items-center justify-center w-10 h-10 rounded-lg bg-[#D2E3FF] text-[#003D9B] font-semibold text-sm shrink-0"
+                >
+                {{ getInitials(member.name || member.email) }}
+              </div>
+              <div class="flex flex-col justify-center overflow-hidden">
+                <span
+                  class="text-[#0F172A] font-semibold text-sm leading-tight mb-0.5 truncate"
+                  >
+                  {{
+                  member.name ||
+                  (member.email ? member.email.split("@")[0] : "No Name")
+                  }}
+                </span>
+                <span class="text-[#434654] text-xs leading-tight truncate">
+                  {{ member.email }}
+                </span>
+              </div>
+            </div>
+            <div class="col-span-4 md:col-span-3 text-center md:text-left">
+              <span
+                class="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider"
+                [ngClass]="getRoleClass(member.role)"
+                >
+                {{ member.role }}
+              </span>
+            </div>
+            <div class="col-span-2 text-right flex justify-end">
+              <button
+                class="text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100 transition-colors"
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="w-5 h-5"
+                  >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+                    />
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
   </div>
 </div>

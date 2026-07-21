@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { EpicsService } from './epics.service';
 import { Epic } from './epics.model';
 import { CardEpicComponent } from './components/card-epic/card-epic.component';
@@ -9,26 +9,27 @@ import { SkeltonComponent } from '../project/components/skelton/skelton.componen
 @Component({
   selector: 'app-epics',
   standalone: true,
-  imports: [CommonModule, RouterLink, CardEpicComponent, SkeltonComponent],
+  imports: [RouterLink, CardEpicComponent, SkeltonComponent],
   templateUrl: './epics.component.html',
-  styleUrl: './epics.component.css'
+  styleUrl: './epics.component.css',
 })
 export class EpicsComponent implements OnInit {
   projectId: string | null = null;
-  projectName: string = 'PROJECT NAME';
+  projectName = 'PROJECT NAME';
   epics: Epic[] = [];
   isLoading = true;
   errorMessage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private epicsService: EpicsService
+    private epicsService: EpicsService,
   ) {}
 
   ngOnInit(): void {
-    this.projectId = this.route.snapshot.paramMap.get('id') || 
-                     this.route.parent?.snapshot.paramMap.get('id') || 
-                     null;
+    this.projectId =
+      this.route.snapshot.paramMap.get('id') ||
+      this.route.parent?.snapshot.paramMap.get('id') ||
+      null;
 
     if (this.projectId) {
       this.fetchEpics(this.projectId);
@@ -51,7 +52,7 @@ export class EpicsComponent implements OnInit {
         console.error('Error fetching epics:', err);
         this.errorMessage = 'Failed to load project epics. Please try again.';
         this.isLoading = false;
-      }
+      },
     });
   }
 }

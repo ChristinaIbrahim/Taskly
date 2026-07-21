@@ -24,11 +24,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.extractProjectId();
 
-    this.routerSubscription = this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      this.extractProjectId();
-    });
+    this.routerSubscription = this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.extractProjectId();
+      });
   }
 
   ngOnDestroy(): void {
@@ -56,7 +56,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   private extractProjectId(): void {
     const urlSegments = this.router.url.split('/');
-    if (urlSegments[1] === 'project' && urlSegments[2] && urlSegments[2] !== 'create') {
+    if (
+      urlSegments[1] === 'project' &&
+      urlSegments[2] &&
+      urlSegments[2] !== 'create'
+    ) {
       this.currentProjectId = urlSegments[2];
     } else {
       this.currentProjectId = null;

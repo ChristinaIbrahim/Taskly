@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../core/services/auth.service';
-import { ProjectMember } from './project.model'; 
+import { ProjectMember } from './project.model';
 
 @Injectable({
   providedIn: 'root',
@@ -72,24 +72,27 @@ export class ProjectService {
 
     return this.http.get<any[]>(
       `${this.getCleanUrl('rest/v1/projects')}?id=eq.${id}`,
-      { headers }
+      { headers },
     );
   }
 
-  updateProject(id: string, projectData: { name: string; description: string }): Observable<any> {
+  updateProject(
+    id: string,
+    projectData: { name: string; description: string },
+  ): Observable<any> {
     const token = this.authService.getToken();
 
     const headers = new HttpHeaders({
       apikey: this.apiKey,
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
-      'Prefer': 'return=representation' 
+      Prefer: 'return=representation',
     });
 
     return this.http.patch<any>(
       `${this.getCleanUrl('rest/v1/projects')}?id=eq.${id}`,
       projectData,
-      { headers }
+      { headers },
     );
   }
 
@@ -104,7 +107,7 @@ export class ProjectService {
 
     return this.http.get<ProjectMember[]>(
       `${this.getCleanUrl('rest/v1/get_project_members')}?project_id=eq.${projectId}`,
-      { headers }
+      { headers },
     );
   }
 }

@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
   user: { name: string; job_title: string } | null = null;
-  avatarInitials: string = '';
+  avatarInitials = '';
 
   constructor(private authService: AuthService) {}
 

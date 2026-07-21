@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
   signupForm!: FormGroup;
   errorMessage = '';
   isLoading = false;
-  isSuccess = false; 
+  isSuccess = false;
 
   constructor(
     private fb: FormBuilder,
@@ -43,24 +43,57 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
     this.signupForm = this.fb.group(
       {
-        name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), this.unicodeNameValidator]],
+        name: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(50),
+            this.unicodeNameValidator,
+          ],
+        ],
         email: ['', [Validators.required, Validators.email]],
         jobTitle: [''],
-        password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(64), Validators.pattern(/^[^\s]*$/), Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).*$/)]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(64),
+            Validators.pattern(/^[^\s]*$/),
+            Validators.pattern(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).*$/,
+            ),
+          ],
+        ],
         confirmPassword: ['', [Validators.required]],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: this.passwordMatchValidator },
     );
   }
 
-  get passwordValue(): string { return this.signupForm?.get('password')?.value || ''; }
-  get hasMinLength(): boolean { return this.passwordValue.length >= 8; }
-  get hasUpperLowerDigit(): boolean { return /[A-Z]/.test(this.passwordValue) && /[a-z]/.test(this.passwordValue) && /[0-9]/.test(this.passwordValue); }
-  get hasSpecialChar(): boolean { return /[!@#$%^&*]/.test(this.passwordValue); }
+  get passwordValue(): string {
+    return this.signupForm?.get('password')?.value || '';
+  }
+  get hasMinLength(): boolean {
+    return this.passwordValue.length >= 8;
+  }
+  get hasUpperLowerDigit(): boolean {
+    return (
+      /[A-Z]/.test(this.passwordValue) &&
+      /[a-z]/.test(this.passwordValue) &&
+      /[0-9]/.test(this.passwordValue)
+    );
+  }
+  get hasSpecialChar(): boolean {
+    return /[!@#$%^&*]/.test(this.passwordValue);
+  }
 
   unicodeNameValidator(control: AbstractControl): ValidationErrors | null {
     const nameRegex = /^(?!.* {2})[\p{L}]+( [\p{L}]+)*$/u;
-    return !control.value || nameRegex.test(control.value) ? null : { invalidName: true };
+    return !control.value || nameRegex.test(control.value)
+      ? null
+      : { invalidName: true };
   }
 
   passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
@@ -71,7 +104,12 @@ export class SignupComponent implements OnInit {
 
   getError(controlName: string): string {
     const control = this.signupForm?.get(controlName);
-    if (controlName === 'confirmPassword' && this.signupForm?.hasError('passwordMismatch') && control?.touched) return 'Passwords do not match.';
+    if (
+      controlName === 'confirmPassword' &&
+      this.signupForm?.hasError('passwordMismatch') &&
+      control?.touched
+    )
+      return 'Passwords do not match.';
     if (!control || !control.touched || !control.errors) return '';
     if (control.errors['required']) return 'This field is required.';
     if (control.errors['email']) return 'Please enter a valid email address.';
@@ -93,15 +131,15 @@ export class SignupComponent implements OnInit {
           // استخدام دالة واحدة فقط كما هو متوقع في الخدمة الحالية
           this.authService.saveToken(res.access_token);
         }
-        
+
         this.isLoading = false;
-        this.isSuccess = true; 
-        
+        this.isSuccess = true;
+
         this.authService.getUserData().subscribe();
 
         setTimeout(() => {
           // تم تعديل المسار هنا ليطابق 'project' كما في app.routes.ts
-          this.router.navigate(['/project']); 
+          this.router.navigate(['/project']);
         }, 3000);
       },
       // تم إضافة نوع 'any' لحل خطأ TS7006

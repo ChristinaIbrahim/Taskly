@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Epic } from '../../epics.model';
 
 @Component({
   selector: 'app-card-epic',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './card-epic.component.html',
-  styleUrl: './card-epic.component.css'
+  styleUrl: './card-epic.component.css',
 })
 export class CardEpicComponent {
   @Input({ required: true }) epic!: Epic;
@@ -25,6 +25,10 @@ export class CardEpicComponent {
   formatDate(dateStr?: string): string {
     if (!dateStr) return 'No Deadline';
     const date = new Date(dateStr);
-    return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+    return date.toLocaleDateString('en-GB', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
   }
 }

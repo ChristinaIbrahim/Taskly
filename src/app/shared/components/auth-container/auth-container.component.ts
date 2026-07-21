@@ -10,8 +10,8 @@ import { NgClass } from '@angular/common';
   styleUrl: './auth-container.component.css',
 })
 export class AuthContainerComponent {
-  @Input() title: string = '';
-  @Input() description: string = '';
+  @Input() title = '';
+  @Input() description = '';
   @Input() mobileDescription = '';
   @Input() backgroundColor = 'bg-background';
   @Input() contentClass = 'p-6 md:p-12';

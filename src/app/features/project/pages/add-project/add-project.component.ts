@@ -62,7 +62,7 @@ export class AddProjectComponent implements OnInit {
         this.isLoading = false;
         this.successMessage = 'Project created successfully!';
         this.projectForm.reset();
-        
+
         setTimeout(() => {
           this.router.navigate(['/project']);
         }, 1500);
@@ -70,8 +70,7 @@ export class AddProjectComponent implements OnInit {
       error: (err) => {
         this.isLoading = false;
         this.errorMessage =
-          err.error?.message ||
-          'Failed to create project. Please try again.';
+          err.error?.message || 'Failed to create project. Please try again.';
       },
     });
   }

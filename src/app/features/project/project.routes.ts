@@ -20,20 +20,32 @@ export const routes: Routes = [
     children: [
       {
         path: 'details',
-        loadComponent: () => import('../../features/details/details.component').then(m => m.DetailsComponent),
+        loadComponent: () =>
+          import('../../features/details/details.component').then(
+            (m) => m.DetailsComponent,
+          ),
       },
       {
         path: 'epics',
-        loadComponent: () => import('../../features/epics/epics.component').then(m => m.EpicsComponent),
+        loadComponent: () =>
+          import('../../features/epics/epics.component').then(
+            (m) => m.EpicsComponent,
+          ),
       },
       {
         path: 'tasks',
-        loadComponent: () => import('../../features/tasks/tasks.component').then(m => m.TasksComponent),
+        loadComponent: () =>
+          import('../../features/tasks/tasks.component').then(
+            (m) => m.TasksComponent,
+          ),
       },
       {
         path: 'members',
-        loadComponent: () => import('../../features/members/members.component').then(m => m.MembersComponent),
-      }
-    ]
-  }
+        loadComponent: () =>
+          import('../../features/members/members.component').then(
+            (m) => m.MembersComponent,
+          ),
+      },
+    ],
+  },
 ];

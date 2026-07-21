@@ -10,7 +10,7 @@ import { ProjectService } from '../project/project.service';
   standalone: true,
   imports: [CommonModule, SkeltonComponent],
   templateUrl: './members.component.html',
-  styleUrl: './members.component.css'
+  styleUrl: './members.component.css',
 })
 export class MembersComponent implements OnInit {
   projectId: string | null = null;
@@ -20,13 +20,14 @@ export class MembersComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private projectService: ProjectService
+    private projectService: ProjectService,
   ) {}
 
   ngOnInit(): void {
-    this.projectId = this.route.snapshot.paramMap.get('id') || 
-                     this.route.parent?.snapshot.paramMap.get('id') || 
-                     null;
+    this.projectId =
+      this.route.snapshot.paramMap.get('id') ||
+      this.route.parent?.snapshot.paramMap.get('id') ||
+      null;
 
     if (this.projectId) {
       this.fetchMembers(this.projectId);
@@ -49,16 +50,16 @@ export class MembersComponent implements OnInit {
         console.error('Error fetching members:', err);
         this.errorMessage = 'Failed to load project members. Please try again.';
         this.isLoading = false;
-      }
+      },
     });
   }
 
   getInitials(name: string): string {
     if (!name) return '??';
-    
+
     const cleanName = name.includes('@') ? name.split('@')[0] : name;
     const parts = cleanName.trim().split(' ');
-    
+
     if (parts.length > 1) {
       return (parts[0][0] + parts[1][0]).toUpperCase();
     }
@@ -67,11 +68,16 @@ export class MembersComponent implements OnInit {
 
   getRoleClass(role: string): string {
     switch (role?.toUpperCase()) {
-      case 'OWNER': return 'bg-[#003D9B] text-white';
-      case 'ADMIN': return 'bg-[#D2E3FF] text-[#003D9B]';
-      case 'MEMBER': return 'bg-[#E2E8F0] text-[#475569]';
-      case 'VIEWER': return 'bg-[#F1F5F9] text-[#64748B]';
-      default: return 'bg-gray-100 text-gray-700';
+      case 'OWNER':
+        return 'bg-[#003D9B] text-white';
+      case 'ADMIN':
+        return 'bg-[#D2E3FF] text-[#003D9B]';
+      case 'MEMBER':
+        return 'bg-[#E2E8F0] text-[#475569]';
+      case 'VIEWER':
+        return 'bg-[#F1F5F9] text-[#64748B]';
+      default:
+        return 'bg-gray-100 text-gray-700';
     }
   }
 }
