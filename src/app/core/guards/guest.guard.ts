@@ -4,7 +4,7 @@ import { STORAGE_KEYS } from '../constants/storage-keys';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../services/auth.service';
 
-export const guestGuard: CanActivateFn = (route, state) => {
+export const guestGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 

@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
-import { AppIconsDirective } from '../../directives/app-icons.directive'; 
+import { AppIconsDirective } from '../../directives/app-icons.directive';
 @Component({
   selector: 'app-form-field',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,AppIconsDirective],
+  imports: [CommonModule, ReactiveFormsModule, AppIconsDirective],
   templateUrl: './form-field.component.html',
   styleUrl: './form-field.component.css',
 })
