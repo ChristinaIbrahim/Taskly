@@ -14,6 +14,7 @@ export const routes: Routes = [
       import('./features/auth/signup/signup.component').then(
         (m) => m.SignupComponent,
       ),
+       canActivate: [guestGuard]
   },
   {
     path: 'login',
@@ -27,7 +28,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/forget-password/forget-password.component').then(
         (m) => m.ForgetPasswordComponent,
-      ),
+      ), canActivate: [guestGuard],
   },
   {
     path: 'reset-password',
@@ -41,7 +42,7 @@ export const routes: Routes = [
     path: '',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('./core/layout/layout.component').then((m) => m.LayoutComponent),
+      import('./shared/layout/layout.component').then((m) => m.LayoutComponent),
     children: [
       {
         path: 'project',
