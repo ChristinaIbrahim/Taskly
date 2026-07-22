@@ -14,5 +14,4 @@ export class AuthContainerComponent {
   @Input() description = '';
   @Input() mobileDescription = '';
   @Input() backgroundColor = 'bg-background';
- 
 }
