@@ -44,7 +44,7 @@ export class EpicsService {
 
   createEpic(epicData: Partial<Epic>): Observable<Record<string, unknown>> {
     return this.http.post<Record<string, unknown>>(
-      this.getCleanUrl('rest/v1/project_epics'),
+      this.getCleanUrl('rest/v1/epics'),
       epicData,
       { headers: this.getHeaders() },
     );

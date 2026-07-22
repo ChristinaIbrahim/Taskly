@@ -67,7 +67,7 @@ export class EpicsComponent implements OnInit {
   fetchMembers(projectId: string): void {
     this.epicsService.getProjectMembers(projectId).subscribe({
       next: (data) => {
-        this.projectMembers = data;
+        this.projectMembers = data || [];
       },
       error: () => {
         this.projectMembers = [];
