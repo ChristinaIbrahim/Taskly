@@ -32,11 +32,11 @@
           currentProjectId ? ['/project', currentProjectId, 'epics'] : null
         "
         routerLinkActive="bg-white !text-[#003D9B] font-bold"
-        class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all group text-[#041B3C]"
+        class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 group"
         [ngClass]="
           currentProjectId
-            ? 'hover:text-[#003D9B] cursor-pointer'
-            : 'pointer-events-none cursor-not-allowed'
+            ? 'text-[#041B3C] hover:text-[#003D9B] cursor-pointer opacity-100'
+            : 'text-slate-400 opacity-50 pointer-events-none cursor-not-allowed'
         "
       >
         <svg appIcon="epics" class="w-5 h-5 stroke-current"></svg>
@@ -50,11 +50,11 @@
           currentProjectId ? ['/project', currentProjectId, 'tasks'] : null
         "
         routerLinkActive="bg-white !text-[#003D9B] font-bold"
-        class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all group text-[#041B3C]"
+        class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 group"
         [ngClass]="
           currentProjectId
-            ? 'hover:text-[#003D9B] cursor-pointer'
-            : 'pointer-events-none cursor-not-allowed'
+            ? 'text-[#041B3C] hover:text-[#003D9B] cursor-pointer opacity-100'
+            : 'text-slate-400 opacity-50 pointer-events-none cursor-not-allowed'
         "
       >
         <svg appIcon="tasks" class="w-5 h-5 stroke-current"></svg>
@@ -68,11 +68,11 @@
           currentProjectId ? ['/project', currentProjectId, 'members'] : null
         "
         routerLinkActive="bg-white !text-[#003D9B] font-bold"
-        class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all group text-[#041B3C]"
+        class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 group"
         [ngClass]="
           currentProjectId
-            ? 'hover:text-[#003D9B] cursor-pointer'
-            : 'pointer-events-none cursor-not-allowed'
+            ? 'text-[#041B3C] hover:text-[#003D9B] cursor-pointer opacity-100'
+            : 'text-slate-400 opacity-50 pointer-events-none cursor-not-allowed'
         "
       >
         <svg appIcon="members" class="w-5 h-5 stroke-current"></svg>
@@ -86,11 +86,11 @@
           currentProjectId ? ['/project', currentProjectId, 'details'] : null
         "
         routerLinkActive="bg-white !text-[#003D9B] font-bold"
-        class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all group text-[#041B3C]"
+        class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all duration-200 group"
         [ngClass]="
           currentProjectId
-            ? 'hover:text-[#003D9B] cursor-pointer'
-            : 'pointer-events-none cursor-not-allowed'
+            ? 'text-[#041B3C] hover:text-[#003D9B] cursor-pointer opacity-100'
+            : 'text-slate-400 opacity-50 pointer-events-none cursor-not-allowed'
         "
       >
         <svg appIcon="details" class="w-5 h-5 stroke-current"></svg>
