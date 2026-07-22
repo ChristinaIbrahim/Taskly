@@ -81,7 +81,6 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  // دالة مساعدة لتوفير FormControl للمكون الفرعي وتجنب أخطاء النوع null
   getControl(name: string): FormControl {
     return this.resetForm.get(name) as FormControl;
   }

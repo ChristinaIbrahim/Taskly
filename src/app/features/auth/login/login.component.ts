@@ -47,15 +47,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
 
-    if (
-      window.location.hash &&
-      window.location.hash.includes('access_token=')
-    ) {
-      const currentHash = window.location.hash;
-      this.router.navigateByUrl(`/reset-password${currentHash}`);
-      return;
-    }
-
     if (this.authService.isLoggedIn()) {
       this.router.navigate(['/projects'], { replaceUrl: true });
       return;
