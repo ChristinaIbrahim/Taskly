@@ -36,7 +36,6 @@ export interface AuthError {
   styleUrl: './login.component.css',
 })
 export class LoginComponent implements OnInit {
-  // 2️⃣ استبدال الـ constructor بـ inject()
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -46,6 +45,8 @@ export class LoginComponent implements OnInit {
   isLoading = false;
 
   ngOnInit(): void {
+    this.initForm();
+
     if (
       window.location.hash &&
       window.location.hash.includes('access_token=')
@@ -56,10 +57,9 @@ export class LoginComponent implements OnInit {
     }
 
     if (this.authService.isLoggedIn()) {
-      this.router.navigate(['/projects']);
+      this.router.navigate(['/projects'], { replaceUrl: true });
       return;
     }
-    this.initForm();
   }
 
   private initForm(): void {
@@ -82,7 +82,6 @@ export class LoginComponent implements OnInit {
     const { email, password } = this.loginForm.value;
 
     this.authService.login({ email, password }).subscribe({
-      // 3️⃣ استبدال any بأنواع محددة أو unknown
       next: (res: unknown) => {
         const response = res as LoginResponse;
         this.isLoading = false;
