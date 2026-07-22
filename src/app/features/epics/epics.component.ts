@@ -1,57 +1,82 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { ActivatedRoute } from '@angular/router';
 import { EpicsService } from './epics.service';
-import { Epic } from './epics.model';
+import { Epic, ProjectMember } from './epics.model';
 import { CardEpicComponent } from './components/card-epic/card-epic.component';
-import { SkeltonComponent } from '../project/components/skelton/skelton.component';
+import { EpicCardSkeletonComponent } from './components/epic-card-skeleton/epic-card-skeleton.component';
+import { EmptyErrorComponent } from './components/empty-error/empty-error.component';
+import { FormEpicComponent } from './components/form-epic/form-epic.component';
 
 @Component({
   selector: 'app-epics',
   standalone: true,
-  imports: [CommonModule, RouterLink, CardEpicComponent, SkeltonComponent],
+  imports: [
+    CommonModule,
+    CardEpicComponent,
+    EpicCardSkeletonComponent,
+    EmptyErrorComponent,
+    FormEpicComponent,
+  ],
   templateUrl: './epics.component.html',
-  styleUrl: './epics.component.css',
+  styleUrls: ['./epics.component.css'],
 })
 export class EpicsComponent implements OnInit {
-  private readonly route = inject(ActivatedRoute);
-  private readonly epicsService = inject(EpicsService);
+  private route = inject(ActivatedRoute);
+  private epicsService = inject(EpicsService);
 
-  projectId: string | null = null;
-  projectName = 'PROJECT NAME';
   epics: Epic[] = [];
+  projectMembers: ProjectMember[] = [];
   isLoading = true;
-  errorMessage: string | null = null;
+  hasError = false;
+  projectId = '';
+  showForm = false;
 
   ngOnInit(): void {
-    this.projectId =
-      this.route.snapshot.paramMap.get('id') ||
-      this.route.parent?.snapshot.paramMap.get('id') ||
-      null;
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('id');
 
-    if (this.projectId) {
+      if (!id) {
+        this.hasError = true;
+        this.isLoading = false;
+        return;
+      }
+
+      this.projectId = id;
       this.fetchEpics(this.projectId);
-    } else {
-      this.isLoading = false;
-      this.errorMessage = 'Project ID not found in the URL.';
-    }
+      this.fetchMembers(this.projectId);
+    });
   }
 
-  fetchEpics(id: string): void {
+  fetchEpics(projectId: string): void {
     this.isLoading = true;
-    this.errorMessage = null;
+    this.hasError = false;
 
-    this.epicsService.getProjectEpics(id).subscribe({
+    this.epicsService.getProjectEpics(projectId).subscribe({
       next: (data) => {
         this.epics = data;
         this.isLoading = false;
       },
-      error: (err) => {
-        console.error('Error fetching epics:', err);
-        this.errorMessage = 'Failed to load project epics. Please try again.';
+      error: () => {
+        this.hasError = true;
         this.isLoading = false;
       },
     });
+  }
+
+  fetchMembers(projectId: string): void {
+    this.epicsService.getProjectMembers(projectId).subscribe({
+      next: (data) => {
+        this.projectMembers = data;
+      },
+      error: () => {
+        this.projectMembers = [];
+      },
+    });
+  }
+
+  onEpicCreated(newEpic: Epic): void {
+    this.epics = [newEpic, ...this.epics];
+    this.showForm = false;
   }
 }

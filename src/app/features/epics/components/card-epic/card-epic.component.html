@@ -1,12 +1,28 @@
-<div class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div
+  class="bg-white border border-[#E2E8F0] rounded-xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+>
   <div>
     <div class="flex items-center justify-between mb-3">
-      <span class="bg-[#EFF6FF] text-[#004EEB] text-[11px] font-bold px-2.5 py-1 rounded-md tracking-wider">
-        {{ epic.epic_code || 'EPIC-00' }}
+      <span
+        class="bg-[#EFF6FF] text-[#004EEB] text-[11px] font-bold px-2.5 py-1 rounded-md tracking-wider"
+      >
+        {{ epic.epic_id || 'EPIC-00' }}
       </span>
-      <button class="text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer">
-        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01" />
+      <button
+        class="text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M5 12h.01M12 12h.01M19 12h.01"
+          />
         </svg>
       </button>
     </div>
@@ -19,21 +35,37 @@
   <div>
     <div class="border-t border-gray-100 my-3"></div>
 
-    <div class="flex items-center justify-between text-[13px]">
+    <div class="flex items-center justify-between text-[13px] mb-3">
       <div class="flex items-center gap-2">
-        <div class="w-7 h-7 rounded-full bg-[#004EEB] text-white flex items-center justify-center font-bold text-[11px]">
+        <div
+          class="w-7 h-7 rounded-full bg-[#004EEB] text-white flex items-center justify-center font-bold text-[11px]"
+        >
           {{ getInitials(epic.assignee?.name) }}
         </div>
         <div>
-          <span class="block text-[10px] text-gray-400 leading-none mb-0.5">Assignee</span>
-          <span class="text-[#041B3C] font-semibold text-[12px]">{{ epic.assignee?.name || 'Unassigned' }}</span>
+          <span class="block text-[10px] text-gray-400 leading-none mb-0.5"
+            >Assignee</span
+          >
+          <span class="text-[#041B3C] font-semibold text-[12px]">{{
+            epic.assignee?.name || 'Unassigned'
+          }}</span>
         </div>
       </div>
 
       <div class="text-right">
-        <span class="block text-[10px] text-gray-400 leading-none mb-0.5 uppercase">Deadline</span>
-        <span class="text-[#64748B] text-[12px] font-medium">{{ epic.deadline | date:'mediumDate' }}</span>
+        <span
+          class="block text-[10px] text-gray-400 leading-none mb-0.5 uppercase"
+          >Deadline</span
+        >
+        <span class="text-[#64748B] text-[12px] font-medium">{{
+          epic.deadline | date: 'mediumDate'
+        }}</span>
       </div>
+    </div>
+
+    <div class="flex items-center justify-between text-[11px] text-gray-400">
+      <span>Created by: {{ epic.created_by?.name || 'Unknown' }}</span>
+      <span>{{ epic.created_at | date: 'mediumDate' }}</span>
     </div>
   </div>
 </div>

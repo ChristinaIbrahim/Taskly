@@ -1,132 +1,126 @@
 <div class="p-6 max-w-7xl mx-auto">
-  <div
-    class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6"
-  >
-    <div>
-      <nav class="text-xs text-gray-400 uppercase tracking-wider mb-2">
-        <a
-          routerLink="/project"
-          class="hover:text-[#003D9B] hover:underline transition-all cursor-pointer"
-          >PROJECTS</a
-        >
-        &gt;
-        <span>{{ projectName }}</span>
-        &gt;
-        <span class="text-[#003D9B] font-semibold">EPICS</span>
-      </nav>
-      <h1 class="text-3xl font-bold text-[#0F172A]">Project Epics</h1>
-    </div>
-
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-2xl font-bold text-[#041B3C]">Project Epics</h1>
     <button
-      class="bg-[#003D9B] text-white px-5 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-[#002d72] transition-colors shrink-0 shadow-sm"
+      (click)="showForm = !showForm"
+      class="bg-[#004EEB] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors cursor-pointer"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="2.5"
-        stroke="currentColor"
-        class="w-4 h-4"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M12 4.5v15m7.5-7.5h-15"
-        />
-      </svg>
-      New Epic
+      {{ showForm ? 'Cancel' : '+ New Epic' }}
     </button>
   </div>
 
-  <div class="mb-6 flex gap-3">
-    <div class="relative flex-1 max-w-md">
-      <span
-        class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-gray-400"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          class="w-4 h-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.608 10.608Z"
-          />
-        </svg>
-      </span>
-      <input
-        id="search-epics"
-        type="text"
-        placeholder="Search epics..."
-        aria-label="Search epics"
-        class="w-full bg-[#EAF0F9]/50 border-0 rounded-lg pl-10 pr-4 py-2.5 text-sm text-[#0F172A] placeholder-gray-400 focus:ring-2 focus:ring-[#003D9B]/20 outline-none"
-      />
+  @if (showForm) {
+    <div class="mb-8">
+      <app-form-epic
+        [projectId]="projectId"
+        [projectMembers]="projectMembers"
+        (created)="onEpicCreated($event)"
+        (cancelled)="showForm = false"
+      ></app-form-epic>
     </div>
-  </div>
+  }
 
   @if (isLoading) {
-    <div>
-      <app-skelton></app-skelton>
-    </div>
-  }
-
-  @if (!isLoading && errorMessage) {
-    <div class="p-6 text-center text-red-500 font-medium text-sm">
-      {{ errorMessage }}
-    </div>
-  }
-
-  @if (!isLoading && !errorMessage) {
-    <div>
-      @if (epics.length === 0) {
-        <div
-          class="p-12 text-center text-gray-500 bg-white rounded-xl border border-gray-100 shadow-sm"
-        >
-          No epics found for this project. Click "New Epic" to add one.
-        </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (item of [1, 2, 3, 4, 5, 6]; track item) {
+        <app-epic-card-skeleton></app-epic-card-skeleton>
       }
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        @for (item of epics; track item) {
-          <app-card-epic [epic]="item"> </app-card-epic>
-        }
-      </div>
-      <div
-        class="flex justify-between items-center mt-6 text-xs text-gray-500"
-      >
-        <div>Showing 0 of {{ epics.length }} epics</div>
-        <div class="flex gap-1">
-          <button
-            type="button"
-            aria-label="Previous page"
-            class="p-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
-          >
-            &lt;
-          </button>
-          <button
-            type="button"
-            class="px-3 py-1.5 rounded bg-[#003D9B] text-white font-semibold"
-          >
-            1
-          </button>
-          <button
-            type="button"
-            class="px-3 py-1.5 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
-          >
-            2
-          </button>
-          <button
-            type="button"
-            aria-label="Next page"
-            class="p-2 rounded border border-gray-200 hover:bg-gray-50 transition-colors cursor-pointer"
-          >
-            &gt;
-          </button>
+    </div>
+  } @else if (hasError) {
+    <app-empty-error (retry)="fetchEpics(projectId)"></app-empty-error>
+  } @else if (epics.length === 0) {
+    <div class="flex flex-col items-center justify-center text-center py-16 px-6">
+      <!-- Icon cluster -->
+      <div class="bg-white rounded-2xl shadow-md p-5 mb-8">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="w-14 h-14 rounded-xl bg-[#DBEAFE] flex items-center justify-center">
+            <svg class="w-6 h-6 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l2.4 4.86L19.8 8l-4 3.9.94 5.48L12 14.9l-4.74 2.48L8.2 11.9l-4-3.9 5.4-1.14L12 2z" />
+            </svg>
+          </div>
+          <div class="w-14 h-14 rounded-xl bg-[#EFF6FF] flex items-center justify-center">
+            <svg class="w-6 h-6 text-[#93A5C4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v3m0 12v3m9-9h-3M6 12H3m14.24-6.24l-2.12 2.12M8.88 15.12l-2.12 2.12m0-10.48l2.12 2.12m6.24 6.24l2.12 2.12" />
+            </svg>
+          </div>
+          <div class="w-14 h-14 rounded-xl bg-[#EFF6FF] flex items-center justify-center">
+            <svg class="w-6 h-6 text-[#93A5C4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" stroke-width="2" />
+              <rect x="14" y="3" width="7" height="7" rx="1.5" stroke-width="2" />
+              <rect x="3" y="14" width="7" height="7" rx="1.5" stroke-width="2" />
+              <rect x="14" y="14" width="7" height="7" rx="1.5" stroke-width="2" />
+            </svg>
+          </div>
+          <div class="w-14 h-14 rounded-xl border-2 border-dashed border-[#C3D3F0] flex items-center justify-center">
+            <svg class="w-6 h-6 text-[#93A5C4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
         </div>
       </div>
+
+      <h3 class="text-2xl font-bold text-[#041B3C] mb-3">No epics in this project yet.</h3>
+      <p class="text-sm text-gray-500 max-w-md mb-8">
+        Break down your large project into manageable epics to track progress better and maintain architectural clarity.
+      </p>
+
+      <button
+        (click)="showForm = true"
+        class="bg-[#004EEB] text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors cursor-pointer flex items-center gap-2 mb-12"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M13 2L4.5 14.5h5L10 22l9-13h-5l-1-7z" />
+        </svg>
+        Create First Epic
+      </button>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl text-left">
+        <div class="bg-[#F8FAFC] rounded-xl p-5">
+          <div class="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center mb-3">
+            <svg class="w-4 h-4 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.5 5.5L21 10l-5.5 2.5L13 18l-2.5-5.5L5 10l5.5-2.5L13 2z" />
+            </svg>
+          </div>
+          <h4 class="text-sm font-bold text-[#041B3C] mb-1">High-Level Goals</h4>
+          <p class="text-xs text-gray-500 leading-relaxed">
+            Define the broad objectives that span across multiple cycles.
+          </p>
+        </div>
+
+        <div class="bg-[#F8FAFC] rounded-xl p-5">
+          <div class="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center mb-3">
+            <svg class="w-4 h-4 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <circle cx="6" cy="6" r="2.5" stroke-width="2" />
+              <circle cx="18" cy="6" r="2.5" stroke-width="2" />
+              <circle cx="6" cy="18" r="2.5" stroke-width="2" />
+              <circle cx="18" cy="18" r="2.5" stroke-width="2" />
+              <path stroke-linecap="round" stroke-width="2" d="M8 6h8M6 8v8M18 8v8M8 18h8" />
+            </svg>
+          </div>
+          <h4 class="text-sm font-bold text-[#041B3C] mb-1">Hierarchy Design</h4>
+          <p class="text-xs text-gray-500 leading-relaxed">
+            Link individual tasks to parent epics for a consolidated view.
+          </p>
+        </div>
+
+        <div class="bg-[#F8FAFC] rounded-xl p-5">
+          <div class="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center mb-3">
+            <svg class="w-4 h-4 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 17l5-5 4 4 8-8M15 8h5v5" />
+            </svg>
+          </div>
+          <h4 class="text-sm font-bold text-[#041B3C] mb-1">Track Velocity</h4>
+          <p class="text-xs text-gray-500 leading-relaxed">
+            Visualize percentage completion at a macro project level.
+          </p>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (epic of epics; track epic.id) {
+        <app-card-epic [epic]="epic"></app-card-epic>
+      }
     </div>
   }
 </div>

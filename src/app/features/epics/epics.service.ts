@@ -3,12 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Epic, ProjectMember } from './epics.model';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../../core/services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EpicsService {
   private readonly http = inject(HttpClient);
+  private readonly authService = inject(AuthService);
 
   private baseUrl = environment.supabaseUrl;
   private apiKey = environment.supabase_api_key;
@@ -21,14 +23,14 @@ export class EpicsService {
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
       apikey: this.apiKey,
-      Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+      Authorization: `Bearer ${this.authService.getToken() || ''}`,
       'Content-Type': 'application/json',
     });
   }
 
   getProjectEpics(projectId: string): Observable<Epic[]> {
     return this.http.get<Epic[]>(
-      `${this.getCleanUrl('rest/v1/epics')}?project_id=eq.${projectId}&select=*`,
+      `${this.getCleanUrl('rest/v1/project_epics')}?project_id=eq.${projectId}&select=*`,
       { headers: this.getHeaders() },
     );
   }
@@ -42,7 +44,7 @@ export class EpicsService {
 
   createEpic(epicData: Partial<Epic>): Observable<Record<string, unknown>> {
     return this.http.post<Record<string, unknown>>(
-      this.getCleanUrl('rest/v1/epics'),
+      this.getCleanUrl('rest/v1/project_epics'),
       epicData,
       { headers: this.getHeaders() },
     );

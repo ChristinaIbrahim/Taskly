@@ -1,114 +1,71 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-  AbstractControl,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Epic, ProjectMember } from '../../epics.model';
 import { EpicsService } from '../../epics.service';
-import { ProjectMember } from '../../epics.model';
 
 @Component({
   selector: 'app-form-epic',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './form-epic.component.html',
-  styleUrl: './form-epic.component.css',
 })
 export class FormEpicComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   private readonly epicsService = inject(EpicsService);
 
-  projectId: string | null = null;
+  @Input({ required: true }) projectId!: string;
+  @Input() projectMembers: ProjectMember[] = [];
+
+  @Output() created = new EventEmitter<Epic>();
+  @Output() cancelled = new EventEmitter<void>();
+
   epicForm!: FormGroup;
-  members: ProjectMember[] = [];
-  isLoadingMembers = true;
   isSubmitting = false;
-  errorMessage: string | null = null;
+  errorMessage = '';
 
   ngOnInit(): void {
-    this.projectId =
-      this.route.snapshot.paramMap.get('id') ||
-      this.route.parent?.snapshot.paramMap.get('id') ||
-      null;
-
-    this.initForm();
-
-    if (this.projectId) {
-      this.fetchMembers(this.projectId);
-    } else {
-      this.errorMessage = 'Project ID not found in the URL.';
-    }
-  }
-
-  private initForm(): void {
     this.epicForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: [''],
       assignee_id: [''],
-      deadline: ['', [this.futureDateValidator]],
+      deadline: [''],
     });
   }
 
-  private fetchMembers(id: string): void {
-    this.isLoadingMembers = true;
-    this.epicsService.getProjectMembers(id).subscribe({
-      next: (data) => {
-        this.members = data;
-        this.isLoadingMembers = false;
-      },
-      error: (err) => {
-        console.error('Error fetching members:', err);
-        this.isLoadingMembers = false;
-      },
-    });
-  }
-
-  private futureDateValidator(
-    control: AbstractControl,
-  ): Record<string, boolean> | null {
-    if (!control.value) return null;
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const selectedDate = new Date(control.value);
-    selectedDate.setHours(0, 0, 0, 0);
-
-    return selectedDate >= today ? null : { pastDate: true };
+  onCancel(): void {
+    this.epicForm.reset();
+    this.cancelled.emit();
   }
 
   onSubmit(): void {
-    if (this.epicForm.invalid || !this.projectId) {
+    if (this.epicForm.invalid) {
       this.epicForm.markAllAsTouched();
       return;
     }
 
     this.isSubmitting = true;
-    this.errorMessage = null;
+    this.errorMessage = '';
 
-    const formValues = this.epicForm.value;
-    const epicPayload = {
-      title: formValues.title,
-      description: formValues.description || null,
-      assignee_id: formValues.assignee_id || null,
-      deadline: formValues.deadline || null,
+    const formValue = this.epicForm.value;
+
+    const payload: Partial<Epic> = {
+      title: formValue.title,
+      description: formValue.description || null,
+      assignee_id: formValue.assignee_id || null,
+      deadline: formValue.deadline || null,
       project_id: this.projectId,
-    };
+    } as Partial<Epic>;
 
-    this.epicsService.createEpic(epicPayload).subscribe({
-      next: () => {
+    this.epicsService.createEpic(payload).subscribe({
+      next: (response) => {
         this.isSubmitting = false;
-        this.router.navigate(['/project', this.projectId, 'epics']);
+        this.created.emit(response as unknown as Epic);
+        this.epicForm.reset();
       },
-      error: (err) => {
-        console.error('Error creating epic:', err);
-        this.errorMessage = 'Failed to create epic. Please try again.';
+      error: () => {
         this.isSubmitting = false;
+        this.errorMessage = 'Failed to create epic. Please try again.';
       },
     });
   }
