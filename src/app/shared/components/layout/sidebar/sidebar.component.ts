@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
-import { AppIconsDirective } from '../../../shared/directives/app-icons.directive';
+import { AuthService } from '../../../../core/services/auth.service';
+import { AppIconsDirective } from '../../../directives/app-icons.directive';
 import { filter, Subscription } from 'rxjs';
 
 @Component({
