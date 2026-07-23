@@ -7,7 +7,8 @@ import { CardEpicComponent } from './components/card-epic/card-epic.component';
 import { EpicCardSkeletonComponent } from './components/epic-card-skeleton/epic-card-skeleton.component';
 import { EmptyErrorComponent } from './components/empty-error/empty-error.component';
 import { FormEpicComponent } from './components/form-epic/form-epic.component';
-
+import { AppIconsDirective } from '../../shared/directives/app-icons.directive';
+import { EmptyEpicComponent } from './empty-epic/empty-epic.component';
 @Component({
   selector: 'app-epics',
   standalone: true,
@@ -17,6 +18,8 @@ import { FormEpicComponent } from './components/form-epic/form-epic.component';
     EpicCardSkeletonComponent,
     EmptyErrorComponent,
     FormEpicComponent,
+    AppIconsDirective,
+    EmptyEpicComponent
   ],
   templateUrl: './epics.component.html',
   styleUrls: ['./epics.component.css'],

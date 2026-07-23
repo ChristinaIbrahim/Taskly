@@ -1,12 +1,11 @@
 <div class="p-6 max-w-7xl mx-auto">
   <div class="flex items-center justify-between mb-6">
-    <h1 class="text-2xl font-bold text-[#041B3C]">Project Epics</h1>
-    <button
+    <!-- <button
       (click)="showForm = !showForm"
       class="bg-[#004EEB] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors cursor-pointer"
     >
       {{ showForm ? 'Cancel' : '+ New Epic' }}
-    </button>
+    </button> -->
   </div>
 
   @if (showForm) {
@@ -29,93 +28,7 @@
   } @else if (hasError) {
     <app-empty-error (retry)="fetchEpics(projectId)"></app-empty-error>
   } @else if (epics.length === 0) {
-    <div class="flex flex-col items-center justify-center text-center py-16 px-6">
-      <!-- Icon cluster -->
-      <div class="bg-white rounded-2xl shadow-md p-5 mb-8">
-        <div class="grid grid-cols-2 gap-3">
-          <div class="w-14 h-14 rounded-xl bg-[#DBEAFE] flex items-center justify-center">
-            <svg class="w-6 h-6 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l2.4 4.86L19.8 8l-4 3.9.94 5.48L12 14.9l-4.74 2.48L8.2 11.9l-4-3.9 5.4-1.14L12 2z" />
-            </svg>
-          </div>
-          <div class="w-14 h-14 rounded-xl bg-[#EFF6FF] flex items-center justify-center">
-            <svg class="w-6 h-6 text-[#93A5C4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v3m0 12v3m9-9h-3M6 12H3m14.24-6.24l-2.12 2.12M8.88 15.12l-2.12 2.12m0-10.48l2.12 2.12m6.24 6.24l2.12 2.12" />
-            </svg>
-          </div>
-          <div class="w-14 h-14 rounded-xl bg-[#EFF6FF] flex items-center justify-center">
-            <svg class="w-6 h-6 text-[#93A5C4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <rect x="3" y="3" width="7" height="7" rx="1.5" stroke-width="2" />
-              <rect x="14" y="3" width="7" height="7" rx="1.5" stroke-width="2" />
-              <rect x="3" y="14" width="7" height="7" rx="1.5" stroke-width="2" />
-              <rect x="14" y="14" width="7" height="7" rx="1.5" stroke-width="2" />
-            </svg>
-          </div>
-          <div class="w-14 h-14 rounded-xl border-2 border-dashed border-[#C3D3F0] flex items-center justify-center">
-            <svg class="w-6 h-6 text-[#93A5C4]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      <h3 class="text-2xl font-bold text-[#041B3C] mb-3">No epics in this project yet.</h3>
-      <p class="text-sm text-gray-500 max-w-md mb-8">
-        Break down your large project into manageable epics to track progress better and maintain architectural clarity.
-      </p>
-
-      <button
-        (click)="showForm = true"
-        class="bg-[#004EEB] text-white px-6 py-3 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors cursor-pointer flex items-center gap-2 mb-12"
-      >
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M13 2L4.5 14.5h5L10 22l9-13h-5l-1-7z" />
-        </svg>
-        Create First Epic
-      </button>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl text-left">
-        <div class="bg-[#F8FAFC] rounded-xl p-5">
-          <div class="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center mb-3">
-            <svg class="w-4 h-4 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.5 5.5L21 10l-5.5 2.5L13 18l-2.5-5.5L5 10l5.5-2.5L13 2z" />
-            </svg>
-          </div>
-          <h4 class="text-sm font-bold text-[#041B3C] mb-1">High-Level Goals</h4>
-          <p class="text-xs text-gray-500 leading-relaxed">
-            Define the broad objectives that span across multiple cycles.
-          </p>
-        </div>
-
-        <div class="bg-[#F8FAFC] rounded-xl p-5">
-          <div class="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center mb-3">
-            <svg class="w-4 h-4 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <circle cx="6" cy="6" r="2.5" stroke-width="2" />
-              <circle cx="18" cy="6" r="2.5" stroke-width="2" />
-              <circle cx="6" cy="18" r="2.5" stroke-width="2" />
-              <circle cx="18" cy="18" r="2.5" stroke-width="2" />
-              <path stroke-linecap="round" stroke-width="2" d="M8 6h8M6 8v8M18 8v8M8 18h8" />
-            </svg>
-          </div>
-          <h4 class="text-sm font-bold text-[#041B3C] mb-1">Hierarchy Design</h4>
-          <p class="text-xs text-gray-500 leading-relaxed">
-            Link individual tasks to parent epics for a consolidated view.
-          </p>
-        </div>
-
-        <div class="bg-[#F8FAFC] rounded-xl p-5">
-          <div class="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center mb-3">
-            <svg class="w-4 h-4 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 17l5-5 4 4 8-8M15 8h5v5" />
-            </svg>
-          </div>
-          <h4 class="text-sm font-bold text-[#041B3C] mb-1">Track Velocity</h4>
-          <p class="text-xs text-gray-500 leading-relaxed">
-            Visualize percentage completion at a macro project level.
-          </p>
-        </div>
-      </div>
-    </div>
+     <app-empty-epic></app-empty-epic>
   } @else {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (epic of epics; track epic.id) {

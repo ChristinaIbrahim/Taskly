@@ -20,12 +20,16 @@ export class EpicsService {
     return `${url}${endpoint}`;
   }
 
-  private getHeaders(): HttpHeaders {
-    return new HttpHeaders({
+  private getHeaders(withRepresentation = false): HttpHeaders {
+    const headers: Record<string, string> = {
       apikey: this.apiKey,
       Authorization: `Bearer ${this.authService.getToken() || ''}`,
       'Content-Type': 'application/json',
-    });
+    };
+    if (withRepresentation) {
+      headers['Prefer'] = 'return=representation';
+    }
+    return new HttpHeaders(headers);
   }
 
   getProjectEpics(projectId: string): Observable<Epic[]> {
