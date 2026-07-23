@@ -3,11 +3,11 @@
   <div class="mb-8">
     <div class="flex items-center gap-2 text-xs font-medium text-gray-400 mb-2">
       <span routerLink="/project" >PROJECTS</span>
-      <span>/</span>
+      <span>></span>
       <span>PROJECT ALPHA</span>
-      <span>/</span>
+      <span>></span>
       <span>EPICS</span>
-      <span>/</span>
+      <span>></span>
       <span class="text-gray-700 font-semibold">NEW EPIC</span>
     </div>
     <h2 class="text-2xl font-bold text-[#041B3C] mb-1.5">Create New Epic</h2>
@@ -16,7 +16,6 @@
     </p>
   </div>
 
-  <!-- Form Card -->
   <div class="bg-white border border-[#E2E8F0] rounded-2xl p-8 shadow-sm">
     @if (errorMessage) {
       <div class="bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded-lg mb-6">
@@ -25,8 +24,6 @@
     }
 
     <form [formGroup]="epicForm" (ngSubmit)="onSubmit()">
-
-      <!-- Title Field -->
       <div class="mb-6">
         <label class="block text-xs font-bold uppercase text-gray-500 mb-2">
           Title <span class="text-red-500">*</span>
@@ -35,7 +32,7 @@
           type="text"
           formControlName="title"
           placeholder="e.g. Structural Foundation Phase"
-          class="w-full bg-[#EEF2F9] border border-transparent focus:border-[#004EEB] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] placeholder-gray-400 transition-all outline-none"
+          class="w-full bg-[#D7E2FF] border border-transparent focus:border-[#004EEB] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] placeholder-gray-400 transition-all outline-none"
         />
         @if (epicForm.get('title')?.touched && epicForm.get('title')?.invalid) {
           <span class="text-[11px] font-semibold text-red-500 mt-1.5 block tracking-wide">
@@ -44,7 +41,6 @@
         }
       </div>
 
-      <!-- Description Field -->
       <div class="mb-6">
         <div class="flex items-center justify-between mb-2">
           <label class="block text-xs font-bold uppercase text-gray-500">Description</label>
@@ -54,21 +50,20 @@
           formControlName="description"
           rows="4"
           placeholder="Describe the scope and objectives of this epic..."
-          class="w-full bg-[#EEF2F9] border border-transparent focus:border-[#004EEB] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] placeholder-gray-400 transition-all outline-none resize-none"
+          class="w-full bg-[#D7E2FF] border border-transparent focus:border-[#004EEB] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] placeholder-gray-400 transition-all outline-none resize-none"
         ></textarea>
         <div class="text-right text-[11px] text-gray-400 mt-1">0 / 500 characters</div>
       </div>
 
-      <!-- Assignee & Deadline Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div>
           <label class="block text-xs font-bold uppercase text-gray-500 mb-2">Assignee</label>
           <select
             formControlName="assignee_id"
-            class="w-full bg-[#EEF2F9] border border-transparent focus:border-[#004EEB] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] transition-all outline-none cursor-pointer">
+            class="w-full bg-[#D7E2FF] border border-transparent focus:border-[#D7E2FF] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] transition-all outline-none cursor-pointer">
             <option value="" disabled selected>Select a member...</option>
             @for (member of projectMembers; track member.id) {
-              <option [value]="member.id">{{ member.name }}</option>
+              <option [value]="member.id">Mohammed Taha</option>
             }
           </select>
           @if (epicForm.get('assignee_id')?.touched && epicForm.get('assignee_id')?.invalid) {
@@ -81,15 +76,13 @@
           <input
             type="date"
             formControlName="deadline"
-            class="w-full bg-[#EEF2F9] border border-transparent focus:border-[#004EEB] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] transition-all outline-none"
+            class="w-full bg-[#D7E2FF] border border-transparent focus:border-[#004EEB] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] transition-all outline-none"
           />
           @if (epicForm.get('deadline')?.touched && epicForm.get('deadline')?.errors?.['pastDate']) {
             <span class="text-[11px] font-semibold text-red-500 mt-1.5 block">Deadline must be today or a future date.</span>
           }
         </div>
       </div>
-
-      <!-- Actions Buttons -->
       <div class="flex items-center justify-end gap-4 pt-2">
         <button
           type="button"
