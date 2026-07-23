@@ -5,11 +5,14 @@ import { AppIconsDirective } from '../../../shared/directives/app-icons.directiv
 @Component({
   selector: 'app-empty-epic',
   standalone: true,
-  imports: [CommonModule,AppIconsDirective],
+  imports: [CommonModule, AppIconsDirective],
   templateUrl: './empty-epic.component.html',
   styleUrls: ['./empty-epic.component.css']
 })
 export class EmptyEpicComponent {
+  @Output() createEpic = new EventEmitter<void>();
 
- showForm = false;
+  onCreateClick(): void {
+    this.createEpic.emit();
+  }
 }

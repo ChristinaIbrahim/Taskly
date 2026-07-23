@@ -1,11 +1,5 @@
 <div class="p-6 max-w-7xl mx-auto">
   <div class="flex items-center justify-between mb-6">
-    <!-- <button
-      (click)="showForm = !showForm"
-      class="bg-[#004EEB] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors cursor-pointer"
-    >
-      {{ showForm ? 'Cancel' : '+ New Epic' }}
-    </button> -->
   </div>
 
   @if (showForm) {
@@ -17,9 +11,7 @@
         (cancelled)="showForm = false"
       ></app-form-epic>
     </div>
-  }
-
-  @if (isLoading) {
+  } @else if (isLoading) {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (item of [1, 2, 3, 4, 5, 6]; track item) {
         <app-epic-card-skeleton></app-epic-card-skeleton>
@@ -28,7 +20,7 @@
   } @else if (hasError) {
     <app-empty-error (retry)="fetchEpics(projectId)"></app-empty-error>
   } @else if (epics.length === 0) {
-     <app-empty-epic></app-empty-epic>
+    <app-empty-epic (createEpic)="showForm = true"></app-empty-epic>
   } @else {
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @for (epic of epics; track epic.id) {

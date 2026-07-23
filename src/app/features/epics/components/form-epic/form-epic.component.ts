@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Epic, ProjectMember } from '../../epics.model';
 import { EpicsService } from '../../epics.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-form-epic',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,RouterLink],
   templateUrl: './form-epic.component.html',
 })
 export class FormEpicComponent implements OnInit {
