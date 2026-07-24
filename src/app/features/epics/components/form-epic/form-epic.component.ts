@@ -25,7 +25,7 @@ export class FormEpicComponent implements OnInit {
     return this._projectMembers;
   }
 
-  @Output() created = new EventEmitter<Epic>();
+  @Output() created = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 
   epicForm!: FormGroup;
@@ -65,7 +65,6 @@ export class FormEpicComponent implements OnInit {
     this.errorMessage = '';
 
     const formValue = this.epicForm.value;
-
     const payload: Partial<Epic> = {
       title: formValue.title,
       description: formValue.description || null,
@@ -75,10 +74,10 @@ export class FormEpicComponent implements OnInit {
     } as Partial<Epic>;
 
     this.epicsService.createEpic(payload).subscribe({
-      next: (response) => {
+      next: () => {
         this.isSubmitting = false;
-        this.created.emit(response as unknown as Epic);
         this.epicForm.reset();
+        this.created.emit();
       },
       error: () => {
         this.isSubmitting = false;

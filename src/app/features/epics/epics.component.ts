@@ -1,25 +1,25 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { EpicsService } from './epics.service';
 import { Epic, ProjectMember } from './epics.model';
 import { CardEpicComponent } from './components/card-epic/card-epic.component';
 import { EpicCardSkeletonComponent } from './components/epic-card-skeleton/epic-card-skeleton.component';
 import { EmptyErrorComponent } from './components/empty-error/empty-error.component';
 import { FormEpicComponent } from './components/form-epic/form-epic.component';
-import { AppIconsDirective } from '../../shared/directives/app-icons.directive';
-import { EmptyEpicComponent } from './empty-epic/empty-epic.component';
+
 @Component({
   selector: 'app-epics',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
+    RouterLink,
     CardEpicComponent,
     EpicCardSkeletonComponent,
     EmptyErrorComponent,
     FormEpicComponent,
-    AppIconsDirective,
-    EmptyEpicComponent
   ],
   templateUrl: './epics.component.html',
   styleUrls: ['./epics.component.css'],
@@ -34,6 +34,15 @@ export class EpicsComponent implements OnInit {
   hasError = false;
   projectId = '';
   showForm = false;
+  searchTerm = '';
+
+  get filteredEpics(): Epic[] {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) return this.epics;
+    return this.epics.filter((epic) =>
+      epic.title?.toLowerCase().includes(term),
+    );
+  }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -57,7 +66,7 @@ export class EpicsComponent implements OnInit {
 
     this.epicsService.getProjectEpics(projectId).subscribe({
       next: (data) => {
-        this.epics = data;
+        this.epics = data || [];
         this.isLoading = false;
       },
       error: () => {
@@ -78,8 +87,8 @@ export class EpicsComponent implements OnInit {
     });
   }
 
-  onEpicCreated(newEpic: Epic): void {
-    this.epics = [newEpic, ...this.epics];
+  onEpicCreated(): void {
     this.showForm = false;
+    this.fetchEpics(this.projectId);
   }
 }
