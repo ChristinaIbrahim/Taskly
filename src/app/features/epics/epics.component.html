@@ -145,7 +145,7 @@
     } @else {
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @for (epic of filteredEpics; track epic.id) {
-          <app-card-epic [epic]="epic"></app-card-epic>
+          <app-card-epic [epic]="epic" (cardClick)="openEpicDetails(epic.id)"></app-card-epic>
         }
       </div>
 
@@ -166,5 +166,12 @@
     >
       +
     </button>
+  }
+  @if (selectedEpicId) {
+    <app-details-popup-epic
+      [projectId]="projectId"
+      [epicId]="selectedEpicId"
+      (closed)="closeEpicDetails()"
+    ></app-details-popup-epic>
   }
 </div>

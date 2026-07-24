@@ -8,7 +8,7 @@ import { CardEpicComponent } from './components/card-epic/card-epic.component';
 import { EpicCardSkeletonComponent } from './components/epic-card-skeleton/epic-card-skeleton.component';
 import { EmptyErrorComponent } from './components/empty-error/empty-error.component';
 import { FormEpicComponent } from './components/form-epic/form-epic.component';
-
+import { DetailsPopupEpicComponent } from './components/details-popup-epic/details-popup-epic.component';
 @Component({
   selector: 'app-epics',
   standalone: true,
@@ -20,6 +20,7 @@ import { FormEpicComponent } from './components/form-epic/form-epic.component';
     EpicCardSkeletonComponent,
     EmptyErrorComponent,
     FormEpicComponent,
+    DetailsPopupEpicComponent
   ],
   templateUrl: './epics.component.html',
   styleUrls: ['./epics.component.css'],
@@ -35,6 +36,7 @@ export class EpicsComponent implements OnInit {
   projectId = '';
   showForm = false;
   searchTerm = '';
+  selectedEpicId: string | null = null;
 
   get filteredEpics(): Epic[] {
     const term = this.searchTerm.trim().toLowerCase();
@@ -90,5 +92,12 @@ export class EpicsComponent implements OnInit {
   onEpicCreated(): void {
     this.showForm = false;
     this.fetchEpics(this.projectId);
+  }
+   openEpicDetails(epicId: string): void {
+    this.selectedEpicId = epicId;
+  }
+ 
+  closeEpicDetails(): void {
+    this.selectedEpicId = null;
   }
 }

@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AppIconsDirective } from '../../../shared/directives/app-icons.directive';
+import { AppIconsDirective } from '../../../../shared/directives/app-icons.directive';
 
 @Component({
   selector: 'app-empty-epic',

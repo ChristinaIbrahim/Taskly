@@ -1,5 +1,6 @@
 <div
-  class="relative overflow-hidden bg-white border border-[#E2E8F0] rounded-xl md:rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+  (click)="onCardClick()"
+  class="relative overflow-hidden bg-white border border-[#E2E8F0] rounded-xl md:rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer"
 >
   <div class="hidden md:block absolute top-0 left-0 w-1.5 h-full bg-[#65DCA4]"></div>
 
@@ -12,6 +13,7 @@
       </span>
       <button
         class="text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+        (click)="$event.stopPropagation()"
       >
         <svg
           class="w-5 h-5"
@@ -104,6 +106,3 @@
     </div>
   </div>
 </div>
-
-
-

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Epic } from '../../epics.model';
 
@@ -10,6 +10,11 @@ import { Epic } from '../../epics.model';
 })
 export class CardEpicComponent {
   @Input({ required: true }) epic!: Epic;
+  @Output() cardClick = new EventEmitter<void>();
+
+  onCardClick(): void {
+    this.cardClick.emit();
+  }
 
   getInitials(name?: string): string {
     if (!name) return 'U';
