@@ -6,13 +6,13 @@ import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'app-board-view-task',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './board-view-task.component.html',
   styleUrl: './board-view-task.component.css'
 })
 export class BoardViewTaskComponent  implements OnInit{
 
-  @Input() projectId: string = '';
+ @Input() projectId: string = '';
 
   private http = inject(HttpClient);
   private router = inject(Router);
@@ -20,7 +20,7 @@ export class BoardViewTaskComponent  implements OnInit{
   apiUrl = environment.supabaseUrl;
   apiKey = environment.supabase_api_key;
 
-  columns = [
+  columns: Array<{ key: string; label: string; tasks: any[]; count: number }> = [
     { key: 'TO_DO', label: 'TO DO', tasks: [], count: 0 },
     { key: 'IN_PROGRESS', label: 'IN PROGRESS', tasks: [], count: 0 },
     { key: 'BLOCKED', label: 'BLOCKED', tasks: [], count: 0 },
