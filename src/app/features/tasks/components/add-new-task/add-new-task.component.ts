@@ -4,26 +4,28 @@ import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } 
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-add-new-task',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './add-new-task.component.html',
-  styleUrls: ['./add-new-task.component.css']
+  styleUrls: ['./add-new-task.component.css'],
 })
 export class AddNewTaskComponent implements OnInit {
   private fb = inject(FormBuilder);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private http = inject(HttpClient);
+  private authService = inject(AuthService);
 
   taskForm!: FormGroup;
-  projectId: string = '';
+  projectId = '';
   epics: any[] = [];
   members: any[] = [];
-  isLoading: boolean = false;
-  errorMessage: string = '';
+  isLoading = false;
+  errorMessage = '';
 
   statuses = [
     { key: 'TO_DO', label: 'TO DO' },
@@ -33,59 +35,84 @@ export class AddNewTaskComponent implements OnInit {
     { key: 'READY_FOR_QA', label: 'READY FOR QA' },
     { key: 'REOPENED', label: 'REOPENED' },
     { key: 'READY_FOR_PRODUCTION', label: 'READY FOR PRODUCTION' },
-    { key: 'DONE', label: 'DONE' }
+    { key: 'DONE', label: 'DONE' },
   ];
 
   private apiUrl = environment.supabaseUrl;
   private apiKey = environment.supabase_api_key;
 
   ngOnInit(): void {
-    this.projectId = this.route.snapshot.paramMap.get('projectId') || '';
+    this.projectId = this.getProjectIdFromRoute();
+
     const prefilledEpicId = this.route.snapshot.queryParamMap.get('epic_id');
+    const prefilledStatus = this.route.snapshot.queryParamMap.get('status');
 
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
-      status: ['TO_DO', Validators.required],
+      status: [prefilledStatus || 'TO_DO', Validators.required],
       epic_id: [prefilledEpicId || ''],
       assignee_id: [''],
       due_date: [''],
-      description: ['']
+      description: [''],
     });
 
-    this.loadProjectEpics();
-    this.loadProjectMembers();
+    if (this.projectId) {
+      this.loadProjectEpics();
+      this.loadProjectMembers();
+    } else {
+      this.errorMessage = 'Could not determine the project. Please go back and try again.';
+    }
+  }
+  private getProjectIdFromRoute(): string {
+    let route: ActivatedRoute | null = this.route;
+    while (route) {
+      const id = route.snapshot.paramMap.get('id');
+      if (id) return id;
+      route = route.parent;
+    }
+    return '';
+  }
+
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      apikey: this.apiKey,
+      Authorization: `Bearer ${this.authService.getToken() || ''}`,
+      'Content-Type': 'application/json',
+    });
   }
 
   loadProjectEpics(): void {
-    const headers = new HttpHeaders({
-      'apikey': this.apiKey,
-      'Authorization': `Bearer ${this.apiKey}`
-    });
+    if (!this.projectId) return;
 
-    this.http.get<any[]>(`${this.apiUrl}rest/v1/epics?project_id=eq.${this.projectId}`, { headers }).subscribe({
-      next: (data) => {
-        this.epics = data;
-      },
-      error: (err) => {
-        console.error('Failed to load epics', err);
-      }
-    });
+    this.http
+      .get<any[]>(`${this.apiUrl}rest/v1/epics?project_id=eq.${this.projectId}`, {
+        headers: this.getHeaders(),
+      })
+      .subscribe({
+        next: (data) => {
+          this.epics = data;
+        },
+        error: (err) => {
+          console.error('Failed to load epics', err);
+        },
+      });
   }
 
   loadProjectMembers(): void {
-    const headers = new HttpHeaders({
-      'apikey': this.apiKey,
-      'Authorization': `Bearer ${this.apiKey}`
-    });
+    if (!this.projectId) return;
 
-    this.http.get<any[]>(`${this.apiUrl}rest/v1/projects_members?project_id=eq.${this.projectId}`, { headers }).subscribe({
-      next: (data) => {
-        this.members = data;
-      },
-      error: (err) => {
-        console.error('Failed to load members', err);
-      }
-    });
+    this.http
+      .get<any[]>(`${this.apiUrl}rest/v1/project_members?project_id=eq.${this.projectId}`, {
+        headers: this.getHeaders(),
+      })
+      .subscribe({
+        next: (data) => {
+          this.members = data;
+        },
+        error: (err) => {
+          console.error('Failed to load members', err);
+        },
+      });
   }
 
   formatEpicLabel(epic: any): string {
@@ -98,8 +125,11 @@ export class AddNewTaskComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.taskForm.invalid) {
+    if (this.taskForm.invalid || !this.projectId) {
       this.taskForm.markAllAsTouched();
+      if (!this.projectId) {
+        this.errorMessage = 'Could not determine the project. Please go back and try again.';
+      }
       return;
     }
 
@@ -111,29 +141,24 @@ export class AddNewTaskComponent implements OnInit {
       project_id: this.projectId,
       title: formValues.title,
       status: formValues.status,
-      epic_id: formValues.epic_id || null,
-      assignee_id: formValues.assignee_id || null,
+      epic_id: formValues.epic_id ? formValues.epic_id : null,
+      assignee_id: formValues.assignee_id ? formValues.assignee_id : null,
       due_date: formValues.due_date ? new Date(formValues.due_date).toISOString() : null,
-      description: formValues.description || null
+      description: formValues.description ? formValues.description : null,
     };
 
-    const headers = new HttpHeaders({
-      'apikey': this.apiKey,
-      'Authorization': `Bearer ${this.apiKey}`,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=minimal'
-    });
-
-    this.http.post(`${this.apiUrl}rest/v1/tasks`, payload, { headers }).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.router.navigate(['/project', this.projectId, 'tasks']);
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.errorMessage = 'Failed to create task. Please try again.';
-        console.error('Error creating task:', err);
-      }
-    });
+    this.http
+      .post(`${this.apiUrl}rest/v1/tasks`, payload, { headers: this.getHeaders() })
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.router.navigate(['/project', this.projectId, 'tasks']);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorMessage = 'Failed to create task. Please try again.';
+          console.error('Error creating task:', err);
+        },
+      });
   }
 }

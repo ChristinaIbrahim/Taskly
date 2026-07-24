@@ -40,6 +40,13 @@ export const routes: Routes = [
           ),
       },
       {
+        path: 'tasks/new',
+        loadComponent: () =>
+          import('../../features/tasks/components/add-new-task/add-new-task.component').then(
+            (m) => m.AddNewTaskComponent,
+          ),
+      },
+      {
         path: 'members',
         loadComponent: () =>
           import('../../features/members/members.component').then(
