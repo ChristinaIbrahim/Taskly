@@ -1,1 +1,53 @@
-<p>board-view-task works!</p>
+<div class="flex gap-4 overflow-x-auto pb-6">
+  @for (col of columns; track col.key) {
+    <div class="min-w-[280px] w-[280px] bg-[#F8FAFC] border border-gray-200 rounded-2xl p-4 flex flex-col gap-3">
+            <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full" [ngClass]="{
+            'bg-gray-400': col.key === 'TO_DO',
+            'bg-blue-500': col.key === 'IN_PROGRESS',
+            'bg-red-500': col.key === 'BLOCKED',
+            'bg-purple-500': col.key === 'IN_REVIEW',
+            'bg-yellow-500': col.key === 'READY_FOR_QA',
+            'bg-orange-500': col.key === 'REOPENED',
+            'bg-teal-500': col.key === 'READY_FOR_PRODUCTION',
+            'bg-green-500': col.key === 'DONE'
+          }"></span>
+          <h3 class="text-xs font-bold text-[#041B3C] tracking-wide">{{ col.label }}</h3>
+          <span class="bg-gray-200 text-gray-700 text-[10px] font-semibold px-2 py-0.5 rounded-full">{{ col.count }}</span>
+        </div>
+        <button 
+          (click)="onAddTask(col.key)"
+          class="w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
+          title="Add New Task">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+        </button>
+      </div>
+      <button 
+        (click)="onAddTask(col.key)"
+        class="border border-dashed border-gray-300 hover:border-[#004EEB] text-gray-400 hover:text-[#004EEB] rounded-xl py-2.5 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer bg-white">
+        <span class="text-sm">+</span> Add New Task
+      </button>
+      <div class="flex flex-col gap-3 overflow-y-auto max-h-[calc(100vh-280px)]">
+        @for (task of col.tasks; track task.id) {
+          <div class="bg-white border border-gray-200 rounded-xl p-3.5 shadow-sm hover:shadow-md transition-shadow cursor-pointer">
+            <h4 class="text-xs font-semibold text-[#041B3C] mb-2">{{ task.title }}</h4>
+            <div class="flex items-center justify-between text-[10px] text-gray-400">
+              @if (task.due_date) {
+                <span class="flex items-center gap-1">
+                  {{ task.due_date | date:'mediumDate' }}
+                </span>
+              }
+              <span class="bg-blue-50 text-[#004EEB] font-medium px-2 py-0.5 rounded-md">
+                {{ task.task_id || 'TASK' }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+
+    </div>
+  }
+</div>
