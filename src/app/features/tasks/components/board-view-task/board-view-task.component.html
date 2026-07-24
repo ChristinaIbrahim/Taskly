@@ -1,14 +1,13 @@
-<div class="flex gap-4 overflow-x-auto pb-6">
+<div class="grid grid-cols-4 gap-4 pb-6 w-full">
   @for (col of columns; track col.key) {
-    <div class="min-w-[280px] w-[280px] bg-[#F8FAFC] border border-gray-200 rounded-2xl p-4 flex flex-col gap-3">
+    <div class="bg-[#F8FAFC] border border-gray-200 rounded-2xl p-4 flex flex-col gap-3">
             <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full" [ngClass]="{
             'bg-gray-400': col.key === 'TO_DO',
             'bg-blue-500': col.key === 'IN_PROGRESS',
             'bg-red-500': col.key === 'BLOCKED',
-            'bg-purple-500': col.key === 'IN_REVIEW',
-           
+            'bg-purple-500': col.key === 'IN_REVIEW'
           }"></span>
           <h3 class="text-xs font-bold text-[#041B3C] tracking-wide">{{ col.label }}</h3>
           <span class="bg-gray-200 text-gray-700 text-[10px] font-semibold px-2 py-0.5 rounded-full">{{ col.count }}</span>
