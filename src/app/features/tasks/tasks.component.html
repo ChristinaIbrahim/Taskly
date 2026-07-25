@@ -53,9 +53,17 @@
     </div>
   </div>
 
-  @if (currentView === 'board') {
-    <app-board-view-task [projectId]="projectId"></app-board-view-task>
-  } @else if (currentView === 'list') {
-    <app-list-view-task [projectId]="projectId"></app-list-view-task>
-  }
+ @if (currentView === 'board') {
+  <app-board-view-task [projectId]="projectId"></app-board-view-task>
+} @else if (currentView === 'list') {
+  <app-list-view-task [projectId]="projectId"></app-list-view-task>
+}
+
+@if (selectedTaskId && selectedProjectId) {
+  <app-task-details-popup
+    [taskId]="selectedTaskId"
+    [projectId]="selectedProjectId"
+    (close)="closeTaskDetails()"
+  ></app-task-details-popup>
+}
 </div>
