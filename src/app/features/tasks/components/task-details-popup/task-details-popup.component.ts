@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { ToastService } from '../../../../shared/services/toast.service';
 
 @Component({
   selector: 'app-task-details-popup',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule], 
   templateUrl: './task-details-popup.component.html',
   styleUrls: ['./task-details-popup.component.css']
 })
@@ -13,12 +14,11 @@ export class TaskDetailsPopupComponent implements OnInit {
   @Input() taskId!: string | number;
   @Input() projectId!: string | number;
   @Output() close = new EventEmitter<void>();
-
+  private http = inject(HttpClient);
+  private toastService = inject(ToastService);
   task: any = null;
   isLoading = true;
   hasError = false;
-
-  constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     if (this.taskId && this.projectId) {
@@ -86,5 +86,6 @@ export class TaskDetailsPopupComponent implements OnInit {
 
   copyLink(): void {
     navigator.clipboard.writeText(window.location.href);
+    this.toastService.show('Link copied to clipboard!');
   }
 }
