@@ -1,0 +1,161 @@
+<div
+  (click)="onBackdropClick($event)"
+  (keyup.escape)="onClose()"
+  tabindex="0"
+  role="dialog"
+  aria-modal="true"
+  class="backdrop fixed inset-0 bg-black/40 z-50 flex items-end md:items-center justify-center p-0 md:p-6 focus:outline-none"
+>
+  <div
+    class="bg-white w-full md:max-w-4xl rounded-t-3xl md:rounded-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+  >
+    @if (isLoading) {
+      <div class="flex items-center justify-center py-32">
+        <span class="animate-spin w-8 h-8 border-4 border-[#004EEB] border-t-transparent rounded-full"></span>
+      </div>
+    } 
+    @else if (hasError || !task) {
+      <div class="flex flex-col items-center justify-center py-32 px-6 text-center">
+        <p class="text-sm text-gray-500 mb-4">
+          {{ hasError ? 'Failed to load task details' : 'Task not found' }}
+        </p>
+        <button
+          (click)="onClose()"
+          class="bg-[#004EEB] text-white px-5 py-2 rounded-xl text-xs font-semibold hover:bg-blue-700 transition-colors cursor-pointer"
+          type="button"
+        >
+          Close
+        </button>
+      </div>
+    } 
+    @else {
+      <div class="flex flex-col md:flex-row flex-1 overflow-hidden">
+        
+        <div class="flex-1 p-6 md:p-8 overflow-y-auto border-b md:border-b-0 md:border-r border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] font-bold text-[#004EEB] tracking-wider uppercase bg-blue-50 px-2.5 py-1 rounded-md">
+                {{ task.task_id || 'TASK-125' }}
+              </span>
+              @if (task.epic) {
+                <span class="hidden sm:flex items-center gap-1 text-xs font-medium text-gray-600 bg-gray-100 px-2.5 py-1 rounded-md">
+                  <svg class="w-3.5 h-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                  </svg>
+                  {{ task.epic.title || 'Epic' }}
+                </span>
+              }
+            </div>
+            <button
+              (click)="onClose()"
+              class="md:hidden text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+              type="button"
+            >
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <h2 class="text-xl md:text-2xl font-bold text-[#041B3C] mb-6">
+            {{ task.title }}
+          </h2>
+          <div class="mb-6">
+            <span class="block text-[11px] font-bold uppercase text-gray-400 mb-2">Description</span>
+            <div 
+              class="w-full bg-[#F8FAFC] border border-gray-200 rounded-2xl p-4 text-sm min-h-[140px] whitespace-pre-wrap leading-relaxed"
+              [class.text-gray-400]="!task.description"
+              [class.text-gray-700]="task.description"
+            >
+              {{ task.description || 'Detailed task description goes here...' }}
+            </div>
+          </div>
+        </div>
+        <div class="w-full md:w-80 bg-gray-50/50 p-6 md:p-8 flex flex-col justify-between overflow-y-auto">
+          <div class="space-y-6">
+            
+            <div>
+              <span class="block text-[11px] font-bold uppercase text-gray-400 mb-2">Status</span>
+              <div class="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 shadow-sm">
+                <span class="text-xs font-bold px-2.5 py-1 rounded-md border uppercase" [ngClass]="getStatusClass(task.status)">
+                  {{ task.status || 'Todo' }}
+                </span>
+                <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <span class="block text-[11px] font-bold uppercase text-gray-400 mb-2">Assignee</span>
+              <div class="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 shadow-sm">
+                @if (task.assignee?.name) {
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-full bg-[#004EEB] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                      {{ getInitials(task.assignee.name) }}
+                    </div>
+                    <span class="text-xs font-semibold text-[#041B3C]">{{ task.assignee.name }}</span>
+                  </div>
+                } @else {
+                  <span class="text-xs text-gray-400 font-medium">Unassigned</span>
+                }
+                <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <span class="block text-[11px] font-bold uppercase text-gray-400 mb-2">Reporter</span>
+              <div class="flex items-center gap-2.5 bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 shadow-sm">
+                <div class="w-7 h-7 rounded-full bg-slate-700 text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                  {{ getInitials(task.reporter?.name || 'Alex Sterling') }}
+                </div>
+                <span class="text-xs font-semibold text-[#041B3C]">{{ task.reporter?.name || 'Alex Sterling' }}</span>
+              </div>
+            </div>
+            <div>
+              <span class="block text-[11px] font-bold uppercase text-gray-400 mb-2">Due Date</span>
+              <div class="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 shadow-sm text-xs text-[#041B3C]">
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                  </svg>
+                  <span class="font-medium">{{ (task.due_date | date: 'dd MMM yyyy') || '—' }}</span>
+                </div>
+                <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <span class="block text-[11px] font-bold uppercase text-gray-400 mb-2">Created At</span>
+              <div class="text-xs font-medium text-gray-700 px-1">
+                {{ (task.created_at | date: 'dd MMM yyyy') || '—' }}
+              </div>
+            </div>
+
+          </div>
+          <div class="hidden md:flex items-center justify-between pt-6 mt-6 border-t border-gray-200">
+            <button
+              (click)="copyLink()"
+              class="flex items-center gap-1.5 text-xs font-semibold text-gray-600 hover:text-[#004EEB] transition-colors cursor-pointer"
+              type="button"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round5" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+              </svg>
+              Copy link
+            </button>
+            <button
+              (click)="onClose()"
+              class="bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-xl text-xs font-semibold hover:bg-gray-50 transition-colors cursor-pointer shadow-sm"
+              type="button"
+            >
+              Close
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    }
+  </div>
+</div>
