@@ -16,8 +16,9 @@
   <div class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm">
     <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="space-y-5">
       <div>
-        <label class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Title <span class="text-red-500">*</span></label>
+        <label for="task-title" class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Title <span class="text-red-500">*</span></label>
         <input
+          id="task-title"
           type="text"
           formControlName="title"
           placeholder="e.g., Finalize structural schematics"
@@ -29,9 +30,10 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Status <span class="text-red-500">*</span></label>
+          <label for="task-status" class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Status <span class="text-red-500">*</span></label>
           <div class="relative">
             <select
+              id="task-status"
               formControlName="status"
               class="w-full bg-[#F8FAFC] border border-gray-200 rounded-xl px-4 py-3 text-xs md:text-sm text-[#041B3C] appearance-none focus:outline-none focus:border-[#004EEB] cursor-pointer"
             >
@@ -45,9 +47,10 @@
           </div>
         </div>
         <div>
-          <label class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Assignee</label>
+          <label for="task-assignee" class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Assignee</label>
           <div class="relative">
             <select
+              id="task-assignee"
               formControlName="assignee_id"
               class="w-full bg-[#F8FAFC] border border-gray-200 rounded-xl px-4 py-3 text-xs md:text-sm text-[#041B3C] appearance-none focus:outline-none focus:border-[#004EEB] cursor-pointer"
             >
@@ -63,9 +66,10 @@
         </div>
       </div>
       <div>
-        <label class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Epic</label>
+        <label for="task-epic" class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Epic</label>
         <div class="relative">
           <select
+            id="task-epic"
             formControlName="epic_id"
             class="w-full bg-[#F8FAFC] border border-gray-200 rounded-xl px-4 py-3 text-xs md:text-sm text-[#041B3C] appearance-none focus:outline-none focus:border-[#004EEB] cursor-pointer"
           >
@@ -80,9 +84,10 @@
         </div>
       </div>
       <div>
-        <label class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Due Date</label>
+        <label for="task-due-date" class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Due Date</label>
         <div class="relative">
           <input
+            id="task-due-date"
             type="date"
             formControlName="due_date"
             class="w-full bg-[#F8FAFC] border border-gray-200 rounded-xl px-4 py-3 text-xs md:text-sm text-[#041B3C] focus:outline-none focus:border-[#004EEB]"
@@ -90,8 +95,9 @@
         </div>
       </div>
       <div>
-        <label class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Description</label>
+        <label for="task-description" class="block text-[11px] font-bold uppercase text-gray-500 mb-2">Description</label>
         <textarea
+          id="task-description"
           formControlName="description"
           rows="4"
           placeholder="Provide detailed context for this task..."

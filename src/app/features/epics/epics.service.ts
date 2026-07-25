@@ -39,7 +39,7 @@ export class EpicsService {
     );
   }
 
-    getEpicById(projectId: string, epicId: string): Observable<Epic[]> {
+  getEpicById(projectId: string, epicId: string): Observable<Epic[]> {
     return this.http.get<Epic[]>(
       `${this.getCleanUrl('rest/v1/project_epics')}?project_id=eq.${projectId}&id=eq.${epicId}&select=*`,
       { headers: this.getHeaders() },

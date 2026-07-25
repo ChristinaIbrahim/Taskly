@@ -20,7 +20,7 @@ import { DetailsPopupEpicComponent } from './components/details-popup-epic/detai
     EpicCardSkeletonComponent,
     EmptyErrorComponent,
     FormEpicComponent,
-    DetailsPopupEpicComponent
+    DetailsPopupEpicComponent,
   ],
   templateUrl: './epics.component.html',
   styleUrls: ['./epics.component.css'],
@@ -93,10 +93,10 @@ export class EpicsComponent implements OnInit {
     this.showForm = false;
     this.fetchEpics(this.projectId);
   }
-   openEpicDetails(epicId: string): void {
+  openEpicDetails(epicId: string): void {
     this.selectedEpicId = epicId;
   }
- 
+
   closeEpicDetails(): void {
     this.selectedEpicId = null;
   }

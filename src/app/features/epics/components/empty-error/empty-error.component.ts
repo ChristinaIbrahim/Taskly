@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-empty-error',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './empty-error.component.html'
+  templateUrl: './empty-error.component.html',
 })
 export class EmptyErrorComponent {
   @Output() retry = new EventEmitter<void>();

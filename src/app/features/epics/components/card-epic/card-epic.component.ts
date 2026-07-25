@@ -6,7 +6,7 @@ import { Epic } from '../../epics.model';
   selector: 'app-card-epic',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './card-epic.component.html'
+  templateUrl: './card-epic.component.html',
 })
 export class CardEpicComponent {
   @Input({ required: true }) epic!: Epic;

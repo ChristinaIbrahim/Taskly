@@ -17,7 +17,6 @@ export type IconName =
   | 'initialize-project'
   | 'tip'
   | 'epic-button';
-  
 
 export const ICONS_MAP: Record<IconName, { viewBox: string; path: string }> = {
   logo: {
@@ -113,8 +112,4 @@ export const ICONS_MAP: Record<IconName, { viewBox: string; path: string }> = {
     path: ` <path d="M6.55 16.2L11.725 10H7.725L8.45 4.325L3.825 11H7.3L6.55 16.2ZM4 20L5 13H0L9 0H11L10 8H16L6 20H4Z" fill="white"/>
 `,
   },
-
-
- 
-
 };

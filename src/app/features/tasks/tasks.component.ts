@@ -2,17 +2,23 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { BoardViewTaskComponent } from './components/board-view-task/board-view-task.component';
-import { ListViewTaskComponent } from './components/list-view-task/list-view-task.component'; 
+import { ListViewTaskComponent } from './components/list-view-task/list-view-task.component';
+
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [BoardViewTaskComponent, ListViewTaskComponent, CommonModule, RouterLink], 
+  imports: [
+    BoardViewTaskComponent,
+    ListViewTaskComponent,
+    CommonModule,
+    RouterLink,
+  ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css',
 })
 export class TasksComponent implements OnInit {
   private route = inject(ActivatedRoute);
-  private router = inject(Router); 
+  private router = inject(Router);
   projectId = '';
   currentView = 'board';
 
@@ -31,14 +37,16 @@ export class TasksComponent implements OnInit {
       this.currentView = params.get('view') || 'board';
     });
   }
-  onViewChange(event: any): void {
-    const selectedView = event.target.value;
+
+  onViewChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const selectedView = target.value;
     this.currentView = selectedView;
 
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { view: selectedView },
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
   }
 }

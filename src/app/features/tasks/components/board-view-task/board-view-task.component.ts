@@ -5,6 +5,20 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
 
+interface Task {
+  id?: string | number;
+  title?: string;
+  status?: string;
+  [key: string]: unknown;
+}
+
+interface BoardColumn {
+  key: string;
+  label: string;
+  tasks: Task[];
+  count: number;
+}
+
 @Component({
   selector: 'app-board-view-task',
   standalone: true,
@@ -22,12 +36,11 @@ export class BoardViewTaskComponent implements OnInit {
   apiUrl = environment.supabaseUrl;
   apiKey = environment.supabase_api_key;
 
-  columns: Array<{ key: string; label: string; tasks: any[]; count: number }> = [
+  columns: BoardColumn[] = [
     { key: 'TO_DO', label: 'TO DO', tasks: [], count: 0 },
     { key: 'IN_PROGRESS', label: 'IN PROGRESS', tasks: [], count: 0 },
     { key: 'BLOCKED', label: 'BLOCKED', tasks: [], count: 0 },
     { key: 'IN_REVIEW', label: 'IN REVIEW', tasks: [], count: 0 },
-   
   ];
 
   ngOnInit(): void {
@@ -49,18 +62,17 @@ export class BoardViewTaskComponent implements OnInit {
     });
   }
 
-  fetchTasksForColumn(column: any): void {
+  fetchTasksForColumn(column: BoardColumn): void {
     this.http
-      .get<any[]>(
-        `${this.apiUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}&status=eq.${column.key}`,
-        { headers: this.getHeaders() },
-      )
+      .get<
+        Task[]
+      >(`${this.apiUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}&status=eq.${column.key}`, { headers: this.getHeaders() })
       .subscribe({
         next: (data) => {
           column.tasks = data;
           column.count = data.length;
         },
-        error: (err) => {
+        error: (err: unknown) => {
           console.error(`Failed to load tasks for ${column.key}`, err);
         },
       });

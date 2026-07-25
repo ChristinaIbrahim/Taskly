@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './epic-card-skeleton.component.html',
-  styleUrl: './epic-card-skeleton.component.css'
+  styleUrl: './epic-card-skeleton.component.css',
 })
-export class EpicCardSkeletonComponent {
-
-}
+export class EpicCardSkeletonComponent {}

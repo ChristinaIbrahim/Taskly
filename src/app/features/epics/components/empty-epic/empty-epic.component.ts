@@ -7,7 +7,7 @@ import { AppIconsDirective } from '../../../../shared/directives/app-icons.direc
   standalone: true,
   imports: [CommonModule, AppIconsDirective],
   templateUrl: './empty-epic.component.html',
-  styleUrls: ['./empty-epic.component.css']
+  styleUrls: ['./empty-epic.component.css'],
 })
 export class EmptyEpicComponent {
   @Output() createEpic = new EventEmitter<void>();

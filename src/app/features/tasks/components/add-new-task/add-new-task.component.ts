@@ -1,10 +1,27 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
+
+interface Epic {
+  id?: string | number;
+  epic_id?: string;
+  title?: string;
+}
+
+interface ProjectMember {
+  id?: string | number;
+  [key: string]: unknown;
+}
 
 @Component({
   selector: 'app-add-new-task',
@@ -22,8 +39,8 @@ export class AddNewTaskComponent implements OnInit {
 
   taskForm!: FormGroup;
   projectId = '';
-  epics: any[] = [];
-  members: any[] = [];
+  epics: Epic[] = [];
+  members: ProjectMember[] = [];
   isLoading = false;
   errorMessage = '';
 
@@ -60,9 +77,11 @@ export class AddNewTaskComponent implements OnInit {
       this.loadProjectEpics();
       this.loadProjectMembers();
     } else {
-      this.errorMessage = 'Could not determine the project. Please go back and try again.';
+      this.errorMessage =
+        'Could not determine the project. Please go back and try again.';
     }
   }
+
   private getProjectIdFromRoute(): string {
     let route: ActivatedRoute | null = this.route;
     while (route) {
@@ -85,14 +104,17 @@ export class AddNewTaskComponent implements OnInit {
     if (!this.projectId) return;
 
     this.http
-      .get<any[]>(`${this.apiUrl}rest/v1/epics?project_id=eq.${this.projectId}`, {
-        headers: this.getHeaders(),
-      })
+      .get<Epic[]>(
+        `${this.apiUrl}rest/v1/epics?project_id=eq.${this.projectId}`,
+        {
+          headers: this.getHeaders(),
+        },
+      )
       .subscribe({
         next: (data) => {
           this.epics = data;
         },
-        error: (err) => {
+        error: (err: unknown) => {
           console.error('Failed to load epics', err);
         },
       });
@@ -102,21 +124,27 @@ export class AddNewTaskComponent implements OnInit {
     if (!this.projectId) return;
 
     this.http
-      .get<any[]>(`${this.apiUrl}rest/v1/project_members?project_id=eq.${this.projectId}`, {
-        headers: this.getHeaders(),
-      })
+      .get<ProjectMember[]>(
+        `${this.apiUrl}rest/v1/project_members?project_id=eq.${this.projectId}`,
+        {
+          headers: this.getHeaders(),
+        },
+      )
       .subscribe({
         next: (data) => {
           this.members = data;
         },
-        error: (err) => {
+        error: (err: unknown) => {
           console.error('Failed to load members', err);
         },
       });
   }
 
-  formatEpicLabel(epic: any): string {
-    const title = epic.title && epic.title.length > 100 ? epic.title.substring(0, 100) + '...' : (epic.title || '');
+  formatEpicLabel(epic: Epic): string {
+    const title =
+      epic.title && epic.title.length > 100
+        ? epic.title.substring(0, 100) + '...'
+        : epic.title || '';
     return `${epic.epic_id || ''} ${title}`;
   }
 
@@ -128,7 +156,8 @@ export class AddNewTaskComponent implements OnInit {
     if (this.taskForm.invalid || !this.projectId) {
       this.taskForm.markAllAsTouched();
       if (!this.projectId) {
-        this.errorMessage = 'Could not determine the project. Please go back and try again.';
+        this.errorMessage =
+          'Could not determine the project. Please go back and try again.';
       }
       return;
     }
@@ -143,18 +172,22 @@ export class AddNewTaskComponent implements OnInit {
       status: formValues.status,
       epic_id: formValues.epic_id ? formValues.epic_id : null,
       assignee_id: formValues.assignee_id ? formValues.assignee_id : null,
-      due_date: formValues.due_date ? new Date(formValues.due_date).toISOString() : null,
+      due_date: formValues.due_date
+        ? new Date(formValues.due_date).toISOString()
+        : null,
       description: formValues.description ? formValues.description : null,
     };
 
     this.http
-      .post(`${this.apiUrl}rest/v1/tasks`, payload, { headers: this.getHeaders() })
+      .post(`${this.apiUrl}rest/v1/tasks`, payload, {
+        headers: this.getHeaders(),
+      })
       .subscribe({
         next: () => {
           this.isLoading = false;
           this.router.navigate(['/project', this.projectId, 'tasks']);
         },
-        error: (err) => {
+        error: (err: unknown) => {
           this.isLoading = false;
           this.errorMessage = 'Failed to create task. Please try again.';
           console.error('Error creating task:', err);

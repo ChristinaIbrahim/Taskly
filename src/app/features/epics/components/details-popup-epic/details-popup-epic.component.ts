@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EpicsService } from '../../epics.service';
 import { Epic } from '../../epics.model';
@@ -8,7 +15,7 @@ import { Epic } from '../../epics.model';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './details-popup-epic.component.html',
-  styleUrls: ['./details-popup-epic.component.css']
+  styleUrls: ['./details-popup-epic.component.css'],
 })
 export class DetailsPopupEpicComponent implements OnInit {
   @Input() projectId!: string;
@@ -16,7 +23,7 @@ export class DetailsPopupEpicComponent implements OnInit {
   @Output() closed = new EventEmitter<void>();
 
   private epicsService = inject(EpicsService);
-  
+
   epic?: Epic;
   isLoading = true;
   hasError = false;
@@ -27,7 +34,7 @@ export class DetailsPopupEpicComponent implements OnInit {
       this.hasError = false;
       this.epicsService.getProjectEpics(this.projectId).subscribe({
         next: (epics) => {
-          this.epic = epics.find(e => e.id === this.epicId);
+          this.epic = epics.find((e) => e.id === this.epicId);
           this.isLoading = false;
           if (!this.epic) {
             this.hasError = true;
@@ -36,7 +43,7 @@ export class DetailsPopupEpicComponent implements OnInit {
         error: () => {
           this.hasError = true;
           this.isLoading = false;
-        }
+        },
       });
     } else {
       this.hasError = true;
@@ -46,7 +53,11 @@ export class DetailsPopupEpicComponent implements OnInit {
 
   getInitials(name?: string): string {
     if (!name) return 'U';
-    return name.split(' ').map(n => n[0]).join('').toUpperCase();
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase();
   }
 
   onClose(): void {

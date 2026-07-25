@@ -24,10 +24,11 @@
 
     <form [formGroup]="epicForm" (ngSubmit)="onSubmit()">
       <div class="mb-6">
-        <label class="block text-xs font-bold uppercase text-gray-500 mb-2">
+        <label for="epic-title" class="block text-xs font-bold uppercase text-gray-500 mb-2">
           Title <span class="text-red-500">*</span>
         </label>
         <input
+          id="epic-title"
           type="text"
           formControlName="title"
           placeholder="e.g. Structural Foundation Phase"
@@ -42,10 +43,11 @@
 
       <div class="mb-6">
         <div class="flex items-center justify-between mb-2">
-          <label class="block text-xs font-bold uppercase text-gray-500">Description</label>
+          <label for="epic-description" class="block text-xs font-bold uppercase text-gray-500">Description</label>
           <span class="text-xs text-gray-400">Optional</span>
         </div>
         <textarea
+          id="epic-description"
           formControlName="description"
           rows="4"
           placeholder="Describe the scope and objectives of this epic..."
@@ -56,8 +58,9 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div>
-          <label class="block text-xs font-bold uppercase text-gray-500 mb-2">Assignee</label>
+          <label for="epic-assignee" class="block text-xs font-bold uppercase text-gray-500 mb-2">Assignee</label>
           <select
+            id="epic-assignee"
             formControlName="assignee_id"
             class="w-full bg-[#D7E2FF] border border-transparent focus:border-[#D7E2FF] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] transition-all outline-none cursor-pointer">
             <option value="" disabled selected>Select a member...</option>
@@ -71,8 +74,9 @@
         </div>
 
         <div>
-          <label class="block text-xs font-bold uppercase text-gray-500 mb-2">Deadline</label>
+          <label for="epic-deadline" class="block text-xs font-bold uppercase text-gray-500 mb-2">Deadline</label>
           <input
+            id="epic-deadline"
             type="date"
             formControlName="deadline"
             class="w-full bg-[#D7E2FF] border border-transparent focus:border-[#004EEB] focus:bg-white rounded-xl px-4 py-3 text-sm text-[#041B3C] transition-all outline-none"
