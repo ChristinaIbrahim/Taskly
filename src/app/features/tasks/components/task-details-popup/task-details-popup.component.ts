@@ -1,21 +1,36 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ToastService } from '../../../../shared/services/toast.service';
+import { environment } from '../../../../../environments/environment';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-task-details-popup',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule],
   templateUrl: './task-details-popup.component.html',
-  styleUrls: ['./task-details-popup.component.css']
+  styleUrls: ['./task-details-popup.component.css'],
 })
 export class TaskDetailsPopupComponent implements OnInit {
   @Input() taskId!: string | number;
   @Input() projectId!: string | number;
   @Output() close = new EventEmitter<void>();
+
   private http = inject(HttpClient);
   private toastService = inject(ToastService);
+  private authService = inject(AuthService);
+
+  private apiUrl = environment.supabaseUrl;
+  private apiKey = environment.supabase_api_key;
+
   task: any = null;
   isLoading = true;
   hasError = false;
@@ -29,13 +44,22 @@ export class TaskDetailsPopupComponent implements OnInit {
     }
   }
 
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      apikey: this.apiKey,
+      Authorization: `Bearer ${this.authService.getToken() || ''}`,
+      'Content-Type': 'application/json',
+    });
+  }
+
   fetchTaskDetails(): void {
     this.isLoading = true;
     this.hasError = false;
 
-    const url = `/rest/v1/project_tasks?project_id=eq.${this.projectId}&id=eq.${this.taskId}`;
-    
-    this.http.get<any[]>(url).subscribe({
+    const baseUrl = this.apiUrl.endsWith('/') ? this.apiUrl : `${this.apiUrl}/`;
+    const url = `${baseUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}&id=eq.${this.taskId}`;
+
+    this.http.get<any[]>(url, { headers: this.getHeaders() }).subscribe({
       next: (response) => {
         if (response && response.length > 0) {
           this.task = response[0];
@@ -48,7 +72,7 @@ export class TaskDetailsPopupComponent implements OnInit {
         console.error('Error fetching task details:', err);
         this.hasError = true;
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -73,15 +97,30 @@ export class TaskDetailsPopupComponent implements OnInit {
   }
 
   getStatusClass(status: string): string {
-    switch (status?.toLowerCase()) {
-      case 'completed':
-      case 'done':
-        return 'bg-emerald-100 text-emerald-700 border-emerald-200';
-      case 'in progress':
-        return 'bg-blue-100 text-blue-700 border-blue-200';
+    switch (status?.toUpperCase()) {
+      case 'DONE':
+        return 'bg-emerald-100 text-emerald-800';
+      case 'IN_PROGRESS':
+        return 'bg-blue-100 text-blue-700';
+      case 'BLOCKED':
+        return 'bg-red-100 text-red-700';
+      case 'IN_REVIEW':
+        return 'bg-purple-100 text-purple-700';
+      case 'READY_FOR_QA':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'REOPENED':
+        return 'bg-orange-100 text-orange-700';
+      case 'READY_FOR_PRODUCTION':
+        return 'bg-teal-100 text-teal-700';
+      case 'TO_DO':
       default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+        return 'bg-gray-100 text-gray-700';
     }
+  }
+
+  formatStatus(status: string): string {
+    if (!status) return 'To Do';
+    return status.replace(/_/g, ' ');
   }
 
   copyLink(): void {

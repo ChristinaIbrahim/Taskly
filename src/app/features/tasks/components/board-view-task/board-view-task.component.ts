@@ -1,23 +1,17 @@
-import { Component, OnInit, Input, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
-
-interface Task {
-  id?: string | number;
-  title?: string;
-  status?: string;
-  [key: string]: unknown;
-}
-
-interface BoardColumn {
-  key: string;
-  label: string;
-  tasks: Task[];
-  count: number;
-}
+import { Task, BoardColumn } from '../../task.model';
 
 @Component({
   selector: 'app-board-view-task',
@@ -28,6 +22,7 @@ interface BoardColumn {
 })
 export class BoardViewTaskComponent implements OnInit {
   @Input() projectId = '';
+  @Output() taskClick = new EventEmitter<string | number>();
 
   private http = inject(HttpClient);
   private router = inject(Router);
@@ -82,5 +77,37 @@ export class BoardViewTaskComponent implements OnInit {
     this.router.navigate(['/project', this.projectId, 'tasks', 'new'], {
       queryParams: { status: statusKey },
     });
+  }
+
+  onTaskClick(taskId: string | number | undefined): void {
+    if (taskId) {
+      this.taskClick.emit(taskId);
+    }
+  }
+
+  isOverdue(task: Task): boolean {
+    if (!task.due_date || task.status === 'DONE') return false;
+    const due = new Date(task.due_date);
+    const today = new Date();
+    due.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    return due.getTime() < today.getTime();
+  }
+
+  isToday(task: Task): boolean {
+    if (!task.due_date) return false;
+    const due = new Date(task.due_date);
+    const today = new Date();
+    return due.toDateString() === today.toDateString();
+  }
+
+  getInitials(name?: string): string {
+    if (!name) return 'U';
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .substring(0, 2)
+      .toUpperCase();
   }
 }

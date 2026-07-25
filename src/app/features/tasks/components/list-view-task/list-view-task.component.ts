@@ -1,14 +1,16 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
-
-interface Task {
-  id?: string | number;
-  title?: string;
-  status?: string;
-  [key: string]: unknown;
-}
+import { Task, BoardColumn } from '../../task.model';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-list-view-task',
@@ -19,11 +21,13 @@ interface Task {
 })
 export class ListViewTaskComponent implements OnInit {
   @Input() projectId = '';
+  @Output() taskClick = new EventEmitter<string | number>();
 
   tasks: Task[] = [];
   isLoading = false;
 
   private http = inject(HttpClient);
+  private authService = inject(AuthService);
   private apiUrl = environment.supabaseUrl;
   private apiKey = environment.supabase_api_key;
 
@@ -33,18 +37,23 @@ export class ListViewTaskComponent implements OnInit {
     }
   }
 
-  loadTasks(): void {
-    this.isLoading = true;
-    const headers = new HttpHeaders({
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
       apikey: this.apiKey,
-      Authorization: `Bearer ${this.apiKey}`,
+      Authorization: `Bearer ${this.authService.getToken() || this.apiKey}`,
       'Content-Type': 'application/json',
     });
+  }
 
+  loadTasks(): void {
+    this.isLoading = true;
     this.http
-      .get<
-        Task[]
-      >(`${this.apiUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}`, { headers })
+      .get<Task[]>(
+        `${this.apiUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}`,
+        {
+          headers: this.getHeaders(),
+        },
+      )
       .subscribe({
         next: (data) => {
           this.tasks = data;
@@ -55,5 +64,11 @@ export class ListViewTaskComponent implements OnInit {
           this.isLoading = false;
         },
       });
+  }
+
+  onTaskClick(taskId: string | number | undefined): void {
+    if (taskId) {
+      this.taskClick.emit(taskId);
+    }
   }
 }

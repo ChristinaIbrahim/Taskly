@@ -4,7 +4,7 @@ import { ToastComponent } from './shared/components/toast/toast.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,ToastComponent],
+  imports: [RouterOutlet, ToastComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

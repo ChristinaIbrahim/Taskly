@@ -56,7 +56,9 @@
             >
               <option value="">Select Team Member</option>
               @for (member of members; track member.id) {
-                <option [value]="member.user_id || member.id">{{ member.name || member.user_name }}</option>
+               <option [value]="member['user_id'] || member['id']">
+                 {{ member['name'] || member['user_name'] }}
+                </option>
               }
             </select>
             <svg class="w-4 h-4 text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
