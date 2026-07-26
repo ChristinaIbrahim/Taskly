@@ -11,13 +11,13 @@ import { Epic } from '../../epics.model';
 export class CardEpicComponent {
   @Input({ required: true }) epic!: Epic;
   @Output() cardClick = new EventEmitter<void>();
-
+   
   onCardClick(): void {
     this.cardClick.emit();
   }
 
   getInitials(name?: string): string {
-    if (!name) return 'U';
+    if (!name) return 'MT';
     return name
       .split(' ')
       .map((n) => n[0])

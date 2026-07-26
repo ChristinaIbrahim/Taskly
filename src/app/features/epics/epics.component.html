@@ -21,6 +21,7 @@
             <input
               type="text"
               [(ngModel)]="searchTerm"
+              (ngModelChange)="onSearchChange()"
               placeholder="Search epics..."
               class="w-full bg-[#D7E2FF] border border-transparent focus:border-[#004EEB] focus:bg-[#D7E2FF]  pl-10 pr-4 py-2.5 text-sm text-[#041B3C] placeholder-gray-400 outline-none transition-all"
             />
@@ -143,19 +144,36 @@
         </div>
       </div>
     } @else {
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (epic of filteredEpics; track epic.id) {
+      <div class="grid grid-cols-1 md:grid-cols-2 md:gap-6">
+        @for (epic of paginatedEpics; track epic.id) {
           <app-card-epic [epic]="epic" (cardClick)="openEpicDetails(epic.id)"></app-card-epic>
         }
       </div>
 
       <div class="flex flex-col sm:flex-row items-center justify-between pt-6 mt-6 border-t border-gray-200 text-sm text-gray-500">
-        <p class="mb-3 sm:mb-0">Showing {{ filteredEpics.length }} of {{ epics.length }} epics</p>
+        <p class="mb-3 sm:mb-0">Showing {{ paginatedEpics.length }} of {{ filteredEpics.length }} epics</p>
         <div class="flex items-center gap-1">
-          <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">&lt;</button>
-          <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-[#004EEB] text-white font-semibold cursor-pointer">1</button>
-          <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">2</button>
-          <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">&gt;</button>
+          <button
+            (click)="prevPage()"
+            [disabled]="currentPage === 1"
+            class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          >&lt;</button>
+
+          @for (page of pageNumbers; track page) {
+            <button
+              (click)="goToPage(page)"
+              class="w-8 h-8 flex items-center justify-center rounded-lg font-semibold cursor-pointer"
+              [ngClass]="page === currentPage
+                ? 'bg-[#004EEB] text-white'
+                : 'border border-gray-200 hover:bg-gray-50 text-gray-500'"
+            >{{ page }}</button>
+          }
+
+          <button
+            (click)="nextPage()"
+            [disabled]="currentPage === totalPages"
+            class="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          >&gt;</button>
         </div>
       </div>
     }
