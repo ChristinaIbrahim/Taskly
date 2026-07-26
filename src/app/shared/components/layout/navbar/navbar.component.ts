@@ -1,15 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../core/services/auth.service';
+import { AppIconsDirective } from '../../../directives/app-icons.directive';
+import { MobileMenuService } from '../../../services/mobile-menu.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AppIconsDirective],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
   private readonly authService = inject(AuthService);
+  readonly mobileMenu = inject(MobileMenuService);
 
   user: { name: string; job_title: string } | null = null;
   avatarInitials = '';
@@ -35,6 +38,10 @@ export class NavbarComponent implements OnInit {
     });
 
     this.authService.getUserData().subscribe();
+  }
+
+  toggleMobileMenu(): void {
+    this.mobileMenu.toggle();
   }
 
   getInitials(name: string): string {

@@ -1,9 +1,22 @@
 <nav
-  class="flex items-center justify-end w-full px-8 py-4 bg-[#F9F9FF] border-b border-slate-100 shadow-sm"
+  class="flex items-center w-full px-4 md:px-8 py-4 bg-[#F9F9FF] border-b border-slate-100 shadow-sm"
 >
+  <div class="flex items-center gap-3 md:hidden">
+    <button
+      (click)="toggleMobileMenu()"
+      type="button"
+      aria-label="Open menu"
+      class="p-1 cursor-pointer text-[#041B3C]"
+    >
+      <svg width="26" height="20" viewBox="0 0 26 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 16V14H22V16H4ZM4 11V9H22V11H4ZM4 6V4H22V6H4Z" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+
   @if (user) {
-    <div class="flex items-center gap-4">
-      <div class="flex flex-col items-end">
+    <div class="flex items-center gap-4 ml-auto">
+      <div class="hidden md:flex flex-col items-end">
         <span class="text-sm font-bold text-[#041B3C]">{{ user.name }}</span>
         <span
           class="text-[10px] font-bold text-[#0052CC] uppercase tracking-wider mt-0.5"
@@ -18,8 +31,8 @@
       </div>
     </div>
   } @else {
-    <div class="flex items-center gap-4 animate-pulse">
-      <div class="flex flex-col items-end space-y-2">
+    <div class="flex items-center gap-4 ml-auto animate-pulse">
+      <div class="hidden md:flex flex-col items-end space-y-2">
         <div class="h-4 bg-slate-200 rounded w-24"></div>
         <div class="h-3 bg-slate-200 rounded w-16"></div>
       </div>

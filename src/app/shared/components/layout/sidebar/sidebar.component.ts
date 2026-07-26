@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth.service';
 import { AppIconsDirective } from '../../../directives/app-icons.directive';
+import { MobileMenuService } from '../../../services/mobile-menu.service';
 import { filter, Subscription } from 'rxjs';
 
 @Component({
@@ -14,6 +15,7 @@ import { filter, Subscription } from 'rxjs';
 export class SidebarComponent implements OnInit, OnDestroy {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  readonly mobileMenu = inject(MobileMenuService);
 
   isCollapsed = false;
   currentProjectId: string | null = null;
@@ -26,6 +28,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
         this.extractProjectId();
+        this.mobileMenu.close();
       });
   }
 
@@ -37,6 +40,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
+  }
+
+  closeMobileMenu(): void {
+    this.mobileMenu.close();
   }
 
   logout() {
