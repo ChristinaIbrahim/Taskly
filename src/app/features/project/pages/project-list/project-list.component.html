@@ -4,7 +4,6 @@
       <h1 class="text-2xl sm:text-3xl font-bold text-[#0A192F]">Projects</h1>
       <p class="text-sm sm:text-base text-slate-500 mt-1">Manage and curate your projects</p>
     </div>
-
     <a
       routerLink="add"
       class="hidden sm:flex bg-[#0052CC] hover:bg-[#0043a8] text-white px-6 py-3 rounded-lg font-semibold items-center gap-2 transition-all shadow-sm text-base"
@@ -31,15 +30,13 @@
       </span>
     </a>
   </section>
-
   <a
     routerLink="add"
-    class="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-[#0052CC] hover:bg-[#0043a8] text-white rounded-full flex items-center justify-center shadow-xl z-40 transition-transform active:scale-95"
+    class="sm:hidden fixed bottom-20 right-6 w-14 h-14 bg-[#0052CC] hover:bg-[#0043a8] text-white rounded-2xl flex items-center justify-center shadow-xl z-40 transition-transform active:scale-95"
     aria-label="Create New Project"
   >
     <span class="text-3xl font-light leading-none">+</span>
   </a>
-
   @if (projects.length > 0) {
     <div
       class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 sm:pt-12 mt-8 sm:mt-12 border-t border-slate-100"
