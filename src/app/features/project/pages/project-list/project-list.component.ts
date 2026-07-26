@@ -31,7 +31,7 @@ export class ProjectListComponent implements OnInit {
 
   projects: Project[] = [];
   currentPage = 1;
-  limit = 3;
+  limit = 6;
   totalCount = 0;
   totalPages = 0;
   pagesArray: number[] = [];

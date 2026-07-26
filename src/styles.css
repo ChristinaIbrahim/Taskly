@@ -1,7 +1,4 @@
-/* استدعاء خط Inter */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
-
-/* تعريف المتغيرات والألوان المتوافقة مع التصميم */
 :root {
   /* Action Blue & Tonal Range */
   --color-primary: #003d9b;
@@ -36,6 +33,11 @@
   --rounded-sm: 8px;
   --rounded-md: 16px;
   --rounded-full: 9999px;
+
+ /*  ====================  Epic & Assignee Theme  ====================  */
+
+  --epic-green-light: #82F9BE;
+  --epic-green-dark: #65DCA4;
 
   /* Typography */
   --font-sans: "Inter", sans-serif;
@@ -143,6 +145,6 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px #ebf0ff inset !important;
-  -webkit-text-fill-color: #1e293b !important; /* لون النص داخل الحقل */
-  transition: background-color 5000s ease-in-out 0s; /* خدعة لمنع المتصفح من تغيير اللون */
+  -webkit-text-fill-color: #1e293b !important; 
+  transition: background-color 5000s ease-in-out 0s; 
 }

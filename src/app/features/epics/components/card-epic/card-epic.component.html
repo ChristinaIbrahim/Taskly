@@ -6,13 +6,14 @@
   role="button"
   class="relative overflow-hidden bg-white border border-[#E2E8F0] rounded-xl md:rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md transition-all flex flex-col justify-between cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004EEB]"
 >
-  <div class="hidden md:block absolute top-0 left-0 w-1.5 h-full bg-[#65DCA4]"></div>
+  <div class="hidden md:block absolute top-0 left-0 w-1.5 h-full bg-[#004E32]"></div>
 
   <div>
     <div class="flex items-center justify-between mb-3 md:pl-2">
       <span
-        class="text-[11px] font-bold px-2.5 py-1 rounded-md tracking-wider bg-[#EFF6FF] text-[#004EEB] md:bg-[#65DCA4] md:text-[#041B3C]"
-      >
+        class="text-[11px] font-bold px-2.5 py-1 rounded-md tracking-wider bg-[#EFF6FF] text-[#004EEB] md:text-[#041B3C]"
+        style="background-color: var(--epic-green-light);"
+        >
         {{ epic.epic_id || 'EPIC-00' }}
       </span>
       <button
@@ -43,8 +44,9 @@
     <div class="flex items-center justify-between md:justify-start md:gap-3 mb-1 md:mb-4 md:pl-2">
       <div class="flex items-center gap-2 md:gap-3">
         <div
-          class="w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center font-bold text-[11px] md:text-xs text-white bg-[#004EEB] md:bg-[#10B981]"
-        >
+          class="w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center font-bold text-[11px] md:text-xs text-[#002113] bg-[#004EEB] "
+          style="background-color: var(--epic-green-dark);"
+          >
           {{ getInitials(epic.assignee?.name) }}
         </div>
         <div>
