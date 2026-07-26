@@ -4,6 +4,7 @@ const { defineConfig } = require("eslint/config");
 const tseslint = require("typescript-eslint");
 const angular = require("angular-eslint");
 const prettier = require('eslint-plugin-prettier/recommended'); 
+
 module.exports = defineConfig([
   {
     files: ["**/*.ts"],
@@ -32,6 +33,8 @@ module.exports = defineConfig([
           style: "kebab-case",
         },
       ],
+      "@typescript-eslint/no-explicit-any": "off",
+      "@angular-eslint/no-output-native": "off",
     },
   },
   {

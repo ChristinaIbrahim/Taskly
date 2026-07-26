@@ -9,7 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
-import { Task, BoardColumn } from '../../task.model';
+import { Task } from '../../task.model';
 import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({

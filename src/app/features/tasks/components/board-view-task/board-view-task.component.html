@@ -23,8 +23,10 @@
         </div>
         <button
           (click)="onAddTask(col.key)"
+          (keyup.enter)="onAddTask(col.key)"
           class="w-7 h-7 flex items-center justify-center text-gray-500 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
           title="Add New Task"
+          tabindex="0"
         >
           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
@@ -34,7 +36,9 @@
 
       <button
         (click)="onAddTask(col.key)"
+        (keyup.enter)="onAddTask(col.key)"
         class="border border-dashed border-gray-300 hover:border-[#004EEB] text-gray-400 hover:text-[#004EEB] rounded-xl py-2.5 text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer bg-white"
+        tabindex="0"
       >
         <span class="text-sm">+</span> Add New Task
       </button>
@@ -43,7 +47,10 @@
         @for (task of col.tasks; track task.id) {
           <div
             (click)="onTaskClick(task.id)"
-            class="bg-white border rounded-xl p-3.5 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+            (keyup.enter)="onTaskClick(task.id)"
+            tabindex="0"
+            role="button"
+            class="bg-white border rounded-xl p-3.5 shadow-sm hover:shadow-md transition-shadow cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004EEB]/40"
             [ngClass]="{
               'border-gray-200': col.key !== 'IN_PROGRESS' && !isOverdue(task),
               'border-l-4 border-l-[#004EEB] border-y-gray-200 border-r-gray-200': col.key === 'IN_PROGRESS',
