@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BoardViewTaskComponent } from './components/board-view-task/board-view-task.component';
 import { ListViewTaskComponent } from './components/list-view-task/list-view-task.component';
 import { TaskDetailsPopupComponent } from './components/task-details-popup/task-details-popup.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tasks',
@@ -13,6 +14,7 @@ import { TaskDetailsPopupComponent } from './components/task-details-popup/task-
     BoardViewTaskComponent,
     ListViewTaskComponent,
     TaskDetailsPopupComponent,
+    RouterLink
   ],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
@@ -27,8 +29,6 @@ export class TasksComponent implements OnInit {
   selectedProjectId: string | number | null = null;
 
   ngOnInit(): void {
-    // نطلع للأعلى في شجرة الـ routes لحد ما نلاقي الـ 'id' بتاع المشروع
-    // (بديل موثوق بدل أي قيمة ثابتة أو تحليل الـ URL يدويًا)
     let route: ActivatedRoute | null = this.route;
     while (route) {
       const id = route.snapshot.paramMap.get('id');

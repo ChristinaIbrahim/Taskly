@@ -7,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
@@ -20,13 +20,16 @@ interface Epic {
 
 interface ProjectMember {
   id?: string | number;
+  user_id?: string | number;
+  name?: string;
+  user_name?: string;
   [key: string]: unknown;
 }
 
 @Component({
   selector: 'app-add-new-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './add-new-task.component.html',
   styleUrls: ['./add-new-task.component.css'],
 })
@@ -68,7 +71,7 @@ export class AddNewTaskComponent implements OnInit {
       title: ['', Validators.required],
       status: [prefilledStatus || 'TO_DO', Validators.required],
       epic_id: [prefilledEpicId || ''],
-      assignee_id: [''],
+      assignee: [null],
       due_date: [''],
       description: [''],
     });
@@ -97,6 +100,7 @@ export class AddNewTaskComponent implements OnInit {
       apikey: this.apiKey,
       Authorization: `Bearer ${this.authService.getToken() || ''}`,
       'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
     });
   }
 
@@ -166,17 +170,22 @@ export class AddNewTaskComponent implements OnInit {
     this.errorMessage = '';
 
     const formValues = this.taskForm.value;
-    const payload = {
+    const selectedMember = formValues.assignee;
+        const memberId = selectedMember ? (selectedMember.user_id || selectedMember.id || null) : null;
+
+    const payload: any = {
       project_id: this.projectId,
       title: formValues.title,
       status: formValues.status,
       epic_id: formValues.epic_id ? formValues.epic_id : null,
-      assignee_id: formValues.assignee_id ? formValues.assignee_id : null,
       due_date: formValues.due_date
         ? new Date(formValues.due_date).toISOString()
         : null,
       description: formValues.description ? formValues.description : null,
     };
+
+    if (memberId) {
+    }
 
     this.http
       .post(`${this.apiUrl}rest/v1/tasks`, payload, {
@@ -187,7 +196,7 @@ export class AddNewTaskComponent implements OnInit {
           this.isLoading = false;
           this.router.navigate(['/project', this.projectId, 'tasks']);
         },
-        error: (err: unknown) => {
+        error: (err: any) => {
           this.isLoading = false;
           this.errorMessage = 'Failed to create task. Please try again.';
           console.error('Error creating task:', err);
