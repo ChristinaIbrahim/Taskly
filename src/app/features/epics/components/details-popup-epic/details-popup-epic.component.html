@@ -4,7 +4,7 @@
   tabindex="0"
   role="dialog"
   aria-modal="true"
-  class="fixed inset-0 bg-black/40 z-50 flex items-end md:items-center justify-center p-4 md:p-6 focus:outline-none"
+  class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end md:items-center justify-center p-4 md:p-6 focus:outline-none"
 >
   <div
     class="bg-white w-full md:max-w-xl rounded-t-2xl md:rounded-2xl max-h-[90vh] flex flex-col shadow-xl overflow-hidden"
@@ -49,11 +49,10 @@
         <div class="mb-5">
           <span class="block text-[11px] font-bold uppercase text-gray-400 mb-2">Description</span>
           <div 
-            class="w-full bg-[#F8FAFC] border border-gray-200 rounded-xl px-4 py-3 text-sm min-h-[80px] whitespace-pre-wrap"
-            [class.text-gray-400]="!epic.description"
-            [class.text-gray-700]="epic.description"
+            class="text-[#041B3C] w-full bg-[#F8FAFC] border border-gray-200 rounded-xl px-4 py-4 text-sm min-h-[80px] "
+           
           >
-            {{ epic.description || 'No description provided' }}
+            {{ epic.description || 'A comprehensive review and upgrade of the core architectural frameworks.' }}
           </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
@@ -63,22 +62,18 @@
               <div class="w-6 h-6 rounded-full bg-[#004EEB] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
                 {{ getInitials(epic.created_by?.name) }}
               </div>
-              <span class="text-xs font-semibold text-[#041B3C] truncate">{{ epic.created_by?.name || 'Unknown' }}</span>
+              <span class="text-xs font-semibold text-[#041B3C] truncate">{{ epic.created_by?.name || 'Mohammed Taha' }}</span>
             </div>
           </div>
           <div>
             <span class="block text-[10px] font-bold uppercase text-gray-400 mb-1.5">Assignee</span>
             <div class="flex items-center justify-between bg-[#F8FAFC] border border-gray-200 rounded-xl px-3 py-2">
-              @if (epic.assignee?.name) {
-                <div class="flex items-center gap-2 truncate">
-                  <div class="w-6 h-6 rounded-full bg-[#004EEB] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
-                    {{ getInitials(epic.assignee?.name) }}
-                  </div>
-                  <span class="text-xs font-medium text-[#041B3C] truncate">{{ epic.assignee?.name }}</span>
+              <div class="flex items-center gap-2 truncate">
+                <div class="w-6 h-4 rounded-full bg-[#CDDDFF] text-[#51617E] flex items-center justify-center text-[10px] font-bold shrink-0">
+                  {{ getInitials(epic.assignee?.name || 'John Doe') }}
                 </div>
-              } @else {
-                <span class="text-xs text-gray-400">Unassigned</span>
-              }
+                <span class="text-xs font-medium text-[#041B3C] truncate">{{ epic.assignee?.name || 'John Doe' }}</span>
+              </div>
               <svg class="w-3.5 h-3.5 text-gray-400 shrink-0 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
               </svg>
