@@ -1,27 +1,60 @@
-# TasksManagement
+#  Taskly - Task Management App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.17.
+Taskly is a modern, responsive task management application built with Angular, designed to streamline project workflows, track tasks and epics across different views (Board & List), and manage team collaboration efficiently.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+##  Features
 
-## Code scaffolding
+- **Authentication System:** Secure Login and Signup with prefilled testing credentials for instant access.
+- **Project & Task Management:** Create, view, and organize tasks within specific projects and epics.
+- **Interactive Views:** Switch seamlessly between Board View and List View.
+- **Detailed Task Popup:** Glassmorphism-styled modal showing task descriptions, statuses, assignees, reporters, and due dates.
+- **Responsive Design:** Fully optimized for desktop and mobile devices.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+##  Tech Stack
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Frontend:** Angular (Standalone Components), TypeScript, Tailwind CSS
+- **Backend / Database:** Supabase
+- **Package Manager:** pnpm
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+##  Prerequisites
 
-## Running end-to-end tests
+Before running the project locally, make sure you have the following installed on your machine:
+- [Node.js](https://nodejs.org/) (v18 or higher recommended)
+- [pnpm](https://pnpm.io/) (`npm install -g pnpm`)
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+---
 
-## Further help
+##  Getting Started & Installation
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Follow these steps to run the project locally using `pnpm`:
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/your-username/taskly.git](https://github.com/your-username/taskly.git)
+   cd taskly
+   
+
+---
+
+
+### Install dependencies:
+
+- pnpm install
+
+**Run the development server**:
+
+- pnpm dev --o
+
+`Open the app in your browser`:
+
+- Navigate to http://localhost:4200/
+
+**Use the prefilled test account**
+
+(MohammedTaha@gmail.com / Test@123) and click Log In!
