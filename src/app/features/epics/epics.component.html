@@ -23,12 +23,12 @@
               [(ngModel)]="searchTerm"
               (ngModelChange)="onSearchChange()"
               placeholder="Search epics..."
-              class="w-full bg-[#D7E2FF] border border-transparent focus:border-[#004EEB] focus:bg-[#D7E2FF]  pl-10 pr-4 py-2.5 text-sm text-[#041B3C] placeholder-gray-400 outline-none transition-all"
+              class="w-full bg-[#D7E2FF] border border-transparent focus:border-[#004EEB] focus:bg-[#D7E2FF] pl-10 pr-4 py-2.5 text-sm text-[#041B3C] placeholder-gray-400 outline-none transition-all"
             />
           </div>
           <button
             (click)="showForm = true"
-            class="hidden md:flex items-center gap-2 bg-[#004EEB] text-white px-5 py-2.5  text-sm font-semibold hover:bg-blue-700 transition-all shadow-sm cursor-pointer whitespace-nowrap"
+            class="hidden md:flex items-center gap-2 bg-[#004EEB] text-white px-5 py-2.5 text-sm font-semibold hover:bg-blue-700 transition-all shadow-sm cursor-pointer whitespace-nowrap"
           >
             <span class="text-lg leading-none">+</span> New Epic
           </button>
@@ -36,6 +36,7 @@
       </div>
     </div>
   }
+
   @if (showForm) {
     <div class="mb-8">
       <app-form-epic
@@ -55,7 +56,10 @@
         }
       </div>
     } @else if (hasError) {
-      <app-empty-error (retry)="fetchEpics(projectId)"></app-empty-error>
+      <div class="flex flex-col items-center justify-center text-center py-16 px-6">
+        <h3 class="text-xl font-bold text-red-600 mb-2">Failed to search epics</h3>
+        <button (click)="fetchEpics(projectId)" class="bg-[#004EEB] text-white px-4 py-2 rounded-lg text-sm cursor-pointer">Retry</button>
+      </div>
     } @else if (epics.length === 0) {
       <div class="flex flex-col items-center justify-center text-center py-16 px-6">
         <div class="bg-white rounded-2xl shadow-md p-5 mb-8">
@@ -86,7 +90,7 @@
           </div>
         </div>
 
-        <h3 class="text-2xl font-bold text-[#041B3C] mb-3">No epics in this project yet.</h3>
+        <h3 class="text-2xl font-bold text-[#041B3C] mb-3">No epics found for this project</h3>
         <p class="text-sm text-gray-500 max-w-md mb-8">
           Break down your large project into manageable epics to track progress better and maintain architectural clarity.
         </p>
@@ -100,48 +104,11 @@
           </svg>
           Create First Epic
         </button>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full max-w-3xl text-left">
-          <div class="bg-[#F8FAFC] rounded-xl p-5">
-            <div class="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center mb-3">
-              <svg class="w-4 h-4 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.5 5.5L21 10l-5.5 2.5L13 18l-2.5-5.5L5 10l5.5-2.5L13 2z" />
-              </svg>
-            </div>
-            <h4 class="text-sm font-bold text-[#041B3C] mb-1">High-Level Goals</h4>
-            <p class="text-xs text-gray-500 leading-relaxed">
-              Define the broad objectives that span across multiple cycles.
-            </p>
-          </div>
-
-          <div class="bg-[#F8FAFC] rounded-xl p-5">
-            <div class="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center mb-3">
-              <svg class="w-4 h-4 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <circle cx="6" cy="6" r="2.5" stroke-width="2" />
-                <circle cx="18" cy="6" r="2.5" stroke-width="2" />
-                <circle cx="6" cy="18" r="2.5" stroke-width="2" />
-                <circle cx="18" cy="18" r="2.5" stroke-width="2" />
-                <path stroke-linecap="round" stroke-width="2" d="M8 6h8M6 8v8M18 8v8M8 18h8" />
-              </svg>
-            </div>
-            <h4 class="text-sm font-bold text-[#041B3C] mb-1">Hierarchy Design</h4>
-            <p class="text-xs text-gray-500 leading-relaxed">
-              Link individual tasks to parent epics for a consolidated view.
-            </p>
-          </div>
-
-          <div class="bg-[#F8FAFC] rounded-xl p-5">
-            <div class="w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center mb-3">
-              <svg class="w-4 h-4 text-[#004EEB]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 17l5-5 4 4 8-8M15 8h5v5" />
-              </svg>
-            </div>
-            <h4 class="text-sm font-bold text-[#041B3C] mb-1">Track Velocity</h4>
-            <p class="text-xs text-gray-500 leading-relaxed">
-              Visualize percentage completion at a macro project level.
-            </p>
-          </div>
-        </div>
+      </div>
+    } @else if (filteredEpics.length === 0) {
+      <div class="flex flex-col items-center justify-center text-center py-16 px-6">
+        <h3 class="text-2xl font-bold text-[#041B3C] mb-3">No epics found matching your search</h3>
+        <p class="text-sm text-gray-500">Try searching with a different keyword.</p>
       </div>
     } @else {
       <div class="grid grid-cols-1 md:grid-cols-2 md:gap-6">
@@ -185,6 +152,7 @@
       +
     </button>
   }
+
   @if (selectedEpicId) {
     <app-details-popup-epic
       [projectId]="projectId"
