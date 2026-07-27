@@ -11,7 +11,7 @@ import { Epic } from '../../epics.model';
 export class CardEpicComponent {
   @Input({ required: true }) epic!: Epic;
   @Output() cardClick = new EventEmitter<void>();
-   
+
   onCardClick(): void {
     this.cardClick.emit();
   }

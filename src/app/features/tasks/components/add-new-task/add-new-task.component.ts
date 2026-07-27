@@ -171,7 +171,9 @@ export class AddNewTaskComponent implements OnInit {
 
     const formValues = this.taskForm.value;
     const selectedMember = formValues.assignee;
-        const memberId = selectedMember ? (selectedMember.user_id || selectedMember.id || null) : null;
+    const memberId = selectedMember
+      ? selectedMember.user_id || selectedMember.id || null
+      : null;
 
     const payload: any = {
       project_id: this.projectId,
@@ -185,6 +187,7 @@ export class AddNewTaskComponent implements OnInit {
     };
 
     if (memberId) {
+      console.log('');
     }
 
     this.http

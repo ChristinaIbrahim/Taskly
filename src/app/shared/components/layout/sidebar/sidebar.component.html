@@ -1,6 +1,11 @@
 @if (mobileMenu.isOpen()) {
   <div
+    tabindex="0"
+    role="button"
+    aria-label="Close menu backdrop"
     (click)="closeMobileMenu()"
+    (keydown.enter)="closeMobileMenu()"
+    (keydown.space)="closeMobileMenu()"
     class="md:hidden fixed inset-0 bg-black/40 z-40"
   ></div>
 
