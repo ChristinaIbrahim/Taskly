@@ -7,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { EpicsService } from '../../epics.service';
 import { Epic } from '../../epics.model';
 
@@ -23,8 +24,10 @@ export class DetailsPopupEpicComponent implements OnInit {
   @Output() closed = new EventEmitter<void>();
 
   private epicsService = inject(EpicsService);
+  private router = inject(Router);
 
   epic?: Epic;
+  tasks: any[] = [];
   isLoading = true;
   hasError = false;
 
@@ -45,9 +48,28 @@ export class DetailsPopupEpicComponent implements OnInit {
           this.isLoading = false;
         },
       });
+
+      this.epicsService.getTasksByEpic(this.epicId).subscribe({
+        next: (tasks) => {
+          console.log('Tasks Data from api:', tasks); 
+          this.tasks = tasks || [];
+        },
+        error: (err) => {
+          console.error('Error fetching tasks:', err);
+        },
+      });
+
     } else {
       this.hasError = true;
       this.isLoading = false;
+    }
+  }
+
+  onAddTask(): void {
+    if (this.projectId && this.epicId) {
+      this.router.navigate(['/project', this.projectId, 'tasks', 'new'], {
+        queryParams: { epic_id: this.epicId },
+      });
     }
   }
 

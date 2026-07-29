@@ -60,4 +60,11 @@ export class EpicsService {
       { headers: this.getHeaders() },
     );
   }
+
+  getTasksByEpic(epicId: string): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.getCleanUrl('rest/v1/project_tasks')}?epic_id=eq.${epicId}&select=*`,
+      { headers: this.getHeaders() },
+    );
+  }
 }
