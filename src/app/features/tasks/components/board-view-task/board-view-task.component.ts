@@ -121,4 +121,26 @@ export class BoardViewTaskComponent implements OnInit {
     col.count = col.tasks.length; 
   });
 }
+
+onDrop(event: CdkDragDrop<Task[]>, targetColumnKey: string): void {
+    const task = event.item.data as Task;
+    if (event.previousContainer === event.container) {
+      return moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    }
+
+    const oldStatus = task.status;
+    transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+    task.status = targetColumnKey;
+    this.updateColumnCounts();
+
+    this.http.patch(`${this.apiUrl}rest/v1/project_tasks?id=eq.${task.id}`, { status: targetColumnKey }, { headers: this.getHeaders() }).subscribe({
+      error: (err) => {
+        console.error('Failed to update task status, reverting...', err);
+        transferArrayItem(event.container.data, event.previousContainer.data, event.currentIndex, event.previousIndex);
+        task.status = oldStatus;
+        this.updateColumnCounts();
+        alert('Failed to update task status. Changes reverted.');
+      }
+    });
+  }
 }
