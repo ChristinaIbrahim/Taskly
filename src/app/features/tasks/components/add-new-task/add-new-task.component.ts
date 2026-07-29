@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
+import { BreadcrumbComponent , BreadcrumbItem} from '../../../../shared/components/breadcrumb/breadcrumb.component';
 
 interface Epic {
   id?: string | number;
@@ -29,7 +30,7 @@ interface ProjectMember {
 @Component({
   selector: 'app-add-new-task',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink,BreadcrumbComponent],
   templateUrl: './add-new-task.component.html',
   styleUrls: ['./add-new-task.component.css'],
 })
@@ -46,6 +47,13 @@ export class AddNewTaskComponent implements OnInit {
   members: ProjectMember[] = [];
   isLoading = false;
   errorMessage = '';
+
+breadcrumbItems: BreadcrumbItem[] = [
+    { label: 'PROJECTS', link: '/project' },
+    { label: 'PROJECT ALPHA', link: '' },
+    { label: 'TASKS', link: '' },
+    { label: 'NEW TASK' }
+  ];
 
   statuses = [
     { key: 'TO_DO', label: 'TO DO' },
