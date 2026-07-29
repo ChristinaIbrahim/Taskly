@@ -12,11 +12,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Task, BoardColumn } from '../../task.model';
+import { 
+  DragDropModule, 
+  CdkDragDrop, 
+  moveItemInArray, 
+  transferArrayItem 
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-board-view-task',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,DragDropModule],
   templateUrl: './board-view-task.component.html',
   styleUrl: './board-view-task.component.css',
 })
