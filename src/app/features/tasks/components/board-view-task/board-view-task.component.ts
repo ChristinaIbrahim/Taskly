@@ -116,4 +116,9 @@ export class BoardViewTaskComponent implements OnInit {
       .substring(0, 2)
       .toUpperCase();
   }
+  private updateColumnCounts(): void {
+  this.columns.forEach((col) => {
+    col.count = col.tasks.length; 
+  });
+}
 }
