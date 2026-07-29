@@ -132,15 +132,30 @@ onDrop(event: CdkDragDrop<Task[]>, targetColumnKey: string): void {
     transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     task.status = targetColumnKey;
     this.updateColumnCounts();
+   const headers = this.getHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Prefer', 'return=minimal');
 
-    this.http.patch(`${this.apiUrl}rest/v1/project_tasks?id=eq.${task.id}`, { status: targetColumnKey }, { headers: this.getHeaders() }).subscribe({
+    this.http.patch(
+      `${this.apiUrl}rest/v1/tasks?id=eq.${task.id}`, 
+      { status: targetColumnKey }, 
+      { headers }
+    ).subscribe({
+      next: () => {
+        console.log('Task status updated successfully!');
+      },
       error: (err) => {
-        console.error('Failed to update task status, reverting...', err);
+        console.error('Detailed Supabase Error:', err);
         transferArrayItem(event.container.data, event.previousContainer.data, event.currentIndex, event.previousIndex);
         task.status = oldStatus;
         this.updateColumnCounts();
-        alert('Failed to update task status. Changes reverted.');
+        alert('failed update task');
       }
     });
   }
+  getConnectedListIds(): string[] {
+    return this.columns.map((_, i) => `cdk-drop-list-${i}`);
+  }
+
+
 }
