@@ -1,0 +1,17 @@
+<div class="text-xs text-gray-400 mb-1 flex items-center flex-wrap gap-1">
+      @for (item of items; track item.label; let last = $last) {
+        @if (item.link && !last) {
+          <a [routerLink]="item.link" class="hover:text-[#004EEB] transition-colors">
+            {{ item.label }}
+          </a>
+          <span class="mx-1">></span>
+        } @else {
+          <span [ngClass]="last ? 'text-[#041B3C] font-semibold' : ''">
+            {{ item.label }}
+          </span>
+          @if (!last) {
+            <span class="mx-1">></span>
+          }
+        }
+      }
+    </div>
