@@ -21,10 +21,26 @@
       <h1 class="text-2xl md:text-3xl font-extrabold text-[#041B3C] mb-8 leading-snug">
         You've been invited to join<br>new project
       </h1>
+      @if (errorMessage) {
+        <div class="mb-4 p-3 bg-red-100 text-red-700 text-sm rounded-lg w-full">
+          {{ errorMessage }}
+        </div>
+      }
+
+      @if (successMessage) {
+        <div class="mb-4 p-3 bg-green-100 text-green-700 text-sm rounded-lg w-full">
+          {{ successMessage }}
+        </div>
+      }
       <button 
         (click)="acceptInvitation()" 
+        [disabled]="isLoading"
         class="btn-custom w-full py-4 rounded-sm text-sm font-semibold text-white bg-[#003D9B] hover:bg-[#00327d] transition-all shadow-lg shadow-blue-900/20">
-        Accept Invitation
+        @if (isLoading) {
+          <span>Loading...</span>
+        } @else {
+          <span>Accept Invitation</span>
+        }
       </button>
 
     </div>
