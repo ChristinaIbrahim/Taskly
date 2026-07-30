@@ -55,7 +55,11 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'my-statistics',
+   loadComponent: () => import('./features/my-statistics/my-statistics.component').then(m => m.MyStatisticsComponent),
 
+  },
   {
     path: '**',
     redirectTo: 'login',
