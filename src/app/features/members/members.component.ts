@@ -6,10 +6,11 @@ import { ProjectMember } from '../project/project.model';
 import { ProjectService } from '../project/project.service';
 import { BreadcrumbComponent,BreadcrumbItem } from '../../shared/components/breadcrumb/breadcrumb.component';
 import { InviteMemberModalComponent } from './invite-member-modal/invite-member-modal.component';
+import { AcceptInvitationComponent } from './accept-invitation/accept-invitation.component';
 @Component({
   selector: 'app-members',
   standalone: true,
-  imports: [CommonModule, SkeltonComponent , BreadcrumbComponent , InviteMemberModalComponent],
+  imports: [CommonModule, SkeltonComponent , BreadcrumbComponent , InviteMemberModalComponent , AcceptInvitationComponent],
   templateUrl: './members.component.html',
   styleUrl: './members.component.css',
 })
