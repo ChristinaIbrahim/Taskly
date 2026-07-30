@@ -15,6 +15,7 @@ export const routes: Routes = [
         (m) => m.AddProjectComponent,
       ),
   },
+
   {
     path: ':id',
     children: [

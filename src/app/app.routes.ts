@@ -39,7 +39,6 @@ export const routes: Routes = [
         (m) => m.ResetPasswordComponent,
       ),
   },
-
   {
     path: '',
     canActivate: [authGuard],
@@ -53,12 +52,14 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/project/project.routes').then((m) => m.routes),
       },
+      {
+        path: 'my-statistics',
+        loadComponent: () =>
+          import('./features/my-statistics/my-statistics.component').then(
+            (m) => m.MyStatisticsComponent,
+          ),
+      },
     ],
-  },
-  {
-    path: 'my-statistics',
-   loadComponent: () => import('./features/my-statistics/my-statistics.component').then(m => m.MyStatisticsComponent),
-
   },
   {
     path: '**',
