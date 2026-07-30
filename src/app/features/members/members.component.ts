@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { SkeltonComponent } from '../project/components/skelton/skelton.component';
 import { ProjectMember } from '../project/project.model';
 import { ProjectService } from '../project/project.service';
+import { BreadcrumbComponent,BreadcrumbItem } from '../../shared/components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-members',
   standalone: true,
-  imports: [CommonModule, SkeltonComponent],
+  imports: [CommonModule, SkeltonComponent , BreadcrumbComponent],
   templateUrl: './members.component.html',
   styleUrl: './members.component.css',
 })
@@ -20,6 +21,12 @@ export class MembersComponent implements OnInit {
   members: ProjectMember[] = [];
   isLoading = true;
   errorMessage: string | null = null;
+
+  breadcrumbItems: BreadcrumbItem[] = [
+      { label: 'PROJECTS', link: '/project' },
+      { label: 'PROJECT NAME' },
+      { label: 'MEMBERS' }
+    ];
 
   ngOnInit(): void {
     this.projectId =
