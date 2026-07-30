@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { AppIconsDirective } from '../../../shared/directives/app-icons.directive';
 
 @Component({
   selector: 'app-accept-invitation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule , AppIconsDirective],
   templateUrl: './accept-invitation.component.html',
   styleUrl: './accept-invitation.component.css'
 })
