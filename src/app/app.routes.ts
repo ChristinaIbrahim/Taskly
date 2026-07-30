@@ -55,6 +55,16 @@ export const routes: Routes = [
       },
     ],
   },
+   {
+        
+        path: 'invite',
+        loadComponent: () =>
+          import('./features/members/accept-invitation/accept-invitation.component').then(
+            (m) => m.AcceptInvitationComponent,
+          ),
+      
+
+      },
 
   {
     path: '**',
