@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MemberInviteService } from '../member-invite.service';
+
 @Component({
   selector: 'app-invite-member-modal',
   standalone: true,
