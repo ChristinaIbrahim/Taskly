@@ -27,6 +27,10 @@
   --color-icon-card: #e8edff;
   --color-third-heading: #041b3c;
 
+  --primary-start: #003D9B;
+  --primary-end: #0052CC;
+  --btn-gradient: linear-gradient(to bottom, var(--primary-start), var(--primary-end));
+
   /* Border Radius */
   --rounded-2xs: 2px;
   --rounded-xs: 4px;
@@ -147,4 +151,28 @@ input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px #ebf0ff inset !important;
   -webkit-text-fill-color: #1e293b !important; 
   transition: background-color 5000s ease-in-out 0s; 
+}
+
+
+/*  invite Member */
+.invite-title {
+  font-size: clamp(1.25rem, 2vw + 1rem, 1.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.btn-custom {
+  background: var(--btn-gradient);
+  color: white;
+}
+
+.invite-description {
+  font-size: clamp(0.8125rem, 1vw + 0.75rem, 0.875rem);
+  color: #4F5F7B;
+}
+.btn-gradient {
+  background: linear-gradient(to bottom, #003D9B, #0052CC);
+}
+.btn-gradient:hover {
+  opacity: 0.9;
 }
