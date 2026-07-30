@@ -29,6 +29,12 @@ export class AcceptInvitationComponent implements OnInit {
   }
 
   acceptInvitation() {
+    const accessToken = localStorage.getItem('token');
+    if (!accessToken) {
+      const currentUrl = this.router.url;
+      this.router.navigate(['/login'], { queryParams: { returnUrl: currentUrl } });
+      return;
+    }
     if (!this.token || this.isLoading) return;
 
     this.isLoading = true;
