@@ -5,11 +5,11 @@ import { SkeltonComponent } from '../project/components/skelton/skelton.componen
 import { ProjectMember } from '../project/project.model';
 import { ProjectService } from '../project/project.service';
 import { BreadcrumbComponent,BreadcrumbItem } from '../../shared/components/breadcrumb/breadcrumb.component';
-
+import { InviteMemberModalComponent } from './invite-member-modal/invite-member-modal.component';
 @Component({
   selector: 'app-members',
   standalone: true,
-  imports: [CommonModule, SkeltonComponent , BreadcrumbComponent],
+  imports: [CommonModule, SkeltonComponent , BreadcrumbComponent , InviteMemberModalComponent],
   templateUrl: './members.component.html',
   styleUrl: './members.component.css',
 })
@@ -27,6 +27,9 @@ export class MembersComponent implements OnInit {
       { label: 'PROJECT NAME' },
       { label: 'MEMBERS' }
     ];
+
+    isInviteModalOpen: boolean = false;
+
 
   ngOnInit(): void {
     this.projectId =
@@ -84,5 +87,17 @@ export class MembersComponent implements OnInit {
       default:
         return 'bg-gray-100 text-gray-700';
     }
+  }
+
+  openInviteModal() {
+    this.isInviteModalOpen = true;
+  }
+
+  closeInviteModal() {
+    this.isInviteModalOpen = false;
+  }
+
+  onMemberInvited() {
+    console.log('Member invited successfully');
   }
 }
