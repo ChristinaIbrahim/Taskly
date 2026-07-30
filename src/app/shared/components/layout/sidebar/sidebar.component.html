@@ -32,6 +32,16 @@
         <svg appIcon="projects" class="w-5 h-5 stroke-current"></svg>
         <span class="text-sm font-medium">Projects</span>
       </a>
+       <a
+        routerLink="/my-statistics"
+        routerLinkActive="bg-white !text-[#003D9B] font-bold"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeMobileMenu()"
+        class="flex items-center gap-4 px-4 py-3 rounded-lg transition-all group text-[#041B3C] hover:text-[#003D9B]"
+      >
+        <svg appIcon="Statistics" class="w-5 h-5 stroke-current"></svg>
+        <span class="text-sm font-medium">My Statistics</span>
+      </a>
 
       <a
         [routerLink]="currentProjectId ? ['/project', currentProjectId, 'epics'] : null"
