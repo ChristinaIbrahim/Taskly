@@ -6,6 +6,7 @@
     </div>
 
     <button
+      (click)="openInviteModal()"
       class="bg-[#003D9B] text-white px-4 py-2.5 rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-[#002d72] transition-colors"
       >
       <svg
@@ -118,3 +119,11 @@
     }
   </div>
 </div>
+
+@if (isInviteModalOpen) {
+  <app-invite-member-modal
+    [projectId]="projectId"
+    (close)="closeInviteModal()"
+    (invited)="onMemberInvited()">
+  </app-invite-member-modal>
+}
