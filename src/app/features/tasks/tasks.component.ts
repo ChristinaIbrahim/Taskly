@@ -24,6 +24,7 @@ export class TasksComponent implements OnInit {
 
   projectId = '';
   currentView: 'board' | 'list' = 'board';
+  searchTerm = '';
 
   selectedTaskId: string | number | null = null;
   selectedProjectId: string | number | null = null;
@@ -58,5 +59,9 @@ export class TasksComponent implements OnInit {
   closeTaskDetails(): void {
     this.selectedTaskId = null;
     this.selectedProjectId = null;
+  }
+  onSearchInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchTerm = value;
   }
 }
