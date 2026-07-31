@@ -1,0 +1,238 @@
+<div class="p-6 max-w-7xl mx-auto flex flex-col gap-6">
+ <div class="flex flex-col gap-4">
+  <div>
+    <h1 class="font-bold text-[#041B3C]" [style.font-size]="'var(--font-weekly-title)'">Weekly Planner</h1>
+    <p class="text-[#434654]" [style.font-size]="'var(--font-base)'">Manage your deadlines and track team velocity.</p>
+  </div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#F1F3FF] py-5 px-5 rounded-xl">
+  <div class="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-[#041B3C] shadow-sm">
+    <button class="text-[#434654] hover:text-[#6B7280] cursor-pointer">&lt;</button>
+    <span class="font-bold" [style.font-size]="'var(--font-sm)'">May 11 - May 17, 2025</span>
+    <button class="text-[#434654] hover:text-[#6B7280] cursor-pointer">&gt;</button>
+  </div>
+ <div class="flex items-center gap-3 flex-wrap">
+  <div class="relative w-[204px]">
+    <select class="w-full bg-white border border-slate-200 px-3 py-2 text-sm text-[#041B3C] shadow-sm outline-none cursor-pointer appearance-none pr-10">
+      <option>All Projects</option>
+    </select>
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+     <path d="M0.787598 0.787109L4.9876 4.98711L9.1876 0.787109" stroke="#6B7280" stroke-width="1.575" stroke-linecap="round" stroke-linejoin="round"/>
+     </svg>
+    </div>
+  </div>
+  <div class="relative w-[204px]">
+    <select class="w-full bg-white border border-slate-200 px-3 py-2 text-sm text-[#041B3C] shadow-sm outline-none cursor-pointer appearance-none pr-10">
+      <option>All Statuses</option>
+    </select>
+    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#6B7280]">
+      <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0.787598 0.787109L4.9876 4.98711L9.1876 0.787109" stroke="#6B7280" stroke-width="1.575" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+  
+    </div>
+  </div>
+</div>
+</div>
+ 
+ 
+</div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between h-[104px]">
+      <div>
+        <p class="text-xs text-[#041B3C99] font-bold uppercase tracking-wider">Total Tasks</p>
+        <h3 class="text-3xl font-bold text-[#041B3C] mt-1">24</h3>
+      </div>
+      <div class="w-12 h-12 rounded-lg bg-blue-50 text-[#003D9B] flex items-center justify-center">
+        <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 20C1.45 20 0.979167 19.8042 0.5875 19.4125C0.195833 19.0208 0 18.55 0 18V4C0 3.45 0.195833 2.97917 0.5875 2.5875C0.979167 2.19583 1.45 2 2 2H6.2C6.41667 1.4 6.77917 0.916667 7.2875 0.55C7.79583 0.183333 8.36667 0 9 0C9.63333 0 10.2042 0.183333 10.7125 0.55C11.2208 0.916667 11.5833 1.4 11.8 2H16C16.55 2 17.0208 2.19583 17.4125 2.5875C17.8042 2.97917 18 3.45 18 4V18C18 18.55 17.8042 19.0208 17.4125 19.4125C17.0208 19.8042 16.55 20 16 20H2ZM2 18H16V4H2V18ZM4 16H11V14H4V16ZM4 12H14V10H4V12ZM4 8H14V6H4V8ZM9 3.25C9.21667 3.25 9.39583 3.17917 9.5375 3.0375C9.67917 2.89583 9.75 2.71667 9.75 2.5C9.75 2.28333 9.67917 2.10417 9.5375 1.9625C9.39583 1.82083 9.21667 1.75 9 1.75C8.78333 1.75 8.60417 1.82083 8.4625 1.9625C8.32083 2.10417 8.25 2.28333 8.25 2.5C8.25 2.71667 8.32083 2.89583 8.4625 3.0375C8.60417 3.17917 8.78333 3.25 9 3.25ZM2 18V4V18Z" fill="#0052CC"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between">
+      <div>
+        <p class="text-xs text-[#041B3C99] font-bold uppercase tracking-wider">Completed Tasks</p>
+        <h3 class="text-3xl font-bold text-[#041B3C] mt-1">15</h3>
+      </div>
+      <div class="w-12 h-12 rounded-lg bg-green-50 text-green-600 flex items-center justify-center">
+         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8.6 14.6L15.65 7.55L14.25 6.15L8.6 11.8L5.75 8.95L4.35 10.35L8.6 14.6ZM10 20C8.61667 20 7.31667 19.7375 6.1 19.2125C4.88333 18.6875 3.825 17.975 2.925 17.075C2.025 16.175 1.3125 15.1167 0.7875 13.9C0.2625 12.6833 0 11.3833 0 10C0 8.61667 0.2625 7.31667 0.7875 6.1C1.3125 4.88333 2.025 3.825 2.925 2.925C3.825 2.025 4.88333 1.3125 6.1 0.7875C7.31667 0.2625 8.61667 0 10 0C11.3833 0 12.6833 0.2625 13.9 0.7875C15.1167 1.3125 16.175 2.025 17.075 2.925C17.975 3.825 18.6875 4.88333 19.2125 6.1C19.7375 7.31667 20 8.61667 20 10C20 11.3833 19.7375 12.6833 19.2125 13.9C18.6875 15.1167 17.975 16.175 17.075 17.075C16.175 17.975 15.1167 18.6875 13.9 19.2125C12.6833 19.7375 11.3833 20 10 20ZM10 18C12.2333 18 14.125 17.225 15.675 15.675C17.225 14.125 18 12.2333 18 10C18 7.76667 17.225 5.875 15.675 4.325C14.125 2.775 12.2333 2 10 2C7.76667 2 5.875 2.775 4.325 4.325C2.775 5.875 2 7.76667 2 10C2 12.2333 2.775 14.125 4.325 15.675C5.875 17.225 7.76667 18 10 18Z" fill="#004E32"/>
+          </svg>
+      </div>
+    </div>
+    <div class="bg-white p-5 rounded-xl border border-slate-100 shadow-sm flex items-center justify-between">
+      <div>
+        <p class="text-xs text-[#041B3C99] font-bold uppercase tracking-wider">Overdue Tasks</p>
+        <h3 class="text-3xl font-bold text-[#041B3C] mt-1">3</h3>
+      </div>
+      <div class="w-12 h-12 rounded-lg bg-red-50 text-red-500 flex items-center justify-center">
+        <svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 19L11 0L22 19H0ZM3.45 17H18.55L11 4L3.45 17ZM11 16C11.2833 16 11.5208 15.9042 11.7125 15.7125C11.9042 15.5208 12 15.2833 12 15C12 14.7167 11.9042 14.4792 11.7125 14.2875C11.5208 14.0958 11.2833 14 11 14C10.7167 14 10.4792 14.0958 10.2875 14.2875C10.0958 14.4792 10 14.7167 10 15C10 15.2833 10.0958 15.5208 10.2875 15.7125C10.4792 15.9042 10.7167 16 11 16ZM10 13H12V8H10V13Z" fill="#BA1A1A"/>
+        </svg>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-7 gap-3">
+    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col h-[420px]">
+      <span class="text-xs font-bold text-[#041B3C66] uppercase">Sun</span>
+      <span class="font-bold text-[#041B3C99] mb-4 " [style.font-size]="'var(--font-lg)'">11 May</span>
+      <div class="flex-1 flex flex-col items-center justify-center  gap-1">
+        <span class="text-2xl">
+       <svg width="27" height="30" viewBox="0 0 27 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+     <path d="M10.05 25.05L7.95 22.95L11.4 19.5L7.95 16.05L10.05 13.95L13.5 17.4L16.95 13.95L19.05 16.05L15.6 19.5L19.05 22.95L16.95 25.05L13.5 21.6L10.05 25.05ZM3 30C2.175 30 1.46875 29.7062 0.88125 29.1187C0.29375 28.5312 0 27.825 0 27V6C0 5.175 0.29375 4.46875 0.88125 3.88125C1.46875 3.29375 2.175 3 3 3H4.5V0H7.5V3H19.5V0H22.5V3H24C24.825 3 25.5312 3.29375 26.1187 3.88125C26.7062 4.46875 27 5.175 27 6V27C27 27.825 26.7062 28.5312 26.1187 29.1187C25.5312 29.7062 24.825 30 24 30H3ZM3 27H24V12H3V27ZM3 9H24V6H3V9ZM3 9V6V9Z" fill="#959BA5"/>
+      </svg>
+      </span>
+        <span class=" font-bold  text-xs text-[#959BA5]">NO TASKS</span>
+      </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col h-[420px]">
+      <span class="text-xs font-bold text-gray-400 uppercase">Mon</span>
+      <span class=" font-bold text-[#041B3C] mb-4" [style.font-size]="'var(--font-lg)'" >12 May</span>
+      <div class="flex flex-col gap-2">
+        <div class="bg-slate-50 p-2 rounded   flex justify-between text-xs font-semibold">
+          <span class="text-[#737685]">TO DO</span> <span>4</span>
+        </div>
+        <div class="bg-slate-50 p-2 rounded  flex justify-between text-xs font-semibold">
+          <span class="text-[#003D9B] font-bold">ACTIVE</span> <span>2</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col h-[420px]">
+      <span class="text-xs font-bold text-gray-400 uppercase">Tue</span>
+      <span class=" font-bold text-[#041B3C] mb-4" [style.font-size]="'var(--font-lg)'">13 May</span>
+      <div class="flex flex-col gap-2">
+        <div class="bg-slate-50 p-2 rounded  flex justify-between text-xs font-semibold">
+          <span class="text-[#003D9B] font-bold">ACTIVE</span> <span>5</span>
+        </div>
+        <div class="bg-[#FFDAD61A] p-2 rounded  flex justify-between text-xs font-semibold">
+          <span class=" text-[#BA1A1A]">BLOCKED</span> <span>1</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-xl border-2 border-blue-600 shadow-md flex flex-col h-[420px] relative">
+      <span class="absolute -top-3 left-4 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Today</span>
+      <span class="text-sm font-extrabold text-[#003D9B] uppercase mt-1">Wed</span>
+      <span class=" font-bold text-[#041B3C] mb-4" [style.font-size]="'var(--font-lg)'">14 May</span>
+      <div class="flex flex-col gap-2">
+        <div class="bg-[#0052CC33] p-2 rounded border-l-4 border-[#003D9B] flex justify-between  gap-5 text-xs font-bold text-blue-900">
+          <span>IN  PROGRESS</span> <span class="font-bold text-rigth">6</span>
+        </div>
+        <div class="bg-green-50 p-2 rounded flex justify-between text-xs font-semibold text[#004E32]">
+          <span>DONE</span> <span>3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col h-[420px]">
+      <span class="text-xs font-bold text-gray-400 uppercase">Thu</span>
+      <span class=" font-bold text-[#041B3C] mb-4" [style.font-size]="'var(--font-lg)'">15 May</span>
+      <div class="flex flex-col gap-2">
+        <div class="bg-[#C3C6D61A] p-2 rounded  flex justify-between text-xs font-semibold">
+          <span class="#737685">TO DO</span> <span>8</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col h-[420px]">
+      <span class="text-xs font-bold text-gray-400 uppercase">Fri</span>
+      <span class=" font-bold text-[#041B3C] mb-4" [style.font-size]="'var(--font-lg)'">16 May</span>
+      <div class="flex flex-col gap-2">
+        <div class="bg-[#0068441A] p-2 rounded  flex justify-between text-xs font-semibold text-green-900">
+          <span class="#004E32">DONE</span> <span>12</span>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm flex flex-col h-[420px]">
+      <span class="text-xs font-bold text-[#041B3C66] uppercase">Sat</span>
+      <span class=" font-bold text-[#041B3C99] mb-4" [style.font-size]="'var(--font-lg)'">17 May</span>
+           <div class="flex-1 flex flex-col items-center justify-center  gap-1">
+      <span class="text-2xl">
+         <svg width="27" height="30" viewBox="0 0 27 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <path d="M10.05 25.05L7.95 22.95L11.4 19.5L7.95 16.05L10.05 13.95L13.5 17.4L16.95 13.95L19.05 16.05L15.6 19.5L19.05 22.95L16.95 25.05L13.5 21.6L10.05 25.05ZM3 30C2.175 30 1.46875 29.7062 0.88125 29.1187C0.29375 28.5312 0 27.825 0 27V6C0 5.175 0.29375 4.46875 0.88125 3.88125C1.46875 3.29375 2.175 3 3 3H4.5V0H7.5V3H19.5V0H22.5V3H24C24.825 3 25.5312 3.29375 26.1187 3.88125C26.7062 4.46875 27 5.175 27 6V27C27 27.825 26.7062 28.5312 26.1187 29.1187C25.5312 29.7062 24.825 30 24 30H3ZM3 27H24V12H3V27ZM3 9H24V6H3V9ZM3 9V6V9Z" fill="#959BA5"/>
+      </svg>
+      </span>
+        <span class=" font-bold  text-xs text-[#959BA5]">NO TASKS</span>
+      </div>
+    </div>
+  </div>
+
+ <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm lg:col-span-1 flex flex-col justify-between">
+    <h3 class="text-lg font-bold text-[#041B3C] mb-4">Tasks by Status</h3>
+    
+    <div class="flex items-center justify-between gap-4 my-2">
+      <div class="flex-shrink-0">
+        <svg width="150" height="150" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M90 16.2C80.3084 16.2 70.7118 18.1089 61.758 21.8177C52.8041 25.5265 44.6685 30.9626 37.8155 37.8155C30.9626 44.6685 25.5265 52.8041 21.8177 61.758C18.1089 70.7118 16.2 80.3084 16.2 90C16.2 99.6916 18.1089 109.288 21.8177 118.242C25.5265 127.196 30.9626 135.332 37.8155 142.184C44.6685 149.037 52.8041 154.474 61.758 158.182C70.7118 161.891 80.3085 163.8 90 163.8" stroke="#003D9B" stroke-width="32.4"/>
+          <path d="M90 163.8C99.6916 163.8 109.288 161.891 118.242 158.182C127.196 154.474 135.332 149.037 142.184 142.184C149.037 135.332 154.474 127.196 158.182 118.242C161.891 109.288 163.8 99.6916 163.8 90" stroke="#004E32" stroke-width="32.4"/>
+          <path d="M163.8 90C163.8 78.3536 161.044 66.8725 155.756 56.4955C150.469 46.1185 142.801 37.1401 133.379 30.2945" stroke="#BA1A1A" stroke-width="32.4"/>
+          <path d="M103.829 17.5072C114.5 19.5428 124.59 23.9092 133.379 30.2945" stroke="#E8EDFF" stroke-width="32.4"/>
+          <path d="M90 16.2C94.6404 16.2 99.2705 16.6377 103.829 17.5072" stroke="#E8EDFF" stroke-width="32.4"/>
+          <path d="..." fill="#222529"/>
+          <text x="90" y="82" text-anchor="middle" font-size="36" font-weight="bold" fill="#222529">24</text>
+          <text x="90" y="105" text-anchor="middle" font-size="16" font-weight="600" fill="#8C97A7">Total</text>
+        </svg>
+      </div>
+
+      <div class="flex flex-col gap-3 w-full text-sm">
+        <div class="flex flex-col gap-1">
+          <div class="flex justify-between items-center">
+            <span class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#003D9B]"></span> In Progress
+            </span> 
+            <span class="font-bold text-xs text-slate-900">12</span>
+          </div>
+          <div class="w-full bg-[#E8EDFF] h-1.5 rounded-full overflow-hidden">
+            <div class="bg-[#003D9B] h-full rounded-full" style="width: 70%"></div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div class="flex justify-between items-center">
+            <span class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#004E32]"></span> Done
+            </span> 
+            <span class="font-bold text-xs text-slate-900">9</span>
+          </div>
+          <div class="w-full bg-[#E8EDFF] h-1.5 rounded-full overflow-hidden">
+            <div class="bg-[#004E32] h-full rounded-full" style="width: 50%"></div>
+          </div>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div class="flex justify-between items-center">
+            <span class="flex items-center gap-2 text-xs font-semibold text-slate-700">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#BA1A1A]"></span> Blocked
+            </span> 
+            <span class="font-bold text-xs text-slate-900">3</span>
+          </div>
+          <div class="w-full bg-[#E8EDFF] h-1.5 rounded-full overflow-hidden">
+            <div class="bg-[#BA1A1A] h-full rounded-full" style="width: 25%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white p-6 rounded-xl border border-slate-100 shadow-sm lg:col-span-2">
+    <h3 class="text-lg font-bold text-[#041B3C] mb-4">All Projects</h3>
+    <div class="flex flex-col divide-y divide-slate-100">
+      <div class="py-3 flex justify-between items-center text-sm">
+        <span class=" text-[#041B3CB2] font-bold ">Skyline Residency</span>
+        <span class="font-bold text-gray-600">45 Tasks</span>
+      </div>
+      <div class="py-3 flex justify-between items-center text-sm">
+        <span class="  text-[#041B3CB2] font-extrabold">Urban Center Phase 2</span>
+        <span class="font-bold text-gray-600">28 Tasks</span>
+      </div>
+      <div class="py-3 flex justify-between items-center text-sm">
+        <span class="  text-[#041B3CB2] font-bold">Green Valley Office</span>
+        <span class="font-bold text-gray-600">12 Tasks</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

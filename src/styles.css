@@ -34,6 +34,11 @@
   --rounded-md: 16px;
   --rounded-full: 9999px;
 
+  --font-base: 1rem; /*16 px */
+  --font-sm: 0.875rem; /* 14px */
+  --font-lg: 1.125rem; /* 18px */
+  --font-weekly-title: 1.875rem;
+
  /*  ====================  Epic & Assignee Theme  ====================  */
 
   --epic-green-light: #82F9BE;
