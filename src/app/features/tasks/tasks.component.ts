@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
     BoardViewTaskComponent,
     ListViewTaskComponent,
     TaskDetailsPopupComponent,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
