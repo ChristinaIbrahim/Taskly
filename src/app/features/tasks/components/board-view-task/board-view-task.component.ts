@@ -142,7 +142,6 @@ onDrop(event: CdkDragDrop<Task[]>, targetColumnKey: string): void {
       { headers }
     ).subscribe({
       next: () => {
-        console.log('Task status updated successfully!');
       },
       error: (err) => {
         console.error('Detailed Supabase Error:', err);
