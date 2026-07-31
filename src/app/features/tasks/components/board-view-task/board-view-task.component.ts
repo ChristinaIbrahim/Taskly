@@ -12,11 +12,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Task, BoardColumn } from '../../task.model';
+import { 
+  DragDropModule, 
+  CdkDragDrop, 
+  moveItemInArray, 
+  transferArrayItem 
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-board-view-task',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,DragDropModule],
   templateUrl: './board-view-task.component.html',
   styleUrl: './board-view-task.component.css',
 })
@@ -110,4 +116,45 @@ export class BoardViewTaskComponent implements OnInit {
       .substring(0, 2)
       .toUpperCase();
   }
+  private updateColumnCounts(): void {
+  this.columns.forEach((col) => {
+    col.count = col.tasks.length; 
+  });
+}
+
+onDrop(event: CdkDragDrop<Task[]>, targetColumnKey: string): void {
+    const task = event.item.data as Task;
+    if (event.previousContainer === event.container) {
+      return moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    }
+
+    const oldStatus = task.status;
+    transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
+    task.status = targetColumnKey;
+    this.updateColumnCounts();
+   const headers = this.getHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Prefer', 'return=minimal');
+
+    this.http.patch(
+      `${this.apiUrl}rest/v1/tasks?id=eq.${task.id}`, 
+      { status: targetColumnKey }, 
+      { headers }
+    ).subscribe({
+      next: () => {
+      },
+      error: (err) => {
+        console.error('Detailed Supabase Error:', err);
+        transferArrayItem(event.container.data, event.previousContainer.data, event.currentIndex, event.previousIndex);
+        task.status = oldStatus;
+        this.updateColumnCounts();
+        alert('failed update task');
+      }
+    });
+  }
+  getConnectedListIds(): string[] {
+    return this.columns.map((_, i) => `cdk-drop-list-${i}`);
+  }
+
+
 }
