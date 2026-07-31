@@ -3,8 +3,8 @@
     <p class="text-xs text-gray-500">Loading tasks...</p>
   </div>
 } @else if (tasks.length === 0) {
-  <div class="w-full min-h-[400px] flex flex-col items-center justify-center p-12 text-center bg-white border border-gray-200 rounded-2xl shadow-sm my-4">
-    <p class="text-sm font-semibold text-gray-500">
+  <div class="w-full min-h-[400px] flex flex-col items-center justify-center p-12 text-center my-4">
+    <p class="text-lg font-semibold text-gray-800">
       @if (searchTerm && searchTerm.trim() !== '') {
         No tasks found matching your search
       } @else {
