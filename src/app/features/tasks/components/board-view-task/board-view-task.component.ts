@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../../environments/environment';
 import { AuthService } from '../../../../core/services/auth.service';
+import { ToastService } from '../../../../shared/services/toast.service';
 import { Task, BoardColumn } from '../../task.model';
 import { 
   DragDropModule, 
@@ -22,7 +23,7 @@ import {
 @Component({
   selector: 'app-board-view-task',
   standalone: true,
-  imports: [CommonModule,DragDropModule],
+  imports: [CommonModule, DragDropModule], 
   templateUrl: './board-view-task.component.html',
   styleUrl: './board-view-task.component.css',
 })
@@ -33,9 +34,13 @@ export class BoardViewTaskComponent implements OnInit {
   private http = inject(HttpClient);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private toastService = inject(ToastService); 
 
   apiUrl = environment.supabaseUrl;
   apiKey = environment.supabase_api_key;
+
+  searchTerm = ''; 
+  private searchTimeout: any;
 
   columns: BoardColumn[] = [
     { key: 'TO_DO', label: 'TO DO', tasks: [], count: 0 },
@@ -62,21 +67,36 @@ export class BoardViewTaskComponent implements OnInit {
       this.fetchTasksForColumn(column);
     });
   }
-
   fetchTasksForColumn(column: BoardColumn): void {
-    this.http
-      .get<
-        Task[]
-      >(`${this.apiUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}&status=eq.${column.key}`, { headers: this.getHeaders() })
-      .subscribe({
-        next: (data) => {
-          column.tasks = data;
-          column.count = data.length;
-        },
-        error: (err: unknown) => {
-          console.error(`Failed to load tasks for ${column.key}`, err);
-        },
-      });
+    let url = `${this.apiUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}&status=eq.${column.key}`;
+    
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      url += `&title=ilike.%25${this.searchTerm.trim()}%25`;
+    }
+
+    this.http.get<Task[]>(url, { headers: this.getHeaders() }).subscribe({
+      next: (data) => {
+        column.tasks = data;
+        column.count = data.length;
+      },
+      error: (err: unknown) => {
+        console.error(`Failed to load tasks for ${column.key}`, err);
+        this.toastService.show('Failed to search tasks', 'error');
+      },
+    });
+  }
+
+  onSearchChange(event: any): void {
+    const value = event.target.value;
+    this.searchTerm = value;
+
+    if (this.searchTimeout) {
+      clearTimeout(this.searchTimeout);
+    }
+
+    this.searchTimeout = setTimeout(() => {
+      this.loadAllColumnsTasks();
+    }, 400);
   }
 
   onAddTask(statusKey: string): void {
@@ -116,13 +136,14 @@ export class BoardViewTaskComponent implements OnInit {
       .substring(0, 2)
       .toUpperCase();
   }
-  private updateColumnCounts(): void {
-  this.columns.forEach((col) => {
-    col.count = col.tasks.length; 
-  });
-}
 
-onDrop(event: CdkDragDrop<Task[]>, targetColumnKey: string): void {
+  private updateColumnCounts(): void {
+    this.columns.forEach((col) => {
+      col.count = col.tasks.length; 
+    });
+  }
+
+  onDrop(event: CdkDragDrop<Task[]>, targetColumnKey: string): void {
     const task = event.item.data as Task;
     if (event.previousContainer === event.container) {
       return moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -132,7 +153,8 @@ onDrop(event: CdkDragDrop<Task[]>, targetColumnKey: string): void {
     transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex);
     task.status = targetColumnKey;
     this.updateColumnCounts();
-   const headers = this.getHeaders()
+    
+    const headers = this.getHeaders()
       .set('Content-Type', 'application/json')
       .set('Prefer', 'return=minimal');
 
@@ -141,20 +163,18 @@ onDrop(event: CdkDragDrop<Task[]>, targetColumnKey: string): void {
       { status: targetColumnKey }, 
       { headers }
     ).subscribe({
-      next: () => {
-      },
+      next: () => {},
       error: (err) => {
         console.error('Detailed Supabase Error:', err);
         transferArrayItem(event.container.data, event.previousContainer.data, event.currentIndex, event.previousIndex);
         task.status = oldStatus;
         this.updateColumnCounts();
-        alert('failed update task');
+        this.toastService.show('failed update task', 'error');
       }
     });
   }
+
   getConnectedListIds(): string[] {
     return this.columns.map((_, i) => `cdk-drop-list-${i}`);
   }
-
-
 }
