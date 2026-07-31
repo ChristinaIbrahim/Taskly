@@ -30,6 +30,7 @@ import {
 export class BoardViewTaskComponent implements OnInit {
   @Input() projectId = '';
   @Output() taskClick = new EventEmitter<string | number>();
+  @Input() searchTerm = '';
 
   private http = inject(HttpClient);
   private router = inject(Router);
@@ -39,7 +40,6 @@ export class BoardViewTaskComponent implements OnInit {
   apiUrl = environment.supabaseUrl;
   apiKey = environment.supabase_api_key;
 
-  searchTerm = ''; 
   private searchTimeout: any;
 
   columns: BoardColumn[] = [
@@ -81,8 +81,7 @@ export class BoardViewTaskComponent implements OnInit {
       },
       error: (err: unknown) => {
         console.error(`Failed to load tasks for ${column.key}`, err);
-        this.toastService.show('Failed to search tasks', 'error');
-      },
+        this.toastService.show('Failed to search tasks');      },
     });
   }
 
@@ -169,7 +168,7 @@ export class BoardViewTaskComponent implements OnInit {
         transferArrayItem(event.container.data, event.previousContainer.data, event.currentIndex, event.previousIndex);
         task.status = oldStatus;
         this.updateColumnCounts();
-        this.toastService.show('failed update task', 'error');
+        this.toastService.show('failed update task');
       }
     });
   }

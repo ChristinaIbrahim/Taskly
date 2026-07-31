@@ -58,6 +58,7 @@
     <app-board-view-task
       [projectId]="projectId"
       (taskClick)="openTaskDetails($event)"
+      [searchTerm]="searchTerm"
     ></app-board-view-task>
   } @else if (currentView === 'list') {
     <app-list-view-task
