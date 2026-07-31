@@ -4,6 +4,8 @@ import {
   Input,
   Output,
   EventEmitter,
+  OnChanges,
+  SimpleChanges,
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -27,7 +29,7 @@ import {
   templateUrl: './board-view-task.component.html',
   styleUrl: './board-view-task.component.css',
 })
-export class BoardViewTaskComponent implements OnInit {
+export class BoardViewTaskComponent implements OnInit, OnChanges {
   @Input() projectId = '';
   @Output() taskClick = new EventEmitter<string | number>();
   @Input() searchTerm = '';
@@ -40,8 +42,6 @@ export class BoardViewTaskComponent implements OnInit {
   apiUrl = environment.supabaseUrl;
   apiKey = environment.supabase_api_key;
 
-  private searchTimeout: any;
-
   columns: BoardColumn[] = [
     { key: 'TO_DO', label: 'TO DO', tasks: [], count: 0 },
     { key: 'IN_PROGRESS', label: 'IN PROGRESS', tasks: [], count: 0 },
@@ -51,6 +51,12 @@ export class BoardViewTaskComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.projectId) {
+      this.loadAllColumnsTasks();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchTerm']) {
       this.loadAllColumnsTasks();
     }
   }
@@ -67,6 +73,7 @@ export class BoardViewTaskComponent implements OnInit {
       this.fetchTasksForColumn(column);
     });
   }
+
   fetchTasksForColumn(column: BoardColumn): void {
     let url = `${this.apiUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}&status=eq.${column.key}`;
     
@@ -81,21 +88,8 @@ export class BoardViewTaskComponent implements OnInit {
       },
       error: (err: unknown) => {
         console.error(`Failed to load tasks for ${column.key}`, err);
-        this.toastService.show('Failed to search tasks');      },
+        this.toastService.show('Failed to search tasks');         },
     });
-  }
-
-  onSearchChange(event: any): void {
-    const value = event.target.value;
-    this.searchTerm = value;
-
-    if (this.searchTimeout) {
-      clearTimeout(this.searchTimeout);
-    }
-
-    this.searchTimeout = setTimeout(() => {
-      this.loadAllColumnsTasks();
-    }, 400);
   }
 
   onAddTask(statusKey: string): void {
