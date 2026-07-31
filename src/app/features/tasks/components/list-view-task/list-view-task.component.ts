@@ -4,6 +4,8 @@ import {
   Output,
   EventEmitter,
   OnInit,
+  OnChanges,
+  SimpleChanges,
   inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -19,8 +21,9 @@ import { AuthService } from '../../../../core/services/auth.service';
   templateUrl: './list-view-task.component.html',
   styleUrls: ['./list-view-task.component.css'],
 })
-export class ListViewTaskComponent implements OnInit {
+export class ListViewTaskComponent implements OnInit, OnChanges {
   @Input() projectId = '';
+  @Input() searchTerm = '';
   @Output() taskClick = new EventEmitter<string | number>();
 
   tasks: Task[] = [];
@@ -37,6 +40,14 @@ export class ListViewTaskComponent implements OnInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['searchTerm'] || changes['projectId']) {
+      if (this.projectId) {
+        this.loadTasks();
+      }
+    }
+  }
+
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
       apikey: this.apiKey,
@@ -47,13 +58,16 @@ export class ListViewTaskComponent implements OnInit {
 
   loadTasks(): void {
     this.isLoading = true;
+    let url = `${this.apiUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}`;
+
+    if (this.searchTerm && this.searchTerm.trim() !== '') {
+      url += `&title=ilike.%25${this.searchTerm.trim()}%25`;
+    }
+
     this.http
-      .get<Task[]>(
-        `${this.apiUrl}rest/v1/project_tasks?project_id=eq.${this.projectId}`,
-        {
-          headers: this.getHeaders(),
-        },
-      )
+      .get<Task[]>(url, {
+        headers: this.getHeaders(),
+      })
       .subscribe({
         next: (data) => {
           this.tasks = data;
