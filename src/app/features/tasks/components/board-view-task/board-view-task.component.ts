@@ -170,4 +170,8 @@ export class BoardViewTaskComponent implements OnInit, OnChanges {
   getConnectedListIds(): string[] {
     return this.columns.map((_, i) => `cdk-drop-list-${i}`);
   }
+
+  hasNoTasks(): boolean {
+    return this.columns.every(col => col.tasks.length === 0);
+  }
 }
