@@ -26,8 +26,13 @@
           </div>
           <button
             (click)="showForm = true"
-            class="hidden md:flex items-center gap-2 bg-[#004EEB] text-white px-5 py-2.5  text-sm font-semibold hover:bg-blue-700 transition-all shadow-sm cursor-pointer whitespace-nowrap"
-          >
+            class="hidden md:flex items-center gap-2  text-white px-5 py-2.5  font-semibold hover:bg-blue-700 transition-all shadow-sm cursor-pointer whitespace-nowrap"
+            [style.background]="'var(--primary-gradient)'"
+            [style.font-size]="'var(--font-base)'"
+            [style.border-radius]="'var(--rounded-xs)'"
+
+
+            >
             <span class="text-lg leading-none">+</span> New Epic
           </button>
         </div>
