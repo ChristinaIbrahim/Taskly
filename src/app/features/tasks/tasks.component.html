@@ -4,8 +4,8 @@
       <div class="hidden md:block">
           <app-breadcrumb [items]="breadCrumbItems"></app-breadcrumb>
       </div>
-      <h1 class="text-2xl font-bold text-[#041B3C]">Active Workboard</h1>
-      <p class="text-xs text-gray-500 mt-1">Curating Project Alpha's production pipeline and milestones.</p>
+      <h1 class=" font-bold text-[30px] text-[#041B3C]">Active Workboard</h1>
+      <p class="text-[14px] text-[#64748B] mt-1">Curating Project Alpha's production pipeline and milestones.</p>
     </div>
 
     <div class="flex items-center gap-3">
@@ -19,10 +19,10 @@
           type="text"
           placeholder="Search tasks..."
           (input)="onSearchInput($event)"
-          class="bg-[#D7E2FF] pl-10 pr-4 py-2 text-xs text-[#041B3C] focus:outline-none focus:border-[#004EEB] w-60"
+          class="bg-[#D7E2FF] pl-10 pr-4 py-2 text-[14px] text-[#6B7280] focus:outline-none focus:border-[#004EEB] w-60"
         />
       </div>
-      <div class="relative flex items-center bg-white border border-gray-200 rounded-xl px-3 py-2">
+      <div class=" text-[14px] relative flex items-center bg-white border border-gray-200 rounded-[4px] px-3 py-2  text-[#041B3C]">
         @if (currentView === 'board') {
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" class="mr-2">
             <path d="M0 6V0H6V6H0ZM0 13.5V7.5H6V13.5H0ZM7.5 6V0H13.5V6H7.5ZM7.5 13.5V7.5H13.5V13.5H7.5ZM1.5 4.5H4.5V1.5H1.5V4.5ZM9 4.5H12V1.5H9V4.5ZM9 12H12V9H9V12ZM1.5 12H4.5V9H1.5V12Z" fill="#041B3C"/>
@@ -35,14 +35,14 @@
         <select
           [value]="currentView"
           (change)="onViewChange($event)"
-          class="bg-transparent text-xs font-semibold text-[#041B3C] focus:outline-none cursor-pointer pr-2"
+          class="bg-transparent  font-semibold  focus:outline-none cursor-pointer pr-2"
         >
           <option value="board">Board View</option>
           <option value="list">List View</option>
         </select>
       </div>
 
-      <div class="bg-[#D7E2FF] p-2.5 rounded-xl flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity">
+      <div class="bg-[#D7E2FF] p-2.5 rounded-[4px] flex items-center justify-center cursor-pointer hover:opacity-90 transition-opacity">
         <svg width="16" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M7 12V10H11V12H7ZM3 7V5H15V7H3ZM0 2V0H18V2H0Z" fill="#041B3C"/>
         </svg>
