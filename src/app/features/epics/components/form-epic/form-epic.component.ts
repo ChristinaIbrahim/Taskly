@@ -16,11 +16,12 @@ import {
 import { Epic, ProjectMember } from '../../epics.model';
 import { EpicsService } from '../../epics.service';
 import { RouterLink } from '@angular/router';
+import { BreadcrumbComponent } from '../../../../shared/components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-form-epic',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink , BreadcrumbComponent],
   templateUrl: './form-epic.component.html',
 })
 export class FormEpicComponent implements OnInit {
@@ -28,6 +29,13 @@ export class FormEpicComponent implements OnInit {
   private readonly epicsService = inject(EpicsService);
 
   @Input({ required: true }) projectId!: string;
+
+  breadCrumbItems = [
+  { label: 'PROJECTS', link: '/project' },
+  { label: 'PROJECT ALPHA', link: null }, 
+  { label: 'EPICS', link: null },
+  { label: 'NEW EPIC', link: null }
+];
 
   private _projectMembers: ProjectMember[] = [];
   @Input() set projectMembers(value: ProjectMember[] | null | undefined) {

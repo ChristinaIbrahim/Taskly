@@ -9,7 +9,7 @@ import { EpicCardSkeletonComponent } from './components/epic-card-skeleton/epic-
 import { EmptyErrorComponent } from './components/empty-error/empty-error.component';
 import { FormEpicComponent } from './components/form-epic/form-epic.component';
 import { DetailsPopupEpicComponent } from './components/details-popup-epic/details-popup-epic.component';
-
+import { BreadcrumbComponent , BreadcrumbItem } from '../../shared/components/breadcrumb/breadcrumb.component';
 @Component({
   selector: 'app-epics',
   standalone: true,
@@ -22,6 +22,7 @@ import { DetailsPopupEpicComponent } from './components/details-popup-epic/detai
     EmptyErrorComponent,
     FormEpicComponent,
     DetailsPopupEpicComponent,
+    BreadcrumbComponent
   ],
   templateUrl: './epics.component.html',
   styleUrls: ['./epics.component.css'],
@@ -40,6 +41,12 @@ export class EpicsComponent implements OnInit {
   selectedEpicId: string | null = null;
   pageSize = 6;
   currentPage = 1;
+
+  BreadcrumbItem = [
+  { label: 'PROJECTS', link: '/project' },
+  { label: 'PROJECT NAME' }, 
+  { label: 'EPICS' },
+];
 
   get filteredEpics(): Epic[] {
     const term = this.searchTerm.trim().toLowerCase();

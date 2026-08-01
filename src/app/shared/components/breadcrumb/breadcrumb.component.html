@@ -1,4 +1,4 @@
-<div class="text-xs text-gray-400 mb-1 flex items-center flex-wrap gap-1">
+<div class="text-xs  mb-1 flex items-center flex-wrap gap-1 " [style.color]="'var(--color-text-body)'">
       @for (item of items; track item.label; let last = $last) {
         @if (item.link && !last) {
           <a [routerLink]="item.link" class="hover:text-[#004EEB] transition-colors">
@@ -6,7 +6,7 @@
           </a>
           <span class="mx-1">></span>
         } @else {
-          <span [ngClass]="last ? 'text-[#041B3C] font-semibold' : ''">
+          <span [ngClass]="last ? 'text-[#003D9B] font-bold' : ''">
             {{ item.label }}
           </span>
           @if (!last) {
