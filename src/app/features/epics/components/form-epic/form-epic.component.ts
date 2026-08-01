@@ -32,9 +32,9 @@ export class FormEpicComponent implements OnInit {
 
   breadCrumbItems = [
   { label: 'PROJECTS', link: '/project' },
-  { label: 'PROJECT ALPHA', link: null }, 
-  { label: 'EPICS', link: null },
-  { label: 'NEW EPIC', link: null }
+  { label: 'PROJECT ALPHA' }, 
+  { label: 'EPICS' },
+  { label: 'NEW EPIC' }
 ];
 
   private _projectMembers: ProjectMember[] = [];
