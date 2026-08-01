@@ -6,9 +6,11 @@
     </div>
     <a
       routerLink="add"
-      class="hidden sm:flex bg-[#0052CC] hover:bg-[#0043a8] text-white px-6 py-3 rounded-lg font-semibold items-center gap-2 transition-all shadow-sm text-base"
-    >
-      <span>+</span> Create New Project
+      class="hidden sm:flex  hover:bg-[#0043a8] text-white px-6 py-3 items-center gap-2 transition-all shadow-sm text-base"
+      [style.background]="'var(--primary-gradient)'"
+      [style.border-radius]="'var(--rounded-2xs)'"
+      >
+      <span [style.font-size]="'var(-font-base)'" >+</span> Create New Project
     </a>
   </header>
   <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
