@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import { SkeltonComponent } from '../project/components/skelton/skelton.component';
 import { ProjectMember } from '../project/project.model';
 import { ProjectService } from '../project/project.service';
-
+import { BreadcrumbComponent,BreadcrumbItem } from '../../shared/components/breadcrumb/breadcrumb.component';
+import { InviteMemberModalComponent } from './invite-member-modal/invite-member-modal.component';
+import { AcceptInvitationComponent } from './accept-invitation/accept-invitation.component';
 @Component({
   selector: 'app-members',
   standalone: true,
-  imports: [CommonModule, SkeltonComponent],
+  imports: [CommonModule, SkeltonComponent , BreadcrumbComponent , InviteMemberModalComponent , AcceptInvitationComponent],
   templateUrl: './members.component.html',
   styleUrl: './members.component.css',
 })
@@ -20,6 +22,15 @@ export class MembersComponent implements OnInit {
   members: ProjectMember[] = [];
   isLoading = true;
   errorMessage: string | null = null;
+
+  breadcrumbItems: BreadcrumbItem[] = [
+      { label: 'PROJECTS', link: '/project' },
+      { label: 'PROJECT NAME' },
+      { label: 'MEMBERS' }
+    ];
+
+    isInviteModalOpen: boolean = false;
+
 
   ngOnInit(): void {
     this.projectId =
@@ -77,5 +88,17 @@ export class MembersComponent implements OnInit {
       default:
         return 'bg-gray-100 text-gray-700';
     }
+  }
+
+  openInviteModal() {
+    this.isInviteModalOpen = true;
+  }
+
+  closeInviteModal() {
+    this.isInviteModalOpen = false;
+  }
+
+  onMemberInvited() {
+    console.log('Member invited successfully');
   }
 }
