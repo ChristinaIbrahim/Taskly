@@ -34,10 +34,14 @@
   --rounded-md: 16px;
   --rounded-full: 9999px;
 
-  --font-base: 1rem; /*16 px */
+  --font-base: 1rem;   /*16 px */
   --font-sm: 0.875rem; /* 14px */
   --font-lg: 1.125rem; /* 18px */
+  --font-xs: 0.687rem; /* 11px  */
   --font-weekly-title: 1.875rem;
+
+
+  --primary-gradient: linear-gradient(135deg, #003D9B 0%, #0052CC 100%);
 
  /*  ====================  Epic & Assignee Theme  ====================  */
 
