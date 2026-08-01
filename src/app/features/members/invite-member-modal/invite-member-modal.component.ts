@@ -28,7 +28,8 @@ export class InviteMemberModalComponent {
   }
 
   sendInvitation() {
-    if (!this.email || this.isLoading) return;
+    const trimmedEmail = this.email.trim();
+    if (!trimmedEmail || this.isLoading) return;
 
     this.isLoading = true;
     this.errorMessage = '';
