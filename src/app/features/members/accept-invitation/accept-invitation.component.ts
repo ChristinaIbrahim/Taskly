@@ -61,7 +61,20 @@ export class AcceptInvitationComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
-        this.errorMessage = err.error?.message || 'Invalid or expired invitation token.';
+        const status = err.status;
+        const serverMessage = err.error?.message || '';
+
+        if (status === 401) {
+          this.errorMessage = 'Unauthorized. Please log in again.';
+        } else if (status === 403) {
+          this.errorMessage = 'You do not have permission to accept this invitation.';
+        } else if (serverMessage.toLowerCase().includes('expired')) {
+          this.errorMessage = 'This invitation has expired.';
+        } else if (serverMessage.toLowerCase().includes('invalid')) {
+          this.errorMessage = 'Invalid invitation token.';
+        } else {
+          this.errorMessage = serverMessage || 'Invalid or expired invitation token.';
+        }
       }
     });
   }
