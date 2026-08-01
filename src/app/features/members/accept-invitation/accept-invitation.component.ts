@@ -43,7 +43,7 @@ export class AcceptInvitationComponent implements OnInit {
     const url = `${environment.supabaseUrl}/rest/v1/rpc/accept_invitation`;
     const headers = new HttpHeaders({
       'apikey': environment.supabase_api_key,
-      'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
+      'Authorization': `Bearer ${accessToken}`,
       'Content-Type': 'application/json'
     });
 
