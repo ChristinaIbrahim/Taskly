@@ -172,6 +172,7 @@ input:-webkit-autofill:active {
   :root {
     --font-title: 1.25rem; /* 20px */
     --font-sm: 0.625rem;   /* 14px */
+    --font-base: 1.25rem;  /* 20px */
 
   }
 }

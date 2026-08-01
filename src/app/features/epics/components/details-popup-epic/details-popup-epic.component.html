@@ -27,11 +27,12 @@
     } @else {
       <div class="p-6 overflow-y-auto flex-1">
         <div class="flex items-center justify-between mb-4">
-          <span class="flex items-center gap-1.5 text-[11px] font-bold text-[#004EEB] tracking-wider uppercase">
-            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+          <span class="flex items-center gap-1.5 text-[11px] font-bold  tracking-wider uppercase"
+          >
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 10V4C0 3.45 0.195833 2.97917 0.5875 2.5875C0.979167 2.19583 1.45 2 2 2C2.55 2 3.02083 2.19583 3.4125 2.5875C3.80417 2.97917 4 3.45 4 4V10C4 10.55 3.80417 11.0208 3.4125 11.4125C3.02083 11.8042 2.55 12 2 12C1.45 12 0.979167 11.8042 0.5875 11.4125C0.195833 11.0208 0 10.55 0 10ZM7 14C6.45 14 5.97917 13.8042 5.5875 13.4125C5.19583 13.0208 5 12.55 5 12V2C5 1.45 5.19583 0.979167 5.5875 0.5875C5.97917 0.195833 6.45 0 7 0H13C13.55 0 14.0208 0.195833 14.4125 0.5875C14.8042 0.979167 15 1.45 15 2V12C15 12.55 14.8042 13.0208 14.4125 13.4125C14.0208 13.8042 13.55 14 13 14H7ZM16 10V4C16 3.45 16.1958 2.97917 16.5875 2.5875C16.9792 2.19583 17.45 2 18 2C18.55 2 19.0208 2.19583 19.4125 2.5875C19.8042 2.97917 20 3.45 20 4V10C20 10.55 19.8042 11.0208 19.4125 11.4125C19.0208 11.8042 18.55 12 18 12C17.45 12 16.9792 11.8042 16.5875 11.4125C16.1958 11.0208 16 10.55 16 10Z" fill="#003D9B"/>
             </svg>
-            {{ epic.epic_id || 'EPIC-00' }}
+             <span  style="color: var(--color-third-heading); opacity: 0.6;">{{ epic.epic_id || 'EPIC-00' }}</span>
           </span>
           <button
             (click)="onClose()"
@@ -43,7 +44,8 @@
             </svg>
           </button>
         </div>
-        <div class="bg-[#F8FAFC] border border-gray-200 rounded-xl px-4 py-3 text-base font-bold text-[#041B3C] mb-5">
+        <div class=" border border-[#D7E2FF] rounded-xl px-4 py-3  font-bold mb-5"
+        style="color: var(--color-third-heading); font-size: var(--font-base);">
           {{ epic.title }}
         </div>
         <div class="mb-5">
