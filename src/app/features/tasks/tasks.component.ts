@@ -5,6 +5,7 @@ import { BoardViewTaskComponent } from './components/board-view-task/board-view-
 import { ListViewTaskComponent } from './components/list-view-task/list-view-task.component';
 import { TaskDetailsPopupComponent } from './components/task-details-popup/task-details-popup.component';
 import { RouterLink } from '@angular/router';
+import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
 
 @Component({
   selector: 'app-tasks',
@@ -14,7 +15,8 @@ import { RouterLink } from '@angular/router';
     BoardViewTaskComponent,
     ListViewTaskComponent,
     TaskDetailsPopupComponent,
-    RouterLink
+    RouterLink,
+    BreadcrumbComponent
   ],
   templateUrl: './tasks.component.html',
   styleUrls: ['./tasks.component.css'],
@@ -28,6 +30,13 @@ export class TasksComponent implements OnInit {
 
   selectedTaskId: string | number | null = null;
   selectedProjectId: string | number | null = null;
+
+   breadCrumbItems = [
+  { label: 'PROJECTS', link: '/project' },
+  { label: 'PROJECT ALPHA' }, 
+  { label: 'TASKS' },
+  { label: 'NEW TASK' }
+];
 
   ngOnInit(): void {
     let route: ActivatedRoute | null = this.route;
