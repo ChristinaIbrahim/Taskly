@@ -6,6 +6,7 @@ import { ListViewTaskComponent } from './components/list-view-task/list-view-tas
 import { TaskDetailsPopupComponent } from './components/task-details-popup/task-details-popup.component';
 import { RouterLink } from '@angular/router';
 import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcrumb.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-tasks',
@@ -23,6 +24,9 @@ import { BreadcrumbComponent } from '../../shared/components/breadcrumb/breadcru
 })
 export class TasksComponent implements OnInit {
   private route = inject(ActivatedRoute);
+  private titleService = inject(Title);
+
+ 
 
   projectId = '';
   currentView: 'board' | 'list' = 'board';
@@ -38,6 +42,7 @@ export class TasksComponent implements OnInit {
 ];
 
   ngOnInit(): void {
+    this.titleService.setTitle('Tasks');
     let route: ActivatedRoute | null = this.route;
     while (route) {
       const id = route.snapshot.paramMap.get('id');
