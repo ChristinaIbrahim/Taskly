@@ -35,7 +35,6 @@ export class TasksComponent implements OnInit {
   { label: 'PROJECTS', link: '/project' },
   { label: 'PROJECT ALPHA' }, 
   { label: 'TASKS' },
-  { label: 'NEW TASK' }
 ];
 
   ngOnInit(): void {
