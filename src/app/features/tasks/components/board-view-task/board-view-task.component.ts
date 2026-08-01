@@ -42,11 +42,15 @@ export class BoardViewTaskComponent implements OnInit, OnChanges {
   apiUrl = environment.supabaseUrl;
   apiKey = environment.supabase_api_key;
 
-  columns: BoardColumn[] = [
+ columns: BoardColumn[] = [
     { key: 'TO_DO', label: 'TO DO', tasks: [], count: 0 },
     { key: 'IN_PROGRESS', label: 'IN PROGRESS', tasks: [], count: 0 },
     { key: 'BLOCKED', label: 'BLOCKED', tasks: [], count: 0 },
     { key: 'IN_REVIEW', label: 'IN REVIEW', tasks: [], count: 0 },
+    { key: 'READY_FOR_QA', label: 'READY FOR QA', tasks: [], count: 0 },
+    { key: 'REOPENED', label: 'REOPENED', tasks: [], count: 0 },
+    { key: 'READY_FOR_PRODUCTION', label: 'READY FOR PRODUCTION', tasks: [], count: 0 },
+    { key: 'DONE', label: 'DONE', tasks: [], count: 0 },
   ];
 
   ngOnInit(): void {
